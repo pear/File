@@ -44,10 +44,11 @@
 
  <release>
   <license>PHP</license>
-  <version>1.1.0RC5</version>
+  <version>1.1.0RC4</version>
   <state>beta</state>
   <date>2005-01-31</date>
   <notes>
+* added kind of a filter callback for File_Util::listDir()
 * Required PHP dep now 4.2.0 because of PEAR
 * Patch from Firman Wandayandi
   - Fixed bugs: Fields count less nor more than expected handling
@@ -93,15 +94,6 @@
  </release>
 
  <changelog>
- <release>
-  <license>PHP</license>
-  <version>1.1.0RC4</version>
-  <state>beta</state>
-  <date>2005-01-28</date>
-  <notes>
-* added kind of a filter callback for File_Util::listDir()
-  </notes>
- </release>
  <release>
   <license>PHP</license>
   <version>1.1.0RC3</version>
