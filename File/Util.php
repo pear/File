@@ -35,7 +35,7 @@ define('FILE_LIST_ALL',     FILE_LIST_FILES | FILE_LIST_DIRS | FILE_LIST_DOTS);
 /**
  * @ignore
  */
-define('FILE_WIN32', defined('FILE_WIN32') ? FILE_WIN32 : !strncasecmp(PHP_OS, 'win', 3));
+define('FILE_WIN32', defined('OS_WINDOWS') ? OS_WINDOWS : !strncasecmp(PHP_OS, 'win', 3));
 
 /** 
  * File_Util
