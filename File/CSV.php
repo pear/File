@@ -81,19 +81,16 @@ class File_CSV
         if (!is_array($conf)) {
             return $error = "Invalid configuration";
         }
-
-        if (!isset($conf['fields']) || !is_numeric($conf['fields'])) {
-            return $error = 'The number of fields must be numeric (the "fields" key)';
-        }
-
         if (isset($conf['sep'])) {
             if (strlen($conf['sep']) != 1) {
                 return $error = 'Separator can only be one char';
             }
-        } elseif ($conf['fields'] > 1) {
+        } else {
             return $error = 'Missing separator (the "sep" key)';
         }
-
+        if (!isset($conf['fields']) || !is_numeric($conf['fields'])) {
+            return $error = 'The number of fields must be numeric (the "fields" key)';
+        }
         if (isset($conf['quote'])) {
             if (strlen($conf['quote']) != 1) {
                 return $error = 'The quote char must be one char (the "quote" key)';
@@ -101,7 +98,6 @@ class File_CSV
         } else {
             $conf['quote'] = null;
         }
-
         if (!isset($conf['crlf'])) {
             $conf['crlf'] = "\n";
         }
@@ -258,9 +254,7 @@ class File_CSV
         if (!$line   = fgets($fp, 4096)) {
             return false;
         }
-
-        $fields = $conf['fields'] == 1 ? array($line) : explode($conf['sep'], $line);
-
+        $fields = explode($conf['sep'], $line);
         if ($conf['quote']) {
             $last =& $fields[count($fields) - 1];
             // Fallback to read the line with readQuoted when guess
@@ -274,6 +268,7 @@ class File_CSV
                 //preg_match("|{$conf['quote']}.*{$conf['sep']}.*{$conf['quote']}|U", $line)
                 )
             {
+                $len = strlen($line);
                 fseek($fp, -1 * strlen($line), SEEK_CUR);
                 return File_CSV::readQuoted($file, $conf);
             } else {
@@ -354,16 +349,14 @@ class File_CSV
     * and if it quote string fields)
     *
     * @param string the CSV file name
-    * @param array extra separators that should be checked for.
     * @return mixed Assoc array or false
     */
-    function discoverFormat($file, $extraSeps = array())
+    function discoverFormat($file)
     {
         if (!$fp = @fopen($file, 'r')) {
             return File_CSV::raiseError("Could not open file: $file");
         }
         $seps = array("\t", ';', ':', ',');
-        $seps = array_merge($seps, $extraSeps);
         $matches = array();
         // Take the first 10 lines and store the number of ocurrences
         // for each separator in each line
@@ -388,8 +381,11 @@ class File_CSV
         }
         arsort($amount);
         $sep    = key($amount);
-
-        $conf['fields'] = $fields[$sep] + 1;
+        $fields = $fields[$sep];
+        if (empty($fields)) {
+            return File_CSV::raiseError('Could not discover the separator');
+        }
+        $conf['fields'] = $fields + 1;
         $conf['sep']    = $sep;
         // Test if there are fields with quotes arround in the first 5 lines
         $quotes = '"\'';
