@@ -241,8 +241,7 @@ class File_Util
                 }
             }
         } elseif ($path{0} !== $separator) {
-            $cwd  = getcwd();
-            $path = $cwd . $separator . $path;
+            $path = getcwd() . $separator . $path;
         }
         
         $dirStack = array();
