@@ -471,11 +471,15 @@ class File extends PEAR
     * Returns a temporary filename using tempnam() and the above getTmpDir() function.
     *
     * @access public
-    * @return string Filename and path of the tmp file
+	* @param  string $dirname Optional directory name for the tmp file
+    * @return string          Filename and path of the tmp file
     */
-    function getTempFile()
+    function getTempFile($dirname = null)
     {
-        return tempnam(File::getTempDir(), 'temp.');
+		if (is_null($dirname)) {
+			$dirname = File::getTempDir();
+		}
+        return tempnam($dirname, 'temp.');
     }
 
     /**
