@@ -46,14 +46,15 @@
   <license>PHP</license>
   <version>1.1.0RC4</version>
   <state>beta</state>
-  <date>2005-01-31</date>
+  <date>2005-02-02</date>
   <notes>
 * added kind of a filter callback for File_Util::listDir()
 * Required PHP dep now 4.2.0 because of PEAR
-* Patch from Firman Wandayandi
+* Patch from Firman Wandayandi for File_CSV:
   - Fixed bugs: Fields count less nor more than expected handling
   - Added Mac EOL support (Only loaded on PHP 4.3.0 and higher)
   - Added few tests
+* Fixed Bug #3355 (missing delimiter of preg_quote() in buildPath())
   </notes>
 
   <filelist>
