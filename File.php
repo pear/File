@@ -1,4 +1,5 @@
 <?php
+/* vim: set expandtab tabstop=4 shiftwidth=4: */
 // +----------------------------------------------------------------------+
 // | PHP Version 4                                                        |
 // +----------------------------------------------------------------------+
@@ -514,7 +515,11 @@ class File extends PEAR
     */
     function isAbsolute($path)
     {
-        if (DIRECTORY_SEPARATOR == '/' AND substr($path, 0, 1) == '/') {
+        if (preg_match("/\.\./", $path)) {
+            return false;
+        }
+
+        if (DIRECTORY_SEPARATOR == '/' AND (substr($path, 0, 1) == '/' OR substr($path, 0, 1) == '~')) {
             return true;
 
         } elseif(DIRECTORY_SEPARATOR == '\\' AND preg_match('/^[a-z]:\\\/i', $path)) {
