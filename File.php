@@ -147,7 +147,7 @@ class File extends PEAR
 
         // Lock it?
         if ($lock) {
-            $locks = &PEAR::_getStaticProperty('File', 'locks');
+            $locks = &PEAR::getStaticProperty('File', 'locks');
             if (flock($filePointers[$filename][$mode], $lock)) {
                 $this->locks[] = &$filePointers[$filename][$mode];
             }
