@@ -39,7 +39,6 @@
 */
 
 require_once('PEAR.php');
-require_once('System.php');
 
 /**
 * The default number of bytes for reading
@@ -464,7 +463,22 @@ class File extends PEAR
     */
     function getTempDir()
     {
-        return System::tmpdir();
+        if (OS_WINDOWS){
+            if (isset($_ENV['TEMP'])) {
+                return $_ENV['TEMP'];
+            }
+            if (isset($_ENV['TMP'])) {
+                return $_ENV['TMP'];
+            }
+            if (isset($_ENV['windir'])) {
+                return $_ENV['windir'] . '\temp';
+            }
+            return $_ENV['SystemRoot'] . '\temp';
+        }
+        if (isset($_ENV['TMPDIR'])) {
+            return $_ENV['TMPDIR'];
+        }
+        return '/tmp';
     }
 
     /*
