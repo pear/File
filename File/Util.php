@@ -28,7 +28,7 @@ define('FILE_SORT_DATE',    8);
  */
 define('FILE_LIST_FILES',   1);
 define('FILE_LIST_DIRS',    2);
-define('FILE_LIST_DOTS',    3);
+define('FILE_LIST_DOTS',    4);
 define('FILE_LIST_ALL',     FILE_LIST_FILES | FILE_LIST_DIRS | FILE_LIST_DOTS);
 /**#@-*/
 
@@ -287,7 +287,7 @@ class File_Util
      */
     function listDir($path, $list = FILE_LIST_ALL, $sort = FILE_SORT_NONE)
     {
-        if (!strlen($path) || !is_dir($path = realpath($path))) {
+        if (!strlen($path) || !is_dir($path)) {
             return null;
         }
         
