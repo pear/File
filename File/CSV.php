@@ -26,7 +26,7 @@ require_once 'File.php';
 * for exchanging data.
 *
 * TODO:
-*  - PHPDoc and Doc
+*  - Usage example and Doc
 *  - Use getPointer() in discoverFormat
 *  - Error correction tests for broken CSV files
 *  - Analyze the problem when a field is composed only by a single
@@ -35,7 +35,7 @@ require_once 'File.php';
 *
 * Wish:
 *  - Support Mac EOL format
-*  - Other methods like readAll(), writeAll(), countSomeThing()
+*  - Other methods like readAll(), writeAll(), numFields(), numRows()
 *  - Try to detect if a CSV has header or not in discoverFormat()
 *
 * @author Tomas V.V.Cox <cox@idecnet.com>
@@ -62,6 +62,12 @@ class File_CSV
         return false;
     }
 
+    /**
+    * Checks the configuration given by the user
+    *
+    * @param array  $conf  The configuration assoc array
+    * @param string $error The error will be written here if any
+    */
     function _conf(&$conf, &$error)
     {
         // check conf
@@ -90,6 +96,15 @@ class File_CSV
         }
     }
 
+    /**
+    * Return or create the file descriptor associated with a file
+    *
+    * @param string $file The name of the file
+    * @param array  $conf The configuration
+    * @param string $mode The open node (ex: FILE_MODE_READ or FILE_MODE_WRITE)
+    *
+    * @return mixed A file resource or false
+    */
     function getPointer($file, &$conf, $mode = FILE_MODE_READ)
     {
         static $resources  = array();
@@ -119,6 +134,13 @@ class File_CSV
         return $fp;
     }
 
+    /**
+    * Unquote data
+    *
+    * @param string $field The data to unquote
+    * @param string $quote The quote char
+    * @return string the unquoted data
+    */
     function unquote($field, $quote)
     {
         // Incase null fields (form: ;;)
@@ -132,7 +154,8 @@ class File_CSV
     }
 
     /**
-    * Reads data as an array from a CSV file
+    * Reads a row of data as an array from a CSV file. It's able to
+    * read memo fields with multiline data.
     *
     * @param string $file   The filename where to write the data
     * @param array  $conf   The configuration of the dest CSV
@@ -189,6 +212,14 @@ class File_CSV
         return !feof($fp) ? $ret : false;
     }
 
+    /**
+    * Reads a "row" from a CSV file and return it as an array
+    *
+    * @param string $file The CSV file
+    * @param array  $conf The configuration of the dest CSV
+    *
+    * @return mixed Array or false
+    */
     function read($file, &$conf)
     {
         if (!$fp = File_CSV::getPointer($file, $conf, FILE_MODE_READ)) {
@@ -300,7 +331,7 @@ class File_CSV
             }
         }
         $final = array();
-        // Order the results by amount of equal ocurrences
+        // Group the results by amount of equal ocurrences
         foreach ($matches as $sep => $res) {
             $times = array();
             $times[0] = 0;
