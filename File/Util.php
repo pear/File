@@ -306,6 +306,7 @@ class File_Util
                 }
             }
         }
+        $dir->close();
         
         if ($sort) {
             $entries = File_Util::sortFiles($entries, $sort);
