@@ -103,18 +103,6 @@ class File extends PEAR
             }
         }
     }
-    
-    /**
-    * Checks the $append variable passed to write*() functions.
-    *
-    * @access private
-    * @param  boolean $append the boolean value passed
-    * @return string  the apropriate mode constant (write/append)
-    */
-    function _checkAppend($append)
-    {
-        return $append ? FILE_MODE_APPEND : FILE_MODE_WRITE;
-    }
 
     /**
     * Handles file pointers. If a file pointer needs to be opened,
@@ -224,16 +212,14 @@ class File extends PEAR
     * Writes the given data to the given filename. Defaults to no lock, append mode.
     *
     * @access public
-    * @param  string  $filename Name of file to write to
-    * @param  string  $data     Data to write to file
-    * @param  boolean $append   Mode to open file in
-    * @param  mixed   $lock     Type of lock to use
+    * @param  string $filename Name of file to write to
+    * @param  string $data     Data to write to file
+    * @param  string $mode     Mode to open file in
+    * @param  mixed  $lock     Type of lock to use
     * @return mixed             PEAR_Error on error or number of bytes written to file.
     */
-    function write($filename, $data, $append = true, $lock = false)
+    function write($filename, $data, $mode = FILE_MODE_APPEND, $lock = false)
     {
-        $mode = File::_checkAppend($append);
-        
         if (!PEAR::isError($fp = &File::_getFilePointer($filename, $mode, $lock))) {
             if (($bytes = fwrite($fp, $data, strlen($data))) == -1) {
                 return PEAR::raiseError(sprintf('fwrite() call failed to write data: "%s" to file: "%s"', $data, $filename));
@@ -262,16 +248,14 @@ class File extends PEAR
     * Writes a single character to a file
     *
     * @access public
-    * @param  string  $filename Name of file to write to
-    * @param  string  $char     Character to write
-    * @param  boolean $append   Mode to use when writing
-    * @param  mixed   $lock     Type of lock to use
-    * @return mixed             PEAR_Error on error, or 1 on success
+    * @param  string $filename Name of file to write to
+    * @param  string $char     Character to write
+    * @param  string $mode     Mode to use when writing
+    * @param  mixed  $lock     Type of lock to use
+    * @return mixed            PEAR_Error on error, or 1 on success
     */
-    function writeChar($filename, $char, $append = true, $lock = false)
+    function writeChar($filename, $char, $mode = FILE_MODE_APPEND, $lock = false)
     {
-        $mode = File::_checkAppend($append);
-        
         if (!PEAR::isError($fp = &File::_getFilePointer($filename, $mode, $lock))) {
             if (fwrite($fp, $char, 1) == -1) {
                 return PEAR::raiseError(sprintf('fwrite() call failed to write data: "%s" to file: "%s"', $data, $filename));
@@ -322,17 +306,15 @@ class File extends PEAR
     * Writes a single line, appending a LF (by default)
     *
     * @access public
-    * @param  string  $filename Name of file to write to
-    * @param  string  $line     Line of data to be written to file
-    * @param  boolean $append   Write mode, can be either FILE_MODE_WRITE or FILE_MODE_APPEND
-    * @param  string  $crlf     The CRLF your system is using. UNIX = \n Windows = \r\n Mac = \r
-    * @param  mixed   $lock     Type of lock to use
-    * @return mixed             PEAR_Error on error or number of bytes written to file (including appended crlf)
+    * @param  string $filename Name of file to write to
+    * @param  string $line     Line of data to be written to file
+    * @param  string $mode     Write mode, can be either FILE_MODE_WRITE or FILE_MODE_APPEND
+    * @param  string $crlf     The CRLF your system is using. UNIX = \n Windows = \r\n Mac = \r
+    * @param  mixed  $lock     Type of lock to use
+    * @return mixed            PEAR_Error on error or number of bytes written to file (including appended crlf)
     */
-    function writeLine($filename, $line, $append = true, $crlf = "\n", $lock = false)
+    function writeLine($filename, $line, $mode = FILE_MODE_APPEND, $crlf = "\n", $lock = false)
     {
-        $mode = File::_checkAppend($append);
-        
         if(!PEAR::isError($fp = &File::_getFilePointer($filename, $mode, $lock))){
             if (($bytes = fwrite($fp, $line . $crlf)) == -1) {
                 return PEAR::raiseError(sprintf('fwrite() call failed to write data: "%s" to file: "%s"', $data, $filename));
@@ -348,14 +330,12 @@ class File extends PEAR
     * This rewinds a filepointer to the start of a file
     *
     * @access public
-    * @param  string  $filename the filename
-    * @param  boolean $append   set to true if the file was opened for appending, false if it ws opened for writing
-    * @return mixed             PEAR Error on error, true on success
+    * @param  string $filename The filename
+    * @param  string $mode     Mode the file was opened in
+    * @return mixed            PEAR Error on error, true on success
     */
-    function rewind($filename, $append)
+    function rewind($filename, $mode)
     {
-        $mode = File::_checkAppend($append);
-        
         if (!PEAR::isError($fp = &File::_getFilePointer($filename, $mode))) {
             return rewind($fp) ? true : PEAR::raiseError('Failed to rewind file: ' . $filename);
         }
@@ -367,14 +347,12 @@ class File extends PEAR
     * This closes an open file pointer
     *
     * @access public
-    * @param  string  $filename The filename that was opened
-    * @param  boolean $append   set to true if the file was opened for appending, false if it ws opened for writing
-    * @return mixed             PEAR Error on error, true otherwise
+    * @param  string $filename The filename that was opened
+    * @param  string $mode     Mode the file was opened in
+    * @return mixed            PEAR Error on error, true otherwise
     */
-    function close($filename, $append)
+    function close($filename, $mode)
     {
-        $mode = File::_checkAppend($append);
-        
         if (!PEAR::isError($fp = &File::_getFilePointer($filename, $mode))) {
             $filePointers = &PEAR::getStaticProperty('File', 'filePointers');
             unset($filePointers[$filename][$mode]);
@@ -388,14 +366,12 @@ class File extends PEAR
     * This unlocks a locked file pointer.
     *
     * @access public
-    * @param  string  $filename The filename that was opened
-    * @param  boolean $append   set to true if the file was opened for appending, false if it ws opened for writing
-    * @return mixed             PEAR Error on error, true otherwise
+    * @param  string $filename The filename that was opened
+    * @param  string $mode     Mode the file was opened in
+    * @return mixed            PEAR Error on error, true otherwise
     */
-    function unlock($filename, $append)
+    function unlock($filename, $mode)
     {
-        $mode = File::_checkAppend($append);
-        
         if (!PEAR::isError($fp = &FILE::_getFilePointer($filename, $mode))) {
             return flock($fp, LOCK_UN) ? true : PEAR::raiseError('Failed to unlock file: ' . $filename);
         }
