@@ -113,7 +113,7 @@ class File extends PEAR
     */
     function _checkAppend($append)
     {
-        $append ? return FILE_MODE_APPEND : return FILE_MODE_WRITE;
+        return $append ? FILE_MODE_APPEND : FILE_MODE_WRITE;
     }
 
     /**
@@ -511,7 +511,7 @@ class File extends PEAR
     * Returns a temporary filename using tempnam() and the above getTmpDir() function.
     *
     * @access public
-	* @param  string $dirname Optional directory name for the tmp file
+    * @param  string $dirname Optional directory name for the tmp file
     * @return string          Filename and path of the tmp file
     */
     function getTempFile($dirname = '')
