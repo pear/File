@@ -44,11 +44,15 @@
 
  <release>
   <license>PHP</license>
-  <version>1.1.0RC4</version>
+  <version>1.1.0RC5</version>
   <state>beta</state>
-  <date>2005-01-28</date>
+  <date>2005-01-31</date>
   <notes>
-* added kind of a filter callback for File_Util::listDir()
+* Required PHP dep now 4.2.0 because of PEAR
+* Patch from Firman Wandayandi
+  - Fixed bugs: Fields count less nor more than expected handling
+  - Added Mac EOL support (Only loaded on PHP 4.3.0 and higher)
+  - Added few tests
   </notes>
 
   <filelist>
@@ -62,12 +66,25 @@
      <file>parser.php</file>
      <file>test.csv</file>
      <file>FileTest.php</file>
+     <dir name="CSV" role="test">
+      <file>001.phpt</file>
+      <file>001.csv</file>
+      <file>002.phpt</file>
+      <file>002.csv</file>
+      <file>003.phpt</file>
+      <file>003.csv</file>
+      <file>004.phpt</file>
+      <file>004.csv</file>
+      <file>005.phpt</file>
+      <file>005.csv</file>
+      <file>tests.txt</file>
+     </dir>
     </dir>
    </dir>
   </filelist>
 
   <deps>
-   <dep type="php" rel="ge" version="4.0.0" optional="no" />
+   <dep type="php" rel="ge" version="4.2.0" optional="no" />
    <dep type="php" rel="ge" version="4.3.0" optional="yes" />
    <dep type="ext" rel="has" optional="no">pcre</dep>
    <dep type="pkg" rel="has" optional="no">PEAR</dep>
@@ -76,6 +93,15 @@
  </release>
 
  <changelog>
+ <release>
+  <license>PHP</license>
+  <version>1.1.0RC4</version>
+  <state>beta</state>
+  <date>2005-01-28</date>
+  <notes>
+* added kind of a filter callback for File_Util::listDir()
+  </notes>
+ </release>
  <release>
   <license>PHP</license>
   <version>1.1.0RC3</version>
