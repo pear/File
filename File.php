@@ -517,7 +517,7 @@ class File extends PEAR
     * @param  string $dirname Optional directory name for the tmp file
     * @return string          Filename and path of the tmp file
     */
-    function getTempFile($dirname = '')
+    function getTempFile($dirname = NULL)
     {
 		if (is_null($dirname)) {
 			$dirname = File::getTempDir();
