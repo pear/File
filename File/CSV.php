@@ -26,6 +26,7 @@ require_once 'File.php';
 * for exchanging data.
 *
 * TODO:
+*  - Optimization
 *  - PHPDoc and Doc
 *  - Use getPointer() in discoverFormat
 *  - Error correction tests for broken CSV files
@@ -120,6 +121,10 @@ class File_CSV
 
     function unquote($field, $quote)
     {
+        // Incase null fields (form: ;;)
+        if (!strlen($field)) {
+            return $field;
+        }
         if ($quote && $field{0} == $quote && $field{strlen($field)-1} == $quote) {
             return substr($field, 1, -1);
         }
@@ -154,7 +159,7 @@ class File_CSV
             }
             if ($c == "\n") {
                 $sub = ($prev == "\r") ? 2 : 1;
-                if ($buff{strlen($buff) - $sub} == $quote) {
+                if ((strlen($buff) >= $sub) && ($buff{strlen($buff) - $sub} == $quote)) {
                     $in_quote = false;
                 }
                 if (!$in_quote) {
