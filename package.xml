@@ -44,18 +44,11 @@
 
  <release>
   <license>PHP</license>
-  <version>1.1.0RC4</version>
+  <version>1.1.0RC5</version>
   <state>beta</state>
   <date>2005-02-02</date>
   <notes>
-* Required PHP dep now 4.2.0 because of PEAR (dufuz)
-* Patch from Firman Wandayandi for File_CSV (dufuz)
-  - Fixed bugs: Fields count less nor more than expected handling
-  - Added Mac EOL support (Only loaded on PHP 4.3.0 and higher)
-  - Added few tests
-* added kind of a filter callback for File_Util::listDir() (mike)
-* Fixed Bug #3355 (missing delimiter of preg_quote() in File_Util::buildPath()) (mike)
-* Fixed Bug #3357 (infinite loop in File_Util::realPath()) (mike)
+* Bug #3364 fixed, typo
   </notes>
 
   <filelist>
@@ -96,6 +89,22 @@
  </release>
 
  <changelog>
+ <release>
+  <license>PHP</license>
+  <version>1.1.0RC4</version>
+  <state>beta</state>
+  <date>2005-02-02</date>
+  <notes>
+* Required PHP dep now 4.2.0 because of PEAR (dufuz)
+* Patch from Firman Wandayandi for File_CSV (dufuz)
+  - Fixed bugs: Fields count less nor more than expected handling
+  - Added Mac EOL support (Only loaded on PHP 4.3.0 and higher)
+  - Added few tests
+* added kind of a filter callback for File_Util::listDir() (mike)
+* Fixed Bug #3355 (missing delimiter of preg_quote() in File_Util::buildPath()) (mike)
+* Fixed Bug #3357 (infinite loop in File_Util::realPath()) (mike)
+  </notes>
+ </release>
  <release>
   <license>PHP</license>
   <version>1.1.0RC3</version>
