@@ -15,7 +15,7 @@
  * @category    File
  * @package     File
  * @author      Tomas V.V.Cox <cox@idecnet.com>
- * @author      Helgi ?ormar <dufuz@php.net>
+ * @author      Helgi Þormar <dufuz@php.net>
  * @copyright   2004-2005 The Authors
  * @license     http://www.php.net/license/3_0.txt  PHP License 3.0
  * @version     CVS: $Id$
