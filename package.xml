@@ -44,9 +44,9 @@
 
  <release>
   <license>PHP</license>
-  <version>1.1.0RC6</version>
-  <state>beta</state>
-  <date>2005-02-00</date>
+  <version>1.1.0</version>
+  <state>stable</state>
+  <date>2005-02-21</date>
   <notes><![CDATA[
 * Fixed bug in File_Util::sortFiles() (mike, Demian Turner)
 * Fixed infinity loop in readQuoted (File_CSV) when fields are more then expected (dufuz)
