@@ -302,7 +302,8 @@ class File_Util
                 $isDir = $isRef || is_dir($path .'/'. $entry);
                 if (    ((!$isDir && $list & FILE_LIST_FILES)   ||
                          ($isDir  && $list & FILE_LIST_DIRS))   &&
-                        (!is_callable($cb) || call_user_func($cb, $entry))) {
+                        (!is_callable($cb) || 
+                            call_user_func_array($cb, array(&$entry)))) {
                     $entries[] = (object) array(
                         'name'  => $entry,
                         'size'  => $isDir ? null : filesize($path .'/'. $entry),
