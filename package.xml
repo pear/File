@@ -8,7 +8,8 @@
   <summary>Common file and directory routines</summary>
   <description>
     Provides easy access to read/write to files along with
-    some common routines to deal with paths.
+    some common routines to deal with paths. Also provides
+    interface for handling CSV files.
   </description>
 
   <maintainers>
@@ -26,7 +27,7 @@
     </maintainer>
     <maintainer>
       <user>cox</user>
-      <name>Tomas V.V.Cox</name>
+      <name>Tomas V.V. Cox</name>
       <email>cox@idecnet.com</email>
       <role>developer</role>
     </maintainer>
