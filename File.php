@@ -153,7 +153,7 @@ class File extends PEAR
     function readAll($filename, $lock = false)
     {
         $file = '';
-        while (($tmp = File_Common::read($filename, FILE_DEFAULT_READSIZE, $lock)) !== FALSE) {
+        while (($tmp = File::read($filename, FILE_DEFAULT_READSIZE, $lock)) !== FALSE) {
             if (PEAR::isError($tmp)) {
                 return $tmp;
             }
@@ -176,10 +176,10 @@ class File extends PEAR
     function read($filename, $size = FILE_DEFAULT_READSIZE, $lock = false)
     {
         if (0 == $size) {
-            return File_Common::readAll($filename);
+            return File::readAll($filename);
         }
 
-        if(!PEAR::isError($fp = &File_Common::_getFilePointer($filename, FILE_MODE_READ, $lock))){
+        if(!PEAR::isError($fp = &File::_getFilePointer($filename, FILE_MODE_READ, $lock))){
             return !feof($fp) ? fread($fp, $size) : false;
         }
 
@@ -198,7 +198,7 @@ class File extends PEAR
     */
 	function write($filename, $data, $mode = FILE_MODE_APPEND, $lock = false)
 	{
-		if (!PEAR::isError($fp = &File_Common::_getFilePointer($filename, $mode, $lock))) {
+		if (!PEAR::isError($fp = &File::_getFilePointer($filename, $mode, $lock))) {
 			if (($bytes = fwrite($fp, $data, strlen($data))) == -1) {
 				return new PEAR_Error(sprintf('fwrite() call failed to write data: "%s" to file: "%s"', $data, $filename));
 			} else {
@@ -219,7 +219,7 @@ class File extends PEAR
     */
     function readChar($filename, $lock = false)
     {
-        return File_Common::read($filename, 1, $lock);
+        return File::read($filename, 1, $lock);
     }
 
     /**
@@ -234,7 +234,7 @@ class File extends PEAR
     */
     function writeChar($filename, $char, $mode = FILE_MODE_APPEND, $lock = false)
     {
-        if (!PEAR::isError($fp = &File_Common::_getFilePointer($filename, $mode, $lock))) {
+        if (!PEAR::isError($fp = &File::_getFilePointer($filename, $mode, $lock))) {
             if (fwrite($fp, $char, 1) == -1) {
 				return new PEAR_Error(sprintf('fwrite() call failed to write data: "%s" to file: "%s"', $data, $filename));
 			} else {
@@ -255,7 +255,7 @@ class File extends PEAR
     */
     function readLine($filename, $lock = false)
     {
-        if (!PEAR::isError($fp = &File_Common::_getFilePointer($filename, FILE_MODE_READ, $lock))) {
+        if (!PEAR::isError($fp = &File::_getFilePointer($filename, FILE_MODE_READ, $lock))) {
             $fileString = "";
             while (($fileChar = fgetc($fp)) != "\n" AND !feof($fp)) {
                 $fileString .= $fileChar;
@@ -279,7 +279,7 @@ class File extends PEAR
     */
     function writeLine($filename, $line, $mode = FILE_MODE_APPEND, $crlf = "\n", $lock = false)
     {
-        if(!PEAR::isError($fp = &File_Common::_getFilePointer($filename, $mode, $lock))){
+        if(!PEAR::isError($fp = &File::_getFilePointer($filename, $mode, $lock))){
             if (($bytes = fwrite($fp, $line . $crlf)) == -1) {
 				return new PEAR_Error(sprintf('fwrite() call failed to write data: "%s" to file: "%s"', $data, $filename));
 			} else {
@@ -303,14 +303,14 @@ class File extends PEAR
     {
 		for ($i = 0; $i < count($parts); $i++) {
 			if (0 == $i) {
-				$parts[$i] = File_Common::stripTrailingSeparators($parts[$i], $separator);
+				$parts[$i] = File::stripTrailingSeparators($parts[$i], $separator);
 
 			} elseif(count($parts) - 1 == $i) {
-				$parts[$i] = File_Common::stripLeadingSeparators($parts[$i], $separator);
+				$parts[$i] = File::stripLeadingSeparators($parts[$i], $separator);
 
 			} else {
-				$parts[$i] = File_Common::stripTrailingSeparators($parts[$i], $separator);
-				$parts[$i] = File_Common::stripLeadingSeparators($parts[$i], $separator);
+				$parts[$i] = File::stripTrailingSeparators($parts[$i], $separator);
+				$parts[$i] = File::stripLeadingSeparators($parts[$i], $separator);
 			}
 		}
 		
@@ -361,7 +361,7 @@ class File extends PEAR
     */
     function skipRoot($path)
     {
-        if (File_Common::isAbsolute($path)) {
+        if (File::isAbsolute($path)) {
             if (DIRECTORY_SEPARATOR == "/") {
                 return substr($path,1);
 
@@ -420,7 +420,7 @@ class File extends PEAR
     */
 	function getTempFile()
 	{
-		return tempnam(File_Common::getTempDir(), 'temp.');
+		return tempnam(File::getTempDir(), 'temp.');
 	}
 
     /**
