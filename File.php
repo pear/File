@@ -84,10 +84,10 @@ define('FILE_LOCK_EXCLUSIVE', LOCK_EX | (FILE_LOCKS_BLOCK ? 0 : LOCK_NB), true);
  * A class with common functions for writing,
  * reading and handling files and directories
  * 
- * @author  Richard Heyes <richard@php.net> 
- * @author  Tal Peer <tal@php.net> 
+ * @author  Richard Heyes <richard@php.net>
+ * @author  Tal Peer <tal@php.net>
+ * @author  Michael Wallner <mike@php.net>
  * @access  public 
- * @version 0.9
  * @package File
  */
 class File extends PEAR 
@@ -187,14 +187,12 @@ class File extends PEAR
      */
     function readAll($filename, $lock = false)
     {
-        /*
         if (function_exists('file_get_contents')) {
             if (false === $file = @file_get_contents($filename)) {
                 return PEAR::raiseError("Cannot read file: $filename");
             }
             return $file;
         }
-        */
         $file = '';
         while (false !== $buf = File::read($filename, FILE_DEFAULT_READSIZE, $lock)) {
             if (PEAR::isError($buf)) {
