@@ -272,7 +272,7 @@ class File_Util
         }
         
         $entries = array();
-        for ($dir = Dir($path); strlen($entry = $dir->read()); ) {
+        for ($dir = dir($path); false !== $entry = $dir->read(); ) {
             if ($list & FILE_LIST_DOTS || $entry{0} !== '.') {
                 $isRef = ($entry === '.' || $entry === '..');
                 $isDir = $isRef || is_dir($path .'/'. $entry);
