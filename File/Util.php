@@ -281,6 +281,24 @@ class File_Util
     /**
      * List Directory
      * 
+     * The final argument, $cb, is a callback that either evaluates to true or
+     * false and performs a filter operation, or it can also modify the 
+     * directory/file names returned.  To achieve the latter effect use as 
+     * follows:
+     * 
+     * <code>
+     * <?php
+     * function uc(&$filename) {
+     *     $f = strtoupper($filename);
+     *     return true;
+     * }
+     * $entries = File_Util::listDir('.', FILE_LIST_ALL, FILE_SORT_NONE, 'uc');
+     * foreach ($entries as $e) {
+     *     echo $e->name, "\n";
+     * }
+     * ?>
+     * </code>
+     * 
      * @static
      * @access  public
      * @return  array
