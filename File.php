@@ -18,11 +18,6 @@
 
 
 /**
-* Class for handling files
-*
-* A class with common functions for writing,
-* reading and handling files and directories
-*
 * Example 1:
 * $stdin = File::readAll('php://stdin');
 *
@@ -30,12 +25,6 @@
 * while ($data = File::read('/blaat/bar')) {
 *     // Code...
 * }
-*
-* @author  Richard Heyes <richard@php.net>
-* @author  Tal Peer <tal@php.net>
-* @access  public
-* @version 0.9
-* @package File
 */
 
 require_once('PEAR.php');
@@ -76,7 +65,19 @@ define('FILE_LOCK_SHARED',    LOCK_SH, true);
 */
 define('FILE_LOCK_EXCLUSIVE', LOCK_EX, true);
 
-
+/**
+* Class for handling files
+*
+* A class with common functions for writing,
+* reading and handling files and directories
+*
+*
+* @author  Richard Heyes <richard@php.net>
+* @author  Tal Peer <tal@php.net>
+* @access  public
+* @version 0.9
+* @package File
+*/
 class File extends PEAR
 {
     /**
@@ -191,11 +192,11 @@ class File extends PEAR
     * Returns a specified number of bytes of a file. Defaults to 1024.
     *
     * @access public
-    * @param  string $filename Name of file to read from
-    * @param  int    $size     Bytes to read
-    * @param  mixed  $lock     Type of lock to use
-    * @return mixed            PEAR_Error on error or a string which contains the data read
-    *                          Will also return false upon EOF
+    * @param  string  $filename Name of file to read from
+    * @param  integer $size     Bytes to read
+    * @param  mixed   $lock     Type of lock to use
+    * @return mixed             PEAR_Error on error or a string which contains the data read
+    *                           Will also return false upon EOF
     */
     function read($filename, $size = FILE_DEFAULT_READSIZE, $lock = false)
     {
@@ -224,7 +225,7 @@ class File extends PEAR
     *
     * @access public
     * @param  string  $filename Name of file to write to
-    * @param  int     $data     Data to write to file
+    * @param  string  $data     Data to write to file
     * @param  boolean $append   Mode to open file in
     * @param  mixed   $lock     Type of lock to use
     * @return mixed             PEAR_Error on error or number of bytes written to file.
@@ -321,6 +322,7 @@ class File extends PEAR
     * @param  string  $line     Line of data to be written to file
     * @param  boolean $append   Write mode, can be either FILE_MODE_WRITE or FILE_MODE_APPEND
     * @param  string  $crlf     The CRLF your system is using. UNIX = \n Windows = \r\n Mac = \r
+    * @param  mixed   $lock     Type of lock to use
     * @return mixed             PEAR_Error on error or number of bytes written to file (including appended crlf)
     */
     function writeLine($filename, $line, $append = true, $crlf = "\n", $lock = false)
@@ -341,12 +343,14 @@ class File extends PEAR
     /**
     * This rewinds a filepointer to the start of a file
     *
-    * @param  $filename The filename
-    * @param  $mode     Mode the file was opened in
-    * @return mixed     PEAR Error on error, true on success
+    * @param  string  $filename the filename
+    * @param  boolean $append   set to true if the file was opened for appending, false if it ws opened for writing
+    * @return mixed             PEAR Error on error, true on success
     */
-    function rewind($filename, $mode)
+    function rewind($filename, $append)
     {
+        $mode = _checkAppend($append);
+        
         if (!PEAR::isError($fp = &File::_getFilePointer($filename, $mode))) {
             return rewind($fp) ? true : PEAR::raiseError('Failed to rewind file: ' . $filename);
         }
@@ -357,12 +361,14 @@ class File extends PEAR
     /**
     * This closes an open file pointer
     *
-    * @param  $filename The filename that was opened
-    * @param  $mode     The mode the file was opened in
-    * @return mixed     PEAR Error on error, true otherwise
+    * @param  string  $filename The filename that was opened
+    * @param  boolean $append   set to true if the file was opened for appending, false if it ws opened for writing
+    * @return mixed             PEAR Error on error, true otherwise
     */
-    function close($filename, $mode)
+    function close($filename, $append)
     {
+        $mode = _checkAppend($append);
+        
         if (!PEAR::isError($fp = &File::_getFilePointer($filename, $mode))) {
             $filePointers = &PEAR::getStaticProperty('File', 'filePointers');
             unset($filePointers[$filename][$mode]);
@@ -375,12 +381,14 @@ class File extends PEAR
     /**
     * This unlocks a locked file pointer.
     *
-    * @param  $filename The filename that was opened
-    * @param  $mode     The mode the file was opened in
-    * @return mixed     PEAR Error on error, true otherwise
+    * @param  string  $filename The filename that was opened
+    * @param  boolean $append   set to true if the file was opened for appending, false if it ws opened for writing
+    * @return mixed             PEAR Error on error, true otherwise
     */
-    function unlock()
+    function unlock($filename, $append)
     {
+        $mode = _checkAppend($append);
+        
         if (!PEAR::isError($fp = &FILE::_getFilePointer($filename, $mode))) {
             return flock($fp, LOCK_UN) ? true : PEAR::raiseError('Failed to unlock file: ' . $filename);
         }
@@ -395,7 +403,7 @@ class File extends PEAR
     *
     * @access public
     * @param  array  $parts     Array containing the parts to be joined
-    * @param  string $seperator The system directory seperator
+    * @param  string $separator The system directory seperator
     */
     function buildPath($parts, $separator = DIRECTORY_SEPARATOR)
     {
@@ -506,7 +514,7 @@ class File extends PEAR
 	* @param  string $dirname Optional directory name for the tmp file
     * @return string          Filename and path of the tmp file
     */
-    function getTempFile($dirname = null)
+    function getTempFile($dirname = '')
     {
 		if (is_null($dirname)) {
 			$dirname = File::getTempDir();
