@@ -124,7 +124,7 @@ class File extends PEAR
 
             // Check it exists
             if (FILE_MODE_READ == $mode AND !preg_match('/^(http|https|ftp|php):\/\//i', $filename) AND !file_exists($filename)) {
-                return PEAR::raiseError('File does not exists: ' . $filename);
+                return PEAR::raiseError('File does not exist: ' . $filename);
 
             // Writeable?
             } elseif ( (FILE_MODE_WRITE == $mode OR FILE_MODE_APPEND == $mode)
