@@ -44,19 +44,11 @@
 
  <release>
   <license>PHP</license>
-  <version>1.1.0RC2</version>
+  <version>1.1.0RC3</version>
   <state>beta</state>
-  <date>2005-01-12</date>
+  <date>2005-01-13</date>
   <notes>
-* added File_Util containing all methods not handling file I/O (mike)
-* deprecated methods are now available in File_Util (still in File for BC) (mike)
-* fixed bug #2827 (File_CSV::discoverFormat() is unable to discover format in 
-  one column CSV file), allows 1 field per line in discoverFormat as well as 
-  the config overall, with no separator (which is the standard), removed 
-  one error check to fix this issue as well as moving error checking around 
-  in _conf, might give some people issues (can't see how tho), also added a 
-  new param to discoverFormat so one can inject a check for $ as a separator 
-  or something like that (dufuz)
+* now really containing the fix for File_CSV
   </notes>
 
   <filelist>
@@ -84,6 +76,23 @@
  </release>
 
  <changelog>
+ <release>
+  <license>PHP</license>
+  <version>1.1.0RC2</version>
+  <state>beta</state>
+  <date>2005-01-12</date>
+  <notes>
+* added File_Util containing all methods not handling file I/O (mike)
+* deprecated methods are now available in File_Util (still in File for BC) (mike)
+* fixed bug #2827 (File_CSV::discoverFormat() is unable to discover format in 
+  one column CSV file), allows 1 field per line in discoverFormat as well as 
+  the config overall, with no separator (which is the standard), removed 
+  one error check to fix this issue as well as moving error checking around 
+  in _conf, might give some people issues (can't see how tho), also added a 
+  new param to discoverFormat so one can inject a check for $ as a separator 
+  or something like that (dufuz)
+  </notes>
+ </release>
  <release>
   <license>PHP</license>
   <version>1.1.0RC1</version>
