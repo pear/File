@@ -31,15 +31,24 @@
       <email>cox@idecnet.com</email>
       <role>developer</role>
     </maintainer>
+    <maintainer>
+     <user>mike</user>
+     <name>Michael Wallner</name>
+     <email>mike@php.net</email>
+     <role>lead</role>
+    </maintainer>
   </maintainers>
 
   <release>
     <license>PHP</license>
-    <version>1.0.3</version>
-    <date>2003-01-28</date>
-    <state>stable</state>
+    <version>1.1.0RC1</version>
+    <date>2004-12-16</date>
+    <state>beta</state>
     <notes>
-Fixed handling of paths containing '..' and '~' in File::isAbsolute().
+* Fixed Bug #2810 (Can not call readAll two times)
+* Fixed file locking
+- Code cleanup (vastly)
++ Implemented Request #1542 (File::relativePath(), File::realPath())
     </notes>
     <filelist>
       <dir name="/">
@@ -50,13 +59,23 @@ Fixed handling of paths containing '..' and '~' in File::isAbsolute().
         <dir name="tests" role="test">
           <file>parser.php</file>
           <file>test.csv</file>
+          <file>FileTest.php</file>
         </dir>
       </dir>
     </filelist>
   </release>
 
   <changelog>
-
+  <release>
+    <license>PHP</license>
+    <version>1.0.3</version>
+    <date>2003-01-28</date>
+    <state>stable</state>
+    <notes>
+Fixed handling of paths containing '..' and '~' in File::isAbsolute().
+    </notes>
+  </release>
+  
   <release>
     <license>PHP</license>
     <version>1.0.2</version>
