@@ -79,7 +79,7 @@ define('FILE_LOCK_EXCLUSIVE', LOCK_EX, true);
 
 
 class File extends PEAR
-{    
+{
     /**
     * Destructor
     *
@@ -172,10 +172,10 @@ class File extends PEAR
             }
             $file .= $tmp;
         }
-        
+
         return $file;
     }
-    
+
     /**
     * Returns a specified number of bytes of a file. Defaults to 1024.
     *
@@ -227,7 +227,7 @@ class File extends PEAR
                 return $bytes;
             }
         }
-        
+
         return $fp;
     }
 
@@ -283,7 +283,7 @@ class File extends PEAR
             if (PEAR::isError($fp = &File::_getFilePointer($filename, FILE_MODE_READ, $lock))) {
                 return $fp;
             }
-            
+
             $filePointers[$filename] = &$fp;
 
         } else {
@@ -297,7 +297,7 @@ class File extends PEAR
 
         return substr($fileString, -1) == "\r" ? substr($fileString, 0, -1) : $fileString;
     }
-    
+
     /**
     * Writes a single line, appending a LF (by default)
     *
@@ -320,7 +320,7 @@ class File extends PEAR
 
         return $fp;
     }
-    
+
     /**
     * This rewinds a filepointer to the start of a file
     *
@@ -333,7 +333,7 @@ class File extends PEAR
         if (!PEAR::isError($fp = &File::_getFilePointer($filename, $mode))) {
             return rewind($fp) ? true : PEAR::raiseError('Failed to rewind file: ' . $filename);
         }
-        
+
         return $fp;
     }
 
@@ -349,10 +349,10 @@ class File extends PEAR
         if (!PEAR::isError($fp = &File::_getFilePointer($filename, $mode))) {
             return fclose($fp) ? true : PEAR::raiseError('Failed to close file: ' . $filename);
         }
-        
+
         return $fp;
     }
-    
+
     /**
     * This unlocks a locked file pointer.
     *
@@ -365,7 +365,7 @@ class File extends PEAR
         if (!PEAR::isError($fp = &FILE::_getFilePointer($filename, $mode))) {
             return flock($fp, LOCK_UN) ? true : PEAR::raiseError('Failed to unlock file: ' . $filename);
         }
-        
+
         return $fp;
     }
 
@@ -392,10 +392,10 @@ class File extends PEAR
                 $parts[$i] = File::stripLeadingSeparators($parts[$i], $separator);
             }
         }
-        
+
         return implode($separator, $parts);
     }
-    
+
     /**
     * Strips trailing separators from the given path
     *
@@ -409,10 +409,10 @@ class File extends PEAR
         while (substr($path, -1) == $separator) {
             $path = substr($path, 0, -1);
         }
-        
+
         return $path;
     }
-    
+
     /**
     * Strips leading separators from the given path
     *
@@ -426,10 +426,10 @@ class File extends PEAR
         while (substr($path, 0, 1) == $separator) {
             $path = substr($path, 1);
         }
-        
+
         return $path;
     }
-    
+
     /**
     * Returns a path without leading / or C:\. If this is not
     * present the path is returned as is.
@@ -451,7 +451,7 @@ class File extends PEAR
             return $path;
         }
     }
-    
+
     /**
     * Returns the temp directory according to either the TMP, TMPDIR, or TEMP env
     * variables. If these are not set it will also check for the existence of
@@ -464,7 +464,7 @@ class File extends PEAR
     {
         return System::tmpdir();
     }
-    
+
     /*
     * Returns a temporary filename using tempnam() and the above getTmpDir() function.
     *
