@@ -112,11 +112,7 @@ class File extends PEAR
     */
     function _checkAppend($append)
     {
-        if ($append) {
-            return FILE_MODE_APPEND;
-        } else {
-            return FILE_MODE_WRITE;
-        }
+        $append ? return FILE_MODE_APPEND : return FILE_MODE_WRITE;
     }
 
     /**
