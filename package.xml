@@ -35,6 +35,96 @@
 
   <release>
     <license>PHP</license>
+    <version>1.0.2</version>
+    <date>2002-05-26</date>
+    <state>stable</state>
+    <notes>
+	 Revert to mode specification instead of using _checkAppend() function
+    </notes>
+    <filelist>
+      <dir name="/">
+        <file role="php">File.php</file>
+        <dir name="File">
+          <file role="php">CSV.php</file>
+        </dir>
+        <dir name="tests" role="test">
+          <file>parser.php</file>
+          <file>test.csv</file>
+        </dir>
+      </dir>
+    </filelist>
+  </release>
+
+  <changelog>
+
+  <release>
+    <license>PHP</license>
+    <version>1.0.1</version>
+    <date>2002-05-03</date>
+    <state>stable</state>
+    <notes>
+	 Bugfix in _checkAppend() usage
+    </notes>
+    <filelist>
+      <dir name="/">
+        <file role="php">File.php</file>
+        <dir name="File">
+          <file role="php">CSV.php</file>
+        </dir>
+        <dir name="tests" role="test">
+          <file>parser.php</file>
+          <file>test.csv</file>
+        </dir>
+      </dir>
+    </filelist>
+  </release>
+
+  <release>
+    <license>PHP</license>
+    <version>1.0.0</version>
+    <date>2002-05-02</date>
+    <state>stable</state>
+    <notes>
+	 Stable release
+    </notes>
+    <filelist>
+      <dir name="/">
+        <file role="php">File.php</file>
+        <dir name="File">
+          <file role="php">CSV.php</file>
+        </dir>
+        <dir name="tests" role="test">
+          <file>parser.php</file>
+          <file>test.csv</file>
+        </dir>
+      </dir>
+    </filelist>
+  </release>
+
+  <release>
+    <license>PHP</license>
+    <version>0.9.2</version>
+    <date>2002-04-24</date>
+    <state>beta</state>
+    <notes>
+	 Fixed bug apparent when using fopen wrappers
+    </notes>
+    <filelist>
+      <dir name="/">
+        <file role="php">File.php</file>
+        <dir name="File">
+          <file role="php">CSV.php</file>
+        </dir>
+        <dir name="tests" role="test">
+          <file>parser.php</file>
+          <file>test.csv</file>
+        </dir>
+      </dir>
+    </filelist>
+  </release>
+
+  <release>
+    <license>PHP</license>
     <version>0.9.1</version>
     <date>2002-04-09</date>
     <state>beta</state>
@@ -54,5 +144,5 @@
       </dir>
     </filelist>
   </release>
-
+  </changelog>
 </package>
