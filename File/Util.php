@@ -369,9 +369,9 @@ class File_Util
         );
         
         foreach ($files as $file) {
-            $names[] = $file['name'];
-            $sizes[] = $file['size'];
-            $dates[] = $file['date'];
+            $names[] = $file->name;
+            $sizes[] = $file->size;
+            $dates[] = $file->date;
         }
     
         if ($sort & FILE_SORT_NAME) {
