@@ -289,7 +289,7 @@ class File_Util
      * <code>
      * <?php
      * function uc(&$filename) {
-     *     $f = strtoupper($filename);
+     *     $filename = strtoupper($filename);
      *     return true;
      * }
      * $entries = File_Util::listDir('.', FILE_LIST_ALL, FILE_SORT_NONE, 'uc');
