@@ -40,19 +40,24 @@
   <license>PHP</license>
   <version>1.1.0RC2</version>
   <state>beta</state>
-  <date>2004-12-17</date>
+  <date>2005-01-10</date>
   <notes>
-* Fixes Bug #2827, allows 1 field per line in discoverFormat as well as the config overall, 
-with no separator (which is the standard), removed one error check to fix this issue as well as moving 
-error checking around in _conf, might give some people issues (can't see how tho), also added a new 
-param to discoverFormat so one can inject a check for $ as a separator or something like that.
+* added File_Util containing all methods not handling file I/O
+* deprecated methods of File now available in File_Util
+* fixed bug #2827, allows 1 field per line in discoverFormat as well as 
+  the config overall, with no separator (which is the standard), removed 
+  one error check to fix this issue as well as moving error checking around 
+  in _conf, might give some people issues (can't see how tho), also added a 
+  new param to discoverFormat so one can inject a check for $ as a separator 
+  or something like that.
   </notes>
 
   <filelist>
    <dir name="/">
     <file role="php">File.php</file>
-    <dir name="File">
-     <file role="php">CSV.php</file>
+    <dir name="File" role="php">
+     <file>Util.php</file>
+     <file>CSV.php</file>
     </dir>
     <dir name="tests" role="test">
      <file>parser.php</file>

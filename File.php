@@ -85,6 +85,8 @@ define('FILE_LOCK_EXCLUSIVE', LOCK_EX | (FILE_LOCKS_BLOCK ? 0 : LOCK_NB), true);
  * @author  Michael Wallner <mike@php.net>
  * @access  public 
  * @package File
+ * 
+ * @static
  */
 class File extends PEAR 
 {
@@ -445,44 +447,7 @@ class File extends PEAR
     } 
 
     /**
-     * Returns a string path built from the array $pathParts. Where a join 
-     * occurs multiple separators are removed. Joins using the optional 
-     * separator, defaulting to the PHP DIRECTORY_SEPARATOR constant.
-     * 
-     * @access  public 
-     * @param   array   $parts Array containing the parts to be joined
-     * @param   string  $separator The system directory seperator
-     */
-    function buildPath($parts, $separator = DIRECTORY_SEPARATOR)
-    {
-        /*
-         * @FIXXME: maybe better use foreach
-         */
-        
-        for ($i = 0, $c = count($parts); $i < $c; $i++) {
-            if (    !strlen($parts[$i]) || 
-                    preg_match('/^'. preg_quote($separator) .'+$/', $parts[$i])) {
-                unset($parts[$i]);
-            } elseif (0 == $i) {
-                $parts[$i] = rtrim($parts[$i], $separator);
-            } elseif ($c - 1 == $i) {
-                $parts[$i] = ltrim($parts[$i], $separator);
-            } else {
-                $parts[$i] = trim($parts[$i], $separator);
-            } 
-        } 
-        return implode($separator, $parts);
-    } 
-
-    /**
-     * Strips trailing separators from the given path
-     * 
      * @deprecated
-     * @static
-     * @access  public 
-     * @param   string $path Path to use
-     * @param   string $separator Separator to look for
-     * @return  string Resulting path
      */
     function stripTrailingSeparators($path, $separator = DIRECTORY_SEPARATOR)
     {
@@ -490,14 +455,7 @@ class File extends PEAR
     } 
 
     /**
-     * Strips leading separators from the given path
-     * 
      * @deprecated
-     * @static
-     * @access  public 
-     * @param   string $path Path to use
-     * @param   string $separator Separator to look for
-     * @return  string Resulting path
      */
     function stripLeadingSeparators($path, $separator = DIRECTORY_SEPARATOR)
     {
@@ -505,186 +463,66 @@ class File extends PEAR
     } 
 
     /**
-     * Returns a path without leading / or C:\. If this is not
-     * present the path is returned as is.
-     * 
-     * @static
-     * @access  public 
-     * @param   string  $path The path to be processed
-     * @return  string  The processed path or the path as is
+     * @deprecated      Use File_Util::buildPath() instead.
+     */
+    function buildPath($parts, $separator = DIRECTORY_SEPARATOR)
+    {
+        require_once 'File/Util.php';
+        return File_Util::buildPath($parts, $separator);
+    } 
+
+    /**
+     * @deprecated      Use File_Util::skipRoot() instead.
      */
     function skipRoot($path)
     {
-        if (File::isAbsolute($path)) {
-            if (OS_WINDOWS) {
-                return substr($path, $path{3} == '\\' ? 4 : 3);
-            }
-            return ltrim($path, '/');
-        }
-        return $path;
+        require_once 'File/Util.php';
+        return File_Util::skipRoot($path);
     } 
 
     /**
-     * Returns the temp directory according to either the TMP, TMPDIR, or 
-     * TEMP env variables. If these are not set it will also check for the 
-     * existence of /tmp, %WINDIR%\temp
-     * 
-     * @static
-     * @access  public 
-     * @return  string  The system tmp directory
+     * @deprecated      Use File_Util::tmpDir() instead.
      */
     function getTempDir()
     {
-        if (OS_WINDOWS) {
-            if (isset($_ENV['TEMP'])) {
-                return $_ENV['TEMP'];
-            }
-            if (isset($_ENV['TMP'])) {
-                return $_ENV['TMP'];
-            }
-            if (isset($_ENV['windir'])) {
-                return $_ENV['windir'] . '\\temp';
-            }
-            if (isset($_ENV['SystemRoot'])) {
-                return $_ENV['SystemRoot'] . '\\temp';
-            }
-            if (isset($_SERVER['TEMP'])) {
-                return $_SERVER['TEMP'];
-            }
-            if (isset($_SERVER['TMP'])) {
-                return $_SERVER['TMP'];
-            }
-            if (isset($_SERVER['windir'])) {
-                return $_SERVER['windir'] . '\\temp';
-            }
-            if (isset($_SERVER['SystemRoot'])) {
-                return $_SERVER['SystemRoot'] . '\\temp';
-            }
-            return '\temp';
-        }
-        if (isset($_ENV['TMPDIR'])) {
-            return $_ENV['TMPDIR'];
-        }
-        if (isset($_SERVER['TMPDIR'])) {
-            return $_SERVER['TMPDIR'];
-        }
-        return '/tmp';
+        require_once 'File/Util.php';
+        return File_Util::tmpDir();
     }
 
     /**
-     * Returns a temporary filename using tempnam() and File::getTmpDir().
-     * 
-     * @access  public 
-     * @param   string  $dirname Optional directory name for the tmp file
-     * @return  string  Filename and path of the tmp file
+     * @deprecated      Use File_Util::tmpFile() instead.
      */
     function getTempFile($dirname = null)
     {
-        if (!isset($dirname)) {
-            $dirname = File::getTempDir();
-        } 
-        return tempnam($dirname, 'temp.');
+        require_once 'File/Util.php';
+        return File_Util::tmpFile($dirname);
     } 
 
     /**
-     * Returns boolean based on whether given path is absolute or not.
-     * 
-     * @access  public 
-     * @param   string  $path Given path
-     * @return  boolean True if the path is absolute, false if it is not
+     * @deprecated      Use File_Util::isAbsolute() instead.
      */
     function isAbsolute($path)
     {
-        if (preg_match('/\.\./', $path)) {
-            return false;
-        } 
-        if (OS_WINDOWS) {
-            return preg_match('/^[a-zA-Z]:(\\\|\/)/', $path);
-        }
-        return ($path{0} == '/') || ($path{0} == '~');
+        require_once 'File/Util.php';
+        return File_Util::isAbsolute($path);
     } 
 
     /**
-     * Get path relative to another path
-     *
-     * @static
-     * @access  public
-     * @return  string
-     * @param   string  $path
-     * @param   string  $root
-     * @param   string  $separator
+     * @deprecated      Use File_Util::relativePath() instead.
      */
     function relativePath($path, $root, $separator = DIRECTORY_SEPARATOR)
     {
-        $path = File::realpath($path, $separator);
-        $root = File::realpath($root, $separator);
-        $dirs = explode($separator, $path);
-        $comp = explode($separator, $root);
-        
-        if (OS_WINDOWS) {
-            if (strcasecmp($dirs[0], $comp[0])) {
-                return $path;
-            }
-            unset($dirs[0], $comp[0]);
-        }
-        
-        foreach ($comp as $i => $part) {
-            if (isset($dirs[$i]) && $part == $dirs[$i]) {
-                unset($dirs[$i], $comp[$i]);
-            } else {
-                break;
-            }
-        }
-         
-        return str_repeat('..' . $separator, count($comp)) . implode($separator, $dirs);
+        require_once 'File/Util.php';
+        return File_Util::relativePath($path, $root, $separator);
     }
 
     /**
-     * Get real path (works with non-existant paths)
-     *
-     * @static
-     * @access  public
-     * @return  string
-     * @param   string  $path
-     * @param   string  $separator
+     * @deprecated      Use File_Util::realpath() instead.
      */
     function realpath($path, $separator = DIRECTORY_SEPARATOR)
     {
-        if (!strlen($path)) {
-            return $separator;
-        }
-        
-        $drive = '';
-        if (OS_WINDOWS) {
-            $path = preg_replace('/[\\\\\/]/', $separator, $path);
-            if (preg_match('/([a-zA-Z]\:)(.*)/', $path, $matches)) {
-                $drive = $matches[1];
-                $path  = $matches[2];
-            } else {
-                $cwd   = getcwd();
-                $drive = substr($cwd, 0, 2);
-                if ($path{0} !== $separator{0}) {
-                    $path  = substr($cwd, 3) . $separator . $path;
-                }
-            }
-        } elseif ($path{0} !== $separator) {
-            $cwd  = getcwd();
-            $path = $cwd . $separator . File::relativePath($path, $cwd, $separator);
-        }
-        
-        $dirStack = array();
-        foreach (explode($separator, $path) as $dir) {
-            if (!strlen($dir) || $dir == '.') {
-                continue;
-            }
-            if ($dir == '..') {
-                array_pop($dirStack);
-            } else {
-                $dirStack[] = $dir;
-            }
-        }
-        
-        return $drive . $separator . implode($separator, $dirStack);
+        require_once 'File/Util.php';
+        return File_Util::realpath($path, $separator);
     }
 }
 
