@@ -404,6 +404,43 @@ class File_Util
     
         return $result;
     }
+    
+    /**
+     * Switch File Extension
+     * 
+     * @static
+     * @access  public
+     * @return  string|array
+     * @param   string|array    $filename
+     * @param   string          $to new file extension
+     * @param   string          $from change only files with this extension
+     * @param   bool            $reverse change only files not having $from extension
+     */
+    function switchExt($filename, $to, $from = null, $reverse = false)
+    {
+        if (is_array($filename)) {
+            foreach ($filename as $key => $file) {
+                $filename[$key] = File_Util::switchExt($file, $to, $from);
+            }
+            return $filename;
+        }
+        
+        if ($len = strlen($from)) {
+            $ext = substr($filename, -$len - 1);
+            $cfn = FILE_WIN32 ? 'strcasecmp' : 'strcmp';
+            if (!$reverse == $cfn($ext, '.'. $from)) {
+                return $filename;
+            }
+            return substr($filename, 0, -$len - 1) .'.'. $to;
+        }
+        
+        if ($pos = strpos($filename, '.')) {
+            return substr($filename, 0, $pos) .'.'. $to;
+        }
+        
+        return $filename .'.'. $to;
+    }
+    
 }
 
 ?>
