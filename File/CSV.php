@@ -29,14 +29,20 @@ require_once 'File.php';
 *  - Usage example and Doc
 *  - Use getPointer() in discoverFormat
 *  - Add a line counter for being able to output better error reports
-*  - Analyze the problem when a field is composed only by a single
-*    quoted separator. Ie -> ;";";
 *  - Store the last error in GLOBALS and add File_CSV::getLastError()
 *
 * Wish:
 *  - Support Mac EOL format
 *  - Other methods like readAll(), writeAll(), numFields(), numRows()
 *  - Try to detect if a CSV has header or not in discoverFormat()
+*
+* Known Bugs:
+* (they has been analyzed but for the moment the impact in the speed for
+*  properly handle this uncommon cases is too high and won't be supported)
+*  - A field which is composed only by a single quoted separator (ie -> ;";";)
+*    is not handled properly
+*  - When there is exactly one field minus than the expected number and there
+*    is a field with a separator inside, the parser will throw the "wrong count" error
 *
 * @author Tomas V.V.Cox <cox@idecnet.com>
 */
@@ -256,8 +262,9 @@ class File_CSV
                 && $last{0} == $conf['quote']
                 && $last{strlen(rtrim($last)) - 1} != $conf['quote'])
                 ||
-                // perhaps there is a separator inside a quoted field
-                preg_match("|{$conf['quote']}.*{$conf['sep']}.*{$conf['quote']}|", $line)
+                (count($fields) != $conf['fields'])
+                // XXX perhaps there is a separator inside a quoted field
+                //preg_match("|{$conf['quote']}.*{$conf['sep']}.*{$conf['quote']}|U", $line)
                 )
             {
                 $len = strlen($line);
