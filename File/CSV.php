@@ -28,7 +28,7 @@ require_once 'File.php';
 * TODO:
 *  - Usage example and Doc
 *  - Use getPointer() in discoverFormat
-*  - Error correction tests for broken CSV files
+*  - Add a line counter for being able to output better error reports
 *  - Analyze the problem when a field is composed only by a single
 *    quoted separator. Ie -> ;";";
 *  - Store the last error in GLOBALS and add File_CSV::getLastError()
@@ -173,9 +173,7 @@ class File_CSV
         $in_quote = false;
         $quote = $conf['quote'];
         $f = $conf['fields'];
-        // XXX TODO ensure that the pointer is placed in a new line
-        //          to be able to detect broken CSV files
-        while (($i <= $f) && (($ch = fgetc($fp)) !== false)) {
+        while (($ch = fgetc($fp)) !== false) {
             $prev = $c;
             $c = $ch;
             // Common case
@@ -201,10 +199,28 @@ class File_CSV
                 }
             }
             if (!$in_quote && ($c == $conf['sep'] || $c == "\n")) {
+                // More fields than expected
+                if (($c == $conf['sep']) && ((count($ret) + 1) == $f)) {
+                    while ($c != "\n") {
+                        $c = fgetc($fp);
+                    }
+                    File_CSV::raiseError("Read more fields than the ".
+                                         "expected ".$conf['fields']);
+                    return true;
+                }
+                // Less fields than expected
+                if (($c == "\n") && ($i != $f)) {
+                    File_CSV::raiseError("Read wrong fields number count: '". $i .
+                                         "' expected ".$conf['fields']);
+                    return true;
+                }
                 if ($prev == "\r") {
                     $buff = substr($buff, 0, -1);
                 }
                 $ret[] = File_CSV::unquote($buff, $quote);
+                if (count($ret) == $f) {
+                    return $ret;
+                }
                 $buff = '';
                 $i++;
                 continue;
@@ -240,7 +256,9 @@ class File_CSV
                 && $last{0} == $conf['quote']
                 && $last{strlen(rtrim($last)) - 1} != $conf['quote'])
                 ||
-                (count($fields) != $conf['fields']))
+                // perhaps there is a separator inside a quoted field
+                preg_match("|{$conf['quote']}.*{$conf['sep']}.*{$conf['quote']}|", $line)
+                )
             {
                 $len = strlen($line);
                 fseek($fp, -1 * strlen($line), SEEK_CUR);
@@ -252,7 +270,6 @@ class File_CSV
                 }
             }
         }
-        // XXX Do not test that when readQuoted will be able do it by itself
         if (count($fields) != $conf['fields']) {
             File_CSV::raiseError("Read wrong fields number count: '". count($fields) .
                                   "' expected ".$conf['fields']);
