@@ -57,7 +57,7 @@ class File_Util
         
         for ($i = 0, $c = count($parts); $i < $c; $i++) {
             if (    !strlen($parts[$i]) || 
-                    preg_match('/^'. preg_quote($separator) .'+$/', $parts[$i])) {
+                    preg_match('/^'. preg_quote($separator, '/') .'+$/', $parts[$i])) {
                 unset($parts[$i]);
             } elseif (0 == $i) {
                 $parts[$i] = rtrim($parts[$i], $separator);
