@@ -232,7 +232,7 @@ class File extends PEAR
     */
     function write($filename, $data, $append = true, $lock = false)
     {
-        $mode = _checkAppend($append);
+        $mode = File::_checkAppend($append);
         
         if (!PEAR::isError($fp = &File::_getFilePointer($filename, $mode, $lock))) {
             if (($bytes = fwrite($fp, $data, strlen($data))) == -1) {
@@ -270,7 +270,7 @@ class File extends PEAR
     */
     function writeChar($filename, $char, $append = true, $lock = false)
     {
-        $mode = _checkAppend($append);
+        $mode = File::_checkAppend($append);
         
         if (!PEAR::isError($fp = &File::_getFilePointer($filename, $mode, $lock))) {
             if (fwrite($fp, $char, 1) == -1) {
@@ -327,7 +327,7 @@ class File extends PEAR
     */
     function writeLine($filename, $line, $append = true, $crlf = "\n", $lock = false)
     {
-        $mode = _checkAppend($append);
+        $mode = File::_checkAppend($append);
         
         if(!PEAR::isError($fp = &File::_getFilePointer($filename, $mode, $lock))){
             if (($bytes = fwrite($fp, $line . $crlf)) == -1) {
@@ -350,7 +350,7 @@ class File extends PEAR
     */
     function rewind($filename, $append)
     {
-        $mode = _checkAppend($append);
+        $mode = File::_checkAppend($append);
         
         if (!PEAR::isError($fp = &File::_getFilePointer($filename, $mode))) {
             return rewind($fp) ? true : PEAR::raiseError('Failed to rewind file: ' . $filename);
@@ -369,7 +369,7 @@ class File extends PEAR
     */
     function close($filename, $append)
     {
-        $mode = _checkAppend($append);
+        $mode = File::_checkAppend($append);
         
         if (!PEAR::isError($fp = &File::_getFilePointer($filename, $mode))) {
             $filePointers = &PEAR::getStaticProperty('File', 'filePointers');
@@ -390,7 +390,7 @@ class File extends PEAR
     */
     function unlock($filename, $append)
     {
-        $mode = _checkAppend($append);
+        $mode = File::_checkAppend($append);
         
         if (!PEAR::isError($fp = &FILE::_getFilePointer($filename, $mode))) {
             return flock($fp, LOCK_UN) ? true : PEAR::raiseError('Failed to unlock file: ' . $filename);
