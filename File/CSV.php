@@ -70,14 +70,16 @@ class File_CSV
     /**
     * Checks the configuration given by the user
     *
-    * @param array  &$conf  The configuration assoc array
+    * @access private
     * @param string &$error The error will be written here if any
+    * @param array  &$conf  The configuration assoc array
+    * @return string error    Returns a error message
     */
-    function _conf(&$conf, &$error)
+    function _conf(&$error, &$conf)
     {
         // check conf
         if (!is_array($conf)) {
-            return $error = "Invalid configuration";
+            return $error = 'Invalid configuration';
         }
 
         if (!isset($conf['fields']) || !is_numeric($conf['fields'])) {
@@ -126,7 +128,7 @@ class File_CSV
             $conf = $config;
             return $resources[$file];
         }
-        File_CSV::_conf($conf, $error);
+        File_CSV::_conf($error, $conf);
         if ($error) {
             return File_CSV::raiseError($error);
         }
@@ -185,6 +187,7 @@ class File_CSV
         if (!$fp = File_CSV::getPointer($file, $conf, FILE_MODE_READ)) {
             return false;
         }
+
         $buff = $c = '';
         $ret  = array();
         $i = 1;
@@ -227,8 +230,11 @@ class File_CSV
                 // More fields than expected
                 if (($c == $conf['sep']) && ((count($ret) + 1) == $f)) {
                     // Seek the pointer into linebreak character.
-                    while ($c != "\n" || $c != "\r") {
+                    while (true) {
                         $c = fgetc($fp);
+                        if  ($c == "\n" || $c == "\r") {
+                            break;
+                        }
                     }
 
                     // Insert last field value.
@@ -313,6 +319,7 @@ class File_CSV
                 }
             }
         }
+
         if (count($fields) != $conf['fields']) {
             File_CSV::raiseError("Read wrong fields number count: '". count($fields) .
                                   "' expected ".$conf['fields']);
