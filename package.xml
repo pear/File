@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE package SYSTEM "../package.dtd">
+<!-- do not use the "Type" attribute here, that one is only for
+     generated package.xml files -->
+<package version="0.9">
+
+  <name>File</name>
+  <summary>Common file and directory routines</summary>
+  <description>
+    Provides easy access to read/write to files along with
+    some common routines to deal with paths.
+  </description>
+
+  <maintainers>
+    <maintainer>
+      <user>richard</user>
+      <name>Richard Heyes</name>
+      <email>richard@php.net</email>
+      <role>lead</role>
+    </maintainer>
+    <maintainer>
+      <user>tal</user>
+      <name>Tal Peer</name>
+      <email>tal@php.net</email>
+      <role>lead</role>
+    </maintainer>
+  </maintainers>
+
+  <release>
+    <license>PHP</license>
+    <version>0.9</version>
+    <date>2002-3-30</date>
+    <state>pre-release</state>
+    <notes>
+	 Initial release
+    </notes>
+    <filelist>
+      <dir name="/" baseinstalldir="/">
+        <file role="php">File.php</file>
+      </dir>
+    </filelist>
+  </release>
+
+</package>
