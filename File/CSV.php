@@ -31,12 +31,12 @@ require_once 'File.php';
 *  - Error correction tests for broken CSV files
 *  - Analyze the problem when a field is composed only by a single
 *    quoted separator. Ie -> ;";";
+*  - Store the last error in GLOBALS and add File_CSV::getLastError()
 *
 * Wish:
 *  - Support Mac EOL format
 *  - Other methods like readAll(), writeAll(), countSomeThing()
 *  - Try to detect if a CSV has header or not in discoverFormat()
-*  - Try other optimization ways (specially when the CSV has no quotes)
 *
 * @author Tomas V.V.Cox <cox@idecnet.com>
 */
@@ -139,7 +139,7 @@ class File_CSV
     *
     * @return mixed Array with the data read or false on error/no more data
     */
-    function read($file, &$conf)
+    function readQuoted($file, &$conf)
     {
         if (!$fp = File_CSV::getPointer($file, $conf, FILE_MODE_READ)) {
             return false;
@@ -189,6 +189,39 @@ class File_CSV
         return !feof($fp) ? $ret : false;
     }
 
+    function read($file, &$conf)
+    {
+        if (!$fp = File_CSV::getPointer($file, $conf, FILE_MODE_READ)) {
+            return false;
+        }
+        // The size is limited to 4K
+        if (!$line   = fgets($fp, 4096)) {
+            return false;
+        }
+        $fields = explode($conf['sep'], $line);
+        if ($conf['quote']) {
+            $last =& $fields[count($fields) - 1];
+            if ($last{0} == $conf['quote']
+                && $last{strlen($last) - 1} == "\n"
+                && $last{strlen(rtrim($last)) - 1} != $conf['quote'])
+            {
+                $len = strlen($line);
+                fseek($fp, -1 * strlen($line), SEEK_CUR);
+                return File_CSV::readQuoted($file, $conf);
+            } else {
+                $last = rtrim($last);
+                foreach ($fields as $k => $v) {
+                    $fields[$k] = File_CSV::unquote($v, $conf['quote']);
+                }
+            }
+        } elseif (count($fields) != $conf['fields']) {
+            File_CSV::raiseError("Read wrong fields number count: '". count($fields) .
+                                  "' expected ".$conf['fields']);
+            return true;
+        }
+        return $fields;
+    }
+
     /**
     * Internal use only, will be removed in the future
     * @access private
@@ -200,6 +233,9 @@ class File_CSV
         }
         if (strpos($str, "\n") !== false) {
             $str = str_replace("\n", "_n_", $str);
+        }
+        if (strpos($str, "\t") !== false) {
+            $str = str_replace("\t", "_t_", $str);
         }
         echo "buff: ($str)\n";
     }
