@@ -43,8 +43,9 @@
   <date>2005-01-10</date>
   <notes>
 * added File_Util containing all methods not handling file I/O
-* deprecated methods of File now available in File_Util
-* fixed bug #2827, allows 1 field per line in discoverFormat as well as 
+* deprecated methods are now available in File_Util (still in File for BC)
+* fixed bug #2827 (File_CSV::discoverFormat() is unable to discover format in 
+  one column CSV file), allows 1 field per line in discoverFormat as well as 
   the config overall, with no separator (which is the standard), removed 
   one error check to fix this issue as well as moving error checking around 
   in _conf, might give some people issues (can't see how tho), also added a 
