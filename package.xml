@@ -40,7 +40,7 @@
   <license>PHP</license>
   <version>1.1.0RC1</version>
   <state>beta</state>
-  <date>2004-12-16</date>
+  <date>2004-12-17</date>
   <notes>
 * Fixed Bug #2810 (Can not call readAll two times)
 * Fixed file locking
