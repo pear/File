@@ -284,8 +284,9 @@ class File_Util
      * @param   string  $path
      * @param   int     $list
      * @param   int     $sort
+     * @param   mixed   $cb
      */
-    function listDir($path, $list = FILE_LIST_ALL, $sort = FILE_SORT_NONE)
+    function listDir($path, $list = FILE_LIST_ALL, $sort = FILE_SORT_NONE, $cb = null)
     {
         if (!strlen($path) || !is_dir($path)) {
             return null;
@@ -296,8 +297,9 @@ class File_Util
             if ($list & FILE_LIST_DOTS || $entry{0} !== '.') {
                 $isRef = ($entry === '.' || $entry === '..');
                 $isDir = $isRef || is_dir($path .'/'. $entry);
-                if (    (!$isDir && $list & FILE_LIST_FILES)   ||
-                        ($isDir  && $list & FILE_LIST_DIRS)) {
+                if (    ((!$isDir && $list & FILE_LIST_FILES)   ||
+                         ($isDir  && $list & FILE_LIST_DIRS))   &&
+                        (!is_callable($cb) || call_user_func($cb, $entry))) {
                     $entries[] = (object) array(
                         'name'  => $entry,
                         'size'  => $isDir ? null : filesize($path .'/'. $entry),
