@@ -173,6 +173,8 @@ class File_CSV
         $in_quote = false;
         $quote = $conf['quote'];
         $f = $conf['fields'];
+        // XXX TODO ensure that the pointer is placed in a new line
+        //          to be able to detect broken CSV files
         while (($i <= $f) && (($ch = fgetc($fp)) !== false)) {
             $prev = $c;
             $c = $ch;
@@ -232,9 +234,13 @@ class File_CSV
         $fields = explode($conf['sep'], $line);
         if ($conf['quote']) {
             $last =& $fields[count($fields) - 1];
-            if ($last{0} == $conf['quote']
-                && $last{strlen($last) - 1} == "\n"
+            // Fallback to read the line with readQuoted when guess
+            // that the simple explode won't work right
+            if (($last{strlen($last) - 1} == "\n"
+                && $last{0} == $conf['quote']
                 && $last{strlen(rtrim($last)) - 1} != $conf['quote'])
+                ||
+                (count($fields) != $conf['fields']))
             {
                 $len = strlen($line);
                 fseek($fp, -1 * strlen($line), SEEK_CUR);
@@ -245,7 +251,9 @@ class File_CSV
                     $fields[$k] = File_CSV::unquote($v, $conf['quote']);
                 }
             }
-        } elseif (count($fields) != $conf['fields']) {
+        }
+        // XXX Do not test that when readQuoted will be able do it by itself
+        if (count($fields) != $conf['fields']) {
             File_CSV::raiseError("Read wrong fields number count: '". count($fields) .
                                   "' expected ".$conf['fields']);
             return true;
