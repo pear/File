@@ -1,190 +1,196 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
-<!-- do not use the "Type" attribute here, that one is only for
-     generated package.xml files -->
-<package>
+<!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.1">
+<package version="1.0">
+ <name>File</name>
+ <summary>Common file and directory routines</summary>
+ <description>
+  Provides easy access to read/write to files along with
+  some common routines to deal with paths. Also provides
+  interface for handling CSV files.
+ </description>
 
-  <name>File</name>
-  <summary>Common file and directory routines</summary>
-  <description>
-    Provides easy access to read/write to files along with
-    some common routines to deal with paths. Also provides
-    interface for handling CSV files.
-  </description>
+ <maintainers>
+  <maintainer>
+   <user>richard</user>
+   <role>lead</role>
+   <name>Richard Heyes</name>
+   <email>richard@php.net</email>
+  </maintainer>
+  <maintainer>
+   <user>tal</user>
+   <role>lead</role>
+   <name>Tal Peer</name>
+   <email>tal@php.net</email>
+  </maintainer>
+  <maintainer>
+   <user>cox</user>
+   <role>developer</role>
+   <name>Tomas V.V. Cox</name>
+   <email>cox@idecnet.com</email>
+  </maintainer>
+  <maintainer>
+   <user>mike</user>
+   <role>lead</role>
+   <name>Michael Wallner</name>
+   <email>mike@php.net</email>
+  </maintainer>
+ </maintainers>
 
-  <maintainers>
-    <maintainer>
-      <user>richard</user>
-      <name>Richard Heyes</name>
-      <email>richard@php.net</email>
-      <role>lead</role>
-    </maintainer>
-    <maintainer>
-      <user>tal</user>
-      <name>Tal Peer</name>
-      <email>tal@php.net</email>
-      <role>lead</role>
-    </maintainer>
-    <maintainer>
-      <user>cox</user>
-      <name>Tomas V.V. Cox</name>
-      <email>cox@idecnet.com</email>
-      <role>developer</role>
-    </maintainer>
-    <maintainer>
-     <user>mike</user>
-     <name>Michael Wallner</name>
-     <email>mike@php.net</email>
-     <role>lead</role>
-    </maintainer>
-  </maintainers>
-
-  <release>
-    <license>PHP</license>
-    <version>1.1.0RC1</version>
-    <date>2004-12-16</date>
-    <state>beta</state>
-    <notes>
+ <release>
+  <license>PHP</license>
+  <version>1.1.0RC1</version>
+  <state>beta</state>
+  <date>2004-12-16</date>
+  <notes>
 * Fixed Bug #2810 (Can not call readAll two times)
 * Fixed file locking
 - Code cleanup (vastly)
 + Implemented Request #1542 (File::relativePath(), File::realPath())
-    </notes>
-    <filelist>
-      <dir name="/">
-        <file role="php">File.php</file>
-        <dir name="File">
-          <file role="php">CSV.php</file>
-        </dir>
-        <dir name="tests" role="test">
-          <file>parser.php</file>
-          <file>test.csv</file>
-          <file>FileTest.php</file>
-        </dir>
-      </dir>
-    </filelist>
-  </release>
+  </notes>
 
-  <changelog>
-  <release>
-    <license>PHP</license>
-    <version>1.0.3</version>
-    <date>2003-01-28</date>
-    <state>stable</state>
-    <notes>
+  <filelist>
+   <dir name="/">
+    <file role="php">File.php</file>
+    <dir name="File">
+     <file role="php">CSV.php</file>
+    </dir>
+    <dir name="tests" role="test">
+     <file>parser.php</file>
+     <file>test.csv</file>
+     <file>FileTest.php</file>
+    </dir>
+   </dir>
+  </filelist>
+
+  <deps>
+   <dep type="php" rel="ge" version="4.0.0" optional="no" />
+   <dep type="php" rel="ge" version="4.3.0" optional="yes" />
+   <dep type="ext" rel="has" optional="no">pcre</dep>
+   <dep type="pkg" rel="has" optional="no">PEAR</dep>
+  </deps>
+ 
+ </release>
+
+ <changelog>
+ <release>
+  <license>PHP</license>
+  <version>1.0.3</version>
+  <date>2003-01-28</date>
+  <state>stable</state>
+  <notes>
 Fixed handling of paths containing '..' and '~' in File::isAbsolute().
-    </notes>
-  </release>
-  
-  <release>
-    <license>PHP</license>
-    <version>1.0.2</version>
-    <date>2002-05-26</date>
-    <state>stable</state>
-    <notes>
-         Revert to mode specification instead of using _checkAppend() function
-    </notes>
-    <filelist>
-      <dir name="/">
-        <file role="php">File.php</file>
-        <dir name="File">
-          <file role="php">CSV.php</file>
-        </dir>
-        <dir name="tests" role="test">
-          <file>parser.php</file>
-          <file>test.csv</file>
-        </dir>
-      </dir>
-    </filelist>
-  </release>
+  </notes>
+ </release>
+ 
+ <release>
+  <license>PHP</license>
+  <version>1.0.2</version>
+  <date>2002-05-26</date>
+  <state>stable</state>
+  <notes>
+     Revert to mode specification instead of using _checkAppend() function
+  </notes>
+  <filelist>
+   <dir name="/">
+    <file role="php">File.php</file>
+    <dir name="File">
+     <file role="php">CSV.php</file>
+    </dir>
+    <dir name="tests" role="test">
+     <file>parser.php</file>
+     <file>test.csv</file>
+    </dir>
+   </dir>
+  </filelist>
+ </release>
 
 
-  <release>
-    <license>PHP</license>
-    <version>1.0.1</version>
-    <date>2002-05-03</date>
-    <state>stable</state>
-    <notes>
+ <release>
+  <license>PHP</license>
+  <version>1.0.1</version>
+  <state>stable</state>
+  <date>2002-05-03</date>
+  <notes>
 	 Bugfix in _checkAppend() usage
-    </notes>
-    <filelist>
-      <dir name="/">
-        <file role="php">File.php</file>
-        <dir name="File">
-          <file role="php">CSV.php</file>
-        </dir>
-        <dir name="tests" role="test">
-          <file>parser.php</file>
-          <file>test.csv</file>
-        </dir>
-      </dir>
-    </filelist>
-  </release>
+  </notes>
+  <filelist>
+   <dir name="/">
+    <file role="php">File.php</file>
+    <dir name="File">
+     <file role="php">CSV.php</file>
+    </dir>
+    <dir name="tests" role="test">
+     <file>parser.php</file>
+     <file>test.csv</file>
+    </dir>
+   </dir>
+  </filelist>
+ </release>
 
-  <release>
-    <license>PHP</license>
-    <version>1.0.0</version>
-    <date>2002-05-02</date>
-    <state>stable</state>
-    <notes>
+ <release>
+  <license>PHP</license>
+  <version>1.0.0</version>
+  <state>stable</state>
+  <date>2002-05-02</date>
+  <notes>
 	 Stable release
-    </notes>
-    <filelist>
-      <dir name="/">
-        <file role="php">File.php</file>
-        <dir name="File">
-          <file role="php">CSV.php</file>
-        </dir>
-        <dir name="tests" role="test">
-          <file>parser.php</file>
-          <file>test.csv</file>
-        </dir>
-      </dir>
-    </filelist>
-  </release>
+  </notes>
+  <filelist>
+   <dir name="/">
+    <file role="php">File.php</file>
+    <dir name="File">
+     <file role="php">CSV.php</file>
+    </dir>
+    <dir name="tests" role="test">
+     <file>parser.php</file>
+     <file>test.csv</file>
+    </dir>
+   </dir>
+  </filelist>
+ </release>
 
-  <release>
-    <license>PHP</license>
-    <version>0.9.2</version>
-    <date>2002-04-24</date>
-    <state>beta</state>
-    <notes>
+ <release>
+  <license>PHP</license>
+  <version>0.9.2</version>
+  <state>beta</state>
+  <date>2002-04-24</date>
+  <notes>
 	 Fixed bug apparent when using fopen wrappers
-    </notes>
-    <filelist>
-      <dir name="/">
-        <file role="php">File.php</file>
-        <dir name="File">
-          <file role="php">CSV.php</file>
-        </dir>
-        <dir name="tests" role="test">
-          <file>parser.php</file>
-          <file>test.csv</file>
-        </dir>
-      </dir>
-    </filelist>
-  </release>
+  </notes>
+  <filelist>
+   <dir name="/">
+    <file role="php">File.php</file>
+    <dir name="File">
+     <file role="php">CSV.php</file>
+    </dir>
+    <dir name="tests" role="test">
+     <file>parser.php</file>
+     <file>test.csv</file>
+    </dir>
+   </dir>
+  </filelist>
+ </release>
 
-  <release>
-    <license>PHP</license>
-    <version>0.9.1</version>
-    <date>2002-04-09</date>
-    <state>beta</state>
-    <notes>
+ <release>
+  <license>PHP</license>
+  <version>0.9.1</version>
+  <state>beta</state>
+  <date>2002-04-09</date>
+  <notes>
 	 Initial release
-    </notes>
-    <filelist>
-      <dir name="/">
-        <file role="php">File.php</file>
-        <dir name="File">
-          <file role="php">CSV.php</file>
-        </dir>
-        <dir name="tests" role="test">
-          <file>parser.php</file>
-          <file>test.csv</file>
-        </dir>
-      </dir>
-    </filelist>
-  </release>
-  </changelog>
+  </notes>
+  <filelist>
+   <dir name="/">
+    <file role="php">File.php</file>
+    <dir name="File">
+     <file role="php">CSV.php</file>
+    </dir>
+    <dir name="tests" role="test">
+     <file>parser.php</file>
+     <file>test.csv</file>
+    </dir>
+   </dir>
+  </filelist>
+ </release>
+ </changelog>
 </package>
