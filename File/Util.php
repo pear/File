@@ -32,6 +32,11 @@ define('FILE_LIST_DOTS',    4);
 define('FILE_LIST_ALL',     FILE_LIST_FILES | FILE_LIST_DIRS | FILE_LIST_DOTS);
 /**#@-*/
 
+/**
+ * @ignore
+ */
+define('FILE_WIN32', defined('FILE_WIN32') ? FILE_WIN32 : !strncasecmp(PHP_OS, 'win', 3));
+
 /** 
  * File_Util
  *
@@ -82,7 +87,7 @@ class File_Util
     function skipRoot($path)
     {
         if (File_Util::isAbsolute($path)) {
-            if (OS_WINDOWS) {
+            if (FILE_WIN32) {
                 return substr($path, $path{3} == '\\' ? 4 : 3);
             }
             return ltrim($path, '/');
@@ -101,7 +106,7 @@ class File_Util
      */
     function tmpDir()
     {
-        if (OS_WINDOWS) {
+        if (FILE_WIN32) {
             if (isset($_ENV['TEMP'])) {
                 return $_ENV['TEMP'];
             }
@@ -166,7 +171,7 @@ class File_Util
         if (preg_match('/\.\./', $path)) {
             return false;
         } 
-        if (OS_WINDOWS) {
+        if (FILE_WIN32) {
             return preg_match('/^[a-zA-Z]:(\\\|\/)/', $path);
         }
         return ($path{0} == '/') || ($path{0} == '~');
@@ -189,7 +194,7 @@ class File_Util
         $dirs = explode($separator, $path);
         $comp = explode($separator, $root);
         
-        if (OS_WINDOWS) {
+        if (FILE_WIN32) {
             if (strcasecmp($dirs[0], $comp[0])) {
                 return $path;
             }
@@ -223,7 +228,7 @@ class File_Util
         }
         
         $drive = '';
-        if (OS_WINDOWS) {
+        if (FILE_WIN32) {
             $path = preg_replace('/[\\\\\/]/', $separator, $path);
             if (preg_match('/([a-zA-Z]\:)(.*)/', $path, $matches)) {
                 $drive = $matches[1];
@@ -237,8 +242,7 @@ class File_Util
             }
         } elseif ($path{0} !== $separator) {
             $cwd  = getcwd();
-            $path = $cwd . $separator . 
-                File_Util::relativePath($path, $cwd, $separator);
+            $path = $cwd . $separator . $path;
         }
         
         $dirStack = array();
