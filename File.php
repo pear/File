@@ -347,6 +347,7 @@ class File extends PEAR
     function close($filename, $mode)
     {
         if (!PEAR::isError($fp = &File::_getFilePointer($filename, $mode))) {
+            $filePointers = &PEAR::getStaticProperty('File', 'filePointers');
             unset($filePointers[$filename][$mode]);
             return fclose($fp) ? true : PEAR::raiseError('Failed to close file: ' . $filename);
         }
