@@ -1,18 +1,15 @@
-<?php
-/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4 foldmethod=marker */
-// $Id$
-?>
 --TEST--
 File_CSV Test Case 004: Unix EOL
 --FILE--
 <?php
+// $Id$
 /**
  * Test for:
  * - File_CSV::discoverFormat()
- * - File_CSV::readQuoted()
+ * - File_CSV::read()
  */
 
-require_once '../CSV.php';
+require_once 'File/CSV.php';
 
 $file = '004.csv';
 $conf = File_CSV::discoverFormat($file);
@@ -22,7 +19,7 @@ print_r($conf);
 print "\n";
 
 $data = array();
-while ($res = File_CSV::readQuoted($file, $conf)) {
+while ($res = File_CSV::read($file, $conf)) {
     $data[] = $res;
 }
 
@@ -31,7 +28,7 @@ print_r($data);
 ?>
 --EXPECT--
 Format:
-array
+Array
 (
     [fields] => 4
     [sep] => ,
@@ -63,7 +60,7 @@ Field
             [0] => Field 3-1
             [1] => Field 3-2
             [2] => Field 3-3
-            [3] =>
+            [3] => 
         )
 
 )

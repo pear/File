@@ -1,18 +1,15 @@
-<?php
-/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4 foldmethod=marker */
-// $Id$
-?>
 --TEST--
 File_CSV Test Case 002: Fields count more than expected
 --FILE--
 <?php
+// $Id$
 /**
  * Test for:
  * - File_CSV::discoverFormat()
- * - File_CSV::readQuoted()
+ * - File_CSV::read()
  */
 
-require_once '../CSV.php';
+require_once 'File/CSV.php';
 
 $file = '002.csv';
 $conf = File_CSV::discoverFormat($file);
@@ -22,7 +19,7 @@ print_r($conf);
 print "\n";
 
 $data = array();
-while ($res = File_CSV::readQuoted($file, $conf)) {
+while ($res = File_CSV::read($file, $conf)) {
     $data[] = $res;
 }
 
@@ -31,7 +28,7 @@ print_r($data);
 ?>
 --EXPECT--
 Format:
-array
+Array
 (
     [fields] => 4
     [sep] => ,
@@ -61,16 +58,16 @@ Array
         (
             [0] => Field 3-1
             [1] => Field 3-2
-            [2] =>
-            [3] =>
+            [2] => 
+            [3] => 
         )
 
     [3] => Array
         (
             [0] => Field 4-1
-            [1] =>
-            [2] =>
-            [3] =>
+            [1] => 
+            [2] => 
+            [3] => 
         )
 
 )
