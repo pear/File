@@ -44,11 +44,11 @@
 
  <release>
   <license>PHP</license>
-  <version>1.1.0RC3</version>
+  <version>1.1.0RC4</version>
   <state>beta</state>
-  <date>2005-01-13</date>
+  <date>2005-01-28</date>
   <notes>
-* now really containing the fix for File_CSV
+* added kind of a filter callback for File_Util::listDir()
   </notes>
 
   <filelist>
@@ -76,6 +76,15 @@
  </release>
 
  <changelog>
+ <release>
+  <license>PHP</license>
+  <version>1.1.0RC3</version>
+  <state>beta</state>
+  <date>2005-01-13</date>
+  <notes>
+* now really containing the fix for File_CSV
+  </notes>
+ </release>
  <release>
   <license>PHP</license>
   <version>1.1.0RC2</version>
