@@ -35,11 +35,11 @@
 
   <release>
     <license>PHP</license>
-    <version>1.0.2</version>
-    <date>2002-05-26</date>
+    <version>1.0.3</version>
+    <date>2003-01-28</date>
     <state>stable</state>
     <notes>
-	 Revert to mode specification instead of using _checkAppend() function
+Fixed handling of paths containing '..' and '~' in File::isAbsolute().
     </notes>
     <filelist>
       <dir name="/">
@@ -56,6 +56,29 @@
   </release>
 
   <changelog>
+
+  <release>
+    <license>PHP</license>
+    <version>1.0.2</version>
+    <date>2002-05-26</date>
+    <state>stable</state>
+    <notes>
+         Revert to mode specification instead of using _checkAppend() function
+    </notes>
+    <filelist>
+      <dir name="/">
+        <file role="php">File.php</file>
+        <dir name="File">
+          <file role="php">CSV.php</file>
+        </dir>
+        <dir name="tests" role="test">
+          <file>parser.php</file>
+          <file>test.csv</file>
+        </dir>
+      </dir>
+    </filelist>
+  </release>
+
 
   <release>
     <license>PHP</license>
