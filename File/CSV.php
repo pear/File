@@ -26,7 +26,6 @@ require_once 'File.php';
 * for exchanging data.
 *
 * TODO:
-*  - Optimization
 *  - PHPDoc and Doc
 *  - Use getPointer() in discoverFormat
 *  - Error correction tests for broken CSV files
@@ -37,6 +36,7 @@ require_once 'File.php';
 *  - Support Mac EOL format
 *  - Other methods like readAll(), writeAll(), countSomeThing()
 *  - Try to detect if a CSV has header or not in discoverFormat()
+*  - Try other optimization ways (specially when the CSV has no quotes)
 *
 * @author Tomas V.V.Cox <cox@idecnet.com>
 */
@@ -131,6 +131,14 @@ class File_CSV
         return $field;
     }
 
+    /**
+    * Reads data as an array from a CSV file
+    *
+    * @param string $file   The filename where to write the data
+    * @param array  $conf   The configuration of the dest CSV
+    *
+    * @return mixed Array with the data read or false on error/no more data
+    */
     function read($file, &$conf)
     {
         if (!$fp = File_CSV::getPointer($file, $conf, FILE_MODE_READ)) {
@@ -181,6 +189,10 @@ class File_CSV
         return !feof($fp) ? $ret : false;
     }
 
+    /**
+    * Internal use only, will be removed in the future
+    * @access private
+    */
     function _dbgBuff($str)
     {
         if (strpos($str, "\r") !== false) {
@@ -192,6 +204,15 @@ class File_CSV
         echo "buff: ($str)\n";
     }
 
+    /**
+    * Writes a struc (array) in a file as CSV
+    *
+    * @param string $file   The filename where to write the data
+    * @param array  $fields Ordered array with the data
+    * @param array  $conf   The configuration of the dest CSV
+    *
+    * @return bool True on success false otherwise
+    */
     function write($file, $fields, &$conf)
     {
         if (!$fp = File_CSV::getPointer($file, $conf, FILE_MODE_WRITE)) {
