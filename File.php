@@ -343,6 +343,7 @@ class File extends PEAR
     /**
     * This rewinds a filepointer to the start of a file
     *
+    * @access public
     * @param  string  $filename the filename
     * @param  boolean $append   set to true if the file was opened for appending, false if it ws opened for writing
     * @return mixed             PEAR Error on error, true on success
@@ -361,6 +362,7 @@ class File extends PEAR
     /**
     * This closes an open file pointer
     *
+    * @access public
     * @param  string  $filename The filename that was opened
     * @param  boolean $append   set to true if the file was opened for appending, false if it ws opened for writing
     * @return mixed             PEAR Error on error, true otherwise
@@ -381,6 +383,7 @@ class File extends PEAR
     /**
     * This unlocks a locked file pointer.
     *
+    * @access public
     * @param  string  $filename The filename that was opened
     * @param  boolean $append   set to true if the file was opened for appending, false if it ws opened for writing
     * @return mixed             PEAR Error on error, true otherwise
@@ -507,7 +510,7 @@ class File extends PEAR
         return '/tmp';
     }
 
-    /*
+    /**
     * Returns a temporary filename using tempnam() and the above getTmpDir() function.
     *
     * @access public
