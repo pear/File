@@ -397,7 +397,7 @@ class File_CSV
         $matches = array();
 
         // Set auto detect line ending for Mac EOL support if < PHP 4.3.0.
-        $phpver = version_compare('4.1.0', phpversion(), '<')
+        $phpver = version_compare('4.1.0', phpversion(), '<');
         if ($phpver) {
             $oldini = ini_get('auto_detect_line_endings');
             ini_set('auto_detect_line_endings', '1');
