@@ -306,6 +306,10 @@ class File extends PEAR
             $fp = &$filePointers[$filename];
         }
 
+		if (feof($fp)) {
+			return false;
+		}
+
         $fileString = '';
         while (($fileChar = fgetc($fp)) != "\n" AND !feof($fp)) {
             $fileString .= $fileChar;
