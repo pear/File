@@ -123,7 +123,7 @@ class File extends PEAR
         if (!isset($filePointers[$filename][$mode]) OR !is_resource($filePointers[$filename][$mode])) {
 
             // Check it exists
-            if (FILE_MODE_READ == $mode AND !file_exists($filename)) {
+            if (FILE_MODE_READ == $mode AND !preg_match('/^(http|https|ftp|php):\/\//i', $filename) AND !file_exists($filename)) {
                 return PEAR::raiseError('File does not exists: ' . $filename);
 
             // Writeable?
@@ -305,13 +305,13 @@ class File extends PEAR
     * @param  string $filename Name of file to write to
     * @param  string $line     Line of data to be written to file
     * @param  string $mode     Write mode, can be either FILE_MODE_WRITE or FILE_MODE_APPEND
-    * @param  string $eol      The EOL (End-Of-Line) character your system is using. UNIX = \n Windows = \r\n Mac = \r
-    * @return mixed            PEAR_Error on error or number of bytes written to file (including appended EOL character)
+    * @param  string $crlf     The CRLF your system is using. UNIX = \n Windows = \r\n Mac = \r
+    * @return mixed            PEAR_Error on error or number of bytes written to file (including appended crlf)
     */
-    function writeLine($filename, $line, $mode = FILE_MODE_APPEND, $eol = "\n", $lock = false)
+    function writeLine($filename, $line, $mode = FILE_MODE_APPEND, $crlf = "\n", $lock = false)
     {
         if(!PEAR::isError($fp = &File::_getFilePointer($filename, $mode, $lock))){
-            if (($bytes = fwrite($fp, $line . $eol)) == -1) {
+            if (($bytes = fwrite($fp, $line . $crlf)) == -1) {
                 return PEAR::raiseError(sprintf('fwrite() call failed to write data: "%s" to file: "%s"', $data, $filename));
             } else {
                 return $bytes;
