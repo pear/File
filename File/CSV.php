@@ -141,44 +141,55 @@ class File_CSV
         $i = 1;
         $in_quote = false;
         $quote = $conf['quote'];
-        while (($i <= $conf['fields']) && (($ch = fgetc($fp)) !== false)) {
+        $f = $conf['fields'];
+        while (($i <= $f) && (($ch = fgetc($fp)) !== false)) {
             $prev = $c;
             $c = $ch;
-            if ($quote && $c == $quote &&
+            // Common case
+            if ($c != $quote && $c != $conf['sep'] && $c != "\n") {
+                $buff .= $c;
+                continue;
+            }
+            if ($c == $quote && $quote &&
                 ($prev == $conf['sep'] || $prev == "\n" || $prev === null))
             {
                 $in_quote = true;
+            } elseif ($in_quote) {
+                // When ends quote
+                if ($c == $conf['sep'] && $prev == $conf['quote']) {
+                    $in_quote = false;
+                } elseif ($c == "\n") {
+                    $sub = ($prev == "\r") ? 2 : 1;
+                    if ((strlen($buff) >= $sub) &&
+                        ($buff{strlen($buff) - $sub} == $quote))
+                    {
+                        $in_quote = false;
+                    }
+                }
             }
-            if ($in_quote && $c == $conf['sep'] && $prev == $conf['quote']) {
-                $in_quote = false;
-            }
-            if (!$in_quote && $c == $conf['sep']) {
+            if (!$in_quote && ($c == $conf['sep'] || $c == "\n")) {
+                if ($prev == "\r") {
+                    $buff = substr($buff, 0, -1);
+                }
                 $ret[] = File_CSV::unquote($buff, $quote);
                 $buff = '';
                 $i++;
                 continue;
             }
-            if ($c == "\n") {
-                $sub = ($prev == "\r") ? 2 : 1;
-                if ((strlen($buff) >= $sub) && ($buff{strlen($buff) - $sub} == $quote)) {
-                    $in_quote = false;
-                }
-                if (!$in_quote) {
-                    if ($prev == "\r") {
-                        $buff = substr($buff, 0, -1);
-                    }
-                    $ret[] = File_CSV::unquote($buff, $quote);
-                    $buff = '';
-                    $i++;
-                    continue;
-                }
-            }
             $buff .= $c;
         }
-        if ($buff) {
-            $ret[] = File_CSV::unquote($buff, $quote);
-        }
         return !feof($fp) ? $ret : false;
+    }
+
+    function _dbgBuff($str)
+    {
+        if (strpos($str, "\r") !== false) {
+            $str = str_replace("\r", "_r_", $str);
+        }
+        if (strpos($str, "\n") !== false) {
+            $str = str_replace("\n", "_n_", $str);
+        }
+        echo "buff: ($str)\n";
     }
 
     function write($file, $fields, &$conf)
