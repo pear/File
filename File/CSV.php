@@ -136,13 +136,14 @@ class File_CSV
         if (!$fp = File_CSV::getPointer($file, $conf, FILE_MODE_READ)) {
             return false;
         }
-        $buff = null;
+        $buff = $c = null;
         $ret  = array();
         $i = 1;
         $in_quote = false;
         $quote = $conf['quote'];
-        while (($i <= $conf['fields']) && (($c = fgetc($fp)) !== false)) {
-            $prev = strlen($buff) ? $buff{strlen($buff) - 1} : null;
+        while (($i <= $conf['fields']) && (($ch = fgetc($fp)) !== false)) {
+            $prev = $c;
+            $c = $ch;
             if ($quote && $c == $quote &&
                 ($prev == $conf['sep'] || $prev == "\n" || $prev === null))
             {
