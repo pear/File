@@ -216,7 +216,7 @@ class File_Util
      * @param   string  $path
      * @param   string  $separator
      */
-    function realpath($path, $separator = DIRECTORY_SEPARATOR)
+    function realPath($path, $separator = DIRECTORY_SEPARATOR)
     {
         if (!strlen($path)) {
             return $separator;
@@ -256,6 +256,26 @@ class File_Util
     }
 
     /**
+     * Check whether path is in root path
+     *
+     * @static
+     * @access  public
+     * @return  bool
+     * @param   string  $path
+     * @param   string  $root
+     */
+    function pathInRoot($path, $root)
+    {
+        static $realPaths = array();
+        
+        if (!isset($realPaths[$root])) {
+            $realPaths[$root] = File_Util::realPath($root);
+        }
+        
+        return false !== strstr(File_Util::realPath($path), $realPaths[$root]);
+    }
+
+    /**
      * List Directory
      * 
      * @static
@@ -278,7 +298,7 @@ class File_Util
                 $isDir = $isRef || is_dir($path .'/'. $entry);
                 if (    (!$isDir && $list & FILE_LIST_FILES)   ||
                         ($isDir  && $list & FILE_LIST_DIRS)) {
-                    $entries[] = array(
+                    $entries[] = (object) array(
                         'name'  => $entry,
                         'size'  => $isDir ? null : filesize($path .'/'. $entry),
                         'date'  => filemtime($path .'/'. $entry),
