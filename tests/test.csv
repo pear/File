@@ -1,0 +1,8 @@
+f1	f2	f3	f4
+good1	good2	good3	good4
+no"quote	no"qu"ote	n"quote"	n"q"u"o"t"
+"quote1"	"quote2"	noquote3	noquote4
+test1	"long
+test2"	"long test3	with	seps"	"I'm
+					silly
+					long"
