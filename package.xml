@@ -44,13 +44,11 @@
 
  <release>
   <license>PHP</license>
-  <version>1.2.0</version>
+  <version>1.2.1</version>
   <state>stable</state>
   <date>2005-04-00</date>
   <notes><![CDATA[
-* Fixed package.xml for PEAR 1.4 (dufuz)
-+ added FILE_SORT_RANDOM mode (mike)
-+ added File_Util::switchExt() (mike)
+* 
 ]]>
   </notes>
 
@@ -92,6 +90,18 @@
  </release>
 
  <changelog>
+ <release>
+  <license>PHP</license>
+  <version>1.2.0</version>
+  <state>stable</state>
+  <date>2005-03-30</date>
+  <notes><![CDATA[
+* Fixed package.xml for PEAR 1.4 (dufuz)
++ added FILE_SORT_RANDOM mode (mike)
++ added File_Util::switchExt() (mike)
+]]>
+  </notes>
+ </release>
  <release>
   <license>PHP</license>
   <version>1.1.0</version>
