@@ -21,6 +21,7 @@ define('FILE_SORT_REVERSE', 1);
 define('FILE_SORT_NAME',    2);
 define('FILE_SORT_SIZE',    4);
 define('FILE_SORT_DATE',    8);
+define('FILE_SORT_RANDOM',  16);
 /**#@-*/
 
 /**#@+
@@ -358,8 +359,28 @@ class File_Util
             return $files;
         }
         
-        if ($sort == 1) {
+        if ($sort === 1) {
             return array_reverse($files);
+        }
+        
+        if ($sort & FILE_SORT_RANDOM) {
+            shuffle($files);
+            return $files;
+        }
+        
+        $names = array();
+        $sizes = array();
+        $dates = array();
+    
+        if ($sort & FILE_SORT_NAME) {
+            $r = &$names;
+        } elseif ($sort & FILE_SORT_DATE) {
+            $r = &$dates;
+        } elseif ($sort & FILE_SORT_SIZE) {
+            $r = &$sizes;
+        } else {
+            asort($files, SORT_REGULAR);
+            return $files;
         }
         
         $sortFlags = array(
@@ -372,14 +393,6 @@ class File_Util
             $names[] = $file->name;
             $sizes[] = $file->size;
             $dates[] = $file->date;
-        }
-    
-        if ($sort & FILE_SORT_NAME) {
-            $r = &$names;
-        } elseif ($sort & FILE_SORT_DATE) {
-            $r = &$dates;
-        } elseif ($sort & FILE_SORT_SIZE) {
-            $r = &$sizes;
         }
         
         if ($sort & FILE_SORT_REVERSE) {
