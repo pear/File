@@ -45,6 +45,7 @@ require_once 'File.php';
 *    is a field with a separator inside, the parser will throw the "wrong count" error
 *
 * @author Tomas V.V.Cox <cox@idecnet.com>
+* @package File
 */
 class File_CSV
 {
@@ -71,8 +72,8 @@ class File_CSV
     /**
     * Checks the configuration given by the user
     *
-    * @param array  $conf  The configuration assoc array
-    * @param string $error The error will be written here if any
+    * @param array  &$conf  The configuration assoc array
+    * @param string &$error The error will be written here if any
     */
     function _conf(&$conf, &$error)
     {
@@ -106,7 +107,7 @@ class File_CSV
     * Return or create the file descriptor associated with a file
     *
     * @param string $file The name of the file
-    * @param array  $conf The configuration
+    * @param array  &$conf The configuration
     * @param string $mode The open node (ex: FILE_MODE_READ or FILE_MODE_WRITE)
     *
     * @return mixed A file resource or false
@@ -164,7 +165,7 @@ class File_CSV
     * read memo fields with multiline data.
     *
     * @param string $file   The filename where to write the data
-    * @param array  $conf   The configuration of the dest CSV
+    * @param array  &$conf   The configuration of the dest CSV
     *
     * @return mixed Array with the data read or false on error/no more data
     */
@@ -240,7 +241,7 @@ class File_CSV
     * Reads a "row" from a CSV file and return it as an array
     *
     * @param string $file The CSV file
-    * @param array  $conf The configuration of the dest CSV
+    * @param array  &$conf The configuration of the dest CSV
     *
     * @return mixed Array or false
     */
@@ -287,6 +288,8 @@ class File_CSV
 
     /**
     * Internal use only, will be removed in the future
+    *
+    * @param string $str The string to debug
     * @access private
     */
     function _dbgBuff($str)
@@ -308,7 +311,7 @@ class File_CSV
     *
     * @param string $file   The filename where to write the data
     * @param array  $fields Ordered array with the data
-    * @param array  $conf   The configuration of the dest CSV
+    * @param array  &$conf   The configuration of the dest CSV
     *
     * @return bool True on success false otherwise
     */
