@@ -49,6 +49,8 @@
   <date>2005-02-00</date>
   <notes><![CDATA[
 * Fixed bug in File_Util::sortFiles() (mike, Demian Turner)
+* Fixed infinity loop in readQuoted (File_CSV) when fields are more then expected (dufuz)
+* Fixed File_CSV tests (dufuz)
 ]]>
   </notes>
 
