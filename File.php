@@ -408,6 +408,9 @@ class File extends PEAR
     {
         $filePointers = &PEAR::getStaticProperty('File', 'filePointers');
         
+        if (OS_WINDOWS) {
+            $filename = strToLower($filename);
+        }
         if (!isset($filePointers[$filename][$mode])) {
             return true;
         }
