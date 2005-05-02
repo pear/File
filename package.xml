@@ -48,7 +48,7 @@
   <state>stable</state>
   <date>2005-04-00</date>
   <notes><![CDATA[
-* 
+* Fixed bug in File::close() on Windows
 ]]>
   </notes>
 
