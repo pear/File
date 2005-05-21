@@ -35,10 +35,10 @@
    <email>mike@php.net</email>
   </maintainer>
   <maintainer>
-   <user>dufuz</user>
+   <user>helgi</user>
    <role>developer</role>
    <name>Helgi &#222;ormar</name>
-   <email>dufuz@php.net</email>
+   <email>helgi@php.net</email>
   </maintainer>
  </maintainers>
 
@@ -49,6 +49,8 @@
   <date>2005-04-00</date>
   <notes><![CDATA[
 * Fixed bug in File::close() on Windows
+* Fixed bug #4334 File_CSV::discoverFormat does not detect quotes in single column (helgi) (thanks to luke_richards_99 at yahoo dot co dot uk)
++ added test for bug #4334
 ]]>
   </notes>
 
@@ -74,6 +76,8 @@
       <file>004.csv</file>
       <file>005.phpt</file>
       <file>005.csv</file>
+      <file>006.phpt</file>
+      <file>006.csv</file>
       <file>tests.txt</file>
      </dir>
     </dir>
@@ -96,7 +100,7 @@
   <state>stable</state>
   <date>2005-03-30</date>
   <notes><![CDATA[
-* Fixed package.xml for PEAR 1.4 (dufuz)
+* Fixed package.xml for PEAR 1.4 (helgi)
 + added FILE_SORT_RANDOM mode (mike)
 + added File_Util::switchExt() (mike)
 ]]>
@@ -109,8 +113,8 @@
   <date>2005-02-21</date>
   <notes><![CDATA[
 * Fixed bug in File_Util::sortFiles() (mike, Demian Turner)
-* Fixed infinity loop in readQuoted (File_CSV) when fields are more then expected (dufuz)
-* Fixed File_CSV tests (dufuz)
+* Fixed infinity loop in readQuoted (File_CSV) when fields are more then expected (helgi)
+* Fixed File_CSV tests (helgi)
 ]]>
   </notes>
  </release>
@@ -120,7 +124,7 @@
   <state>beta</state>
   <date>2005-02-02</date>
   <notes>
-* Bug #3364 fixed, typo (dufuz)
+* Bug #3364 fixed, typo (helgi)
   </notes>
  </release>
  <release>
@@ -129,8 +133,8 @@
   <state>beta</state>
   <date>2005-02-02</date>
   <notes>
-* Required PHP dep now 4.2.0 because of PEAR (dufuz)
-* Patch from Firman Wandayandi for File_CSV (dufuz)
+* Required PHP dep now 4.2.0 because of PEAR (helgi)
+* Patch from Firman Wandayandi for File_CSV (helgi)
   - Fixed bugs: Fields count less nor more than expected handling
   - Added Mac EOL support (Only loaded on PHP 4.3.0 and higher)
   - Added few tests
@@ -162,7 +166,7 @@
   one error check to fix this issue as well as moving error checking around 
   in _conf, might give some people issues (can't see how tho), also added a 
   new param to discoverFormat so one can inject a check for $ as a separator 
-  or something like that (dufuz)
+  or something like that (helgi)
   </notes>
  </release>
  <release>

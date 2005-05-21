@@ -470,7 +470,7 @@ class File_CSV
                     break;
                 }
             }
-            if (preg_match("|^([$quotes]).*([$quotes])$sep|", $line, $match)
+            if (preg_match("|^([$quotes]).*([$quotes])$sep{0,1}|", $line, $match)
                 || preg_match("|([$quotes]).*([$quotes])$sep\s$|Us", $line, $match))
             {
                 if ($match[1] == $match[2]) {
