@@ -39,7 +39,7 @@ if (!defined('FILE_DEFAULT_READSIZE')) {
  * The maximum number of bytes for reading lines
  */
 if (!defined('FILE_MAX_LINE_READSIZE')) {
-    define('FILE_MAX_LINE_READSIZE', 8192000, true);
+    define('FILE_MAX_LINE_READSIZE', 40960, true);
 }
 
 /**
