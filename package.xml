@@ -52,7 +52,9 @@
 * Fixed bug #4835 - File::readLine() causes memory exhaustion (mike)
 * Fixed bug #4911 - Bad test in File_Util::isAbsolute() (mike)
 * Fixed bug #5032 - Reverted File::buildPath() to original implementation (mike)
-* Fixed bug #4334 File_CSV::discoverFormat does not detect quotes in single column (helgi) (thanks to luke_richards_99 at yahoo dot co dot uk)
+* Fixed bug #4334 - File_CSV::discoverFormat does not detect quotes in single column (helgi) (thanks to luke_richards_99 at yahoo dot co dot uk)
+* Fixed bug #4559 - Wrong PHP version check in File_CSV (helgi)
+* Fixed bug #4295 - resetPointer method added to allow for reseting the file pointer to the beginning
 + added test for bug #4334 (helgi)
 ]]>
   </notes>
@@ -93,7 +95,7 @@
    <dep type="ext" rel="has" optional="no">pcre</dep>
    <dep type="pkg" rel="has" optional="no">PEAR</dep>
   </deps>
- 
+
  </release>
 
  <changelog>
@@ -163,12 +165,12 @@
   <notes>
 * added File_Util containing all methods not handling file I/O (mike)
 * deprecated methods are now available in File_Util (still in File for BC) (mike)
-* fixed bug #2827 (File_CSV::discoverFormat() is unable to discover format in 
-  one column CSV file), allows 1 field per line in discoverFormat as well as 
-  the config overall, with no separator (which is the standard), removed 
-  one error check to fix this issue as well as moving error checking around 
-  in _conf, might give some people issues (can't see how tho), also added a 
-  new param to discoverFormat so one can inject a check for $ as a separator 
+* fixed bug #2827 (File_CSV::discoverFormat() is unable to discover format in
+  one column CSV file), allows 1 field per line in discoverFormat as well as
+  the config overall, with no separator (which is the standard), removed
+  one error check to fix this issue as well as moving error checking around
+  in _conf, might give some people issues (can't see how tho), also added a
+  new param to discoverFormat so one can inject a check for $ as a separator
   or something like that (helgi)
   </notes>
  </release>
@@ -193,7 +195,7 @@
 Fixed handling of paths containing '..' and '~' in File::isAbsolute().
   </notes>
  </release>
- 
+
  <release>
   <license>PHP</license>
   <version>1.0.2</version>
@@ -223,7 +225,7 @@ Fixed handling of paths containing '..' and '~' in File::isAbsolute().
   <state>stable</state>
   <date>2002-05-03</date>
   <notes>
-	 Bugfix in _checkAppend() usage
+     Bugfix in _checkAppend() usage
   </notes>
   <filelist>
    <dir name="/">
@@ -245,7 +247,7 @@ Fixed handling of paths containing '..' and '~' in File::isAbsolute().
   <state>stable</state>
   <date>2002-05-02</date>
   <notes>
-	 Stable release
+     Stable release
   </notes>
   <filelist>
    <dir name="/">
@@ -267,7 +269,7 @@ Fixed handling of paths containing '..' and '~' in File::isAbsolute().
   <state>beta</state>
   <date>2002-04-24</date>
   <notes>
-	 Fixed bug apparent when using fopen wrappers
+     Fixed bug apparent when using fopen wrappers
   </notes>
   <filelist>
    <dir name="/">
@@ -289,7 +291,7 @@ Fixed handling of paths containing '..' and '~' in File::isAbsolute().
   <state>beta</state>
   <date>2002-04-09</date>
   <notes>
-	 Initial release
+     Initial release
   </notes>
   <filelist>
    <dir name="/">
