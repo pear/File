@@ -501,7 +501,7 @@ class File_CSV
      *
      * @return boolean true on success false on failure
      */
-    function reset($file, &$conf, $mode)
+    function resetPointer($file, &$conf, $mode)
     {
         if (!File_CSV::getPointer($file, $conf, $mode, true)) {
             return false;
