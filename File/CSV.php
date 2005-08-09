@@ -15,7 +15,7 @@
  * @category    File
  * @package     File
  * @author      Tomas V.V.Cox <cox@idecnet.com>
- * @author      Helgi ï¿½rmar <dufuz@php.net>
+ * @author      Helgi Þormar <dufuz@php.net>
  * @copyright   2004-2005 The Authors
  * @license     http://www.php.net/license/3_0.txt  PHP License 3.0
  * @version     CVS: $Id$
@@ -48,6 +48,7 @@ require_once 'File.php';
 *    is a field with a separator inside, the parser will throw the "wrong count" error
 *
 * @author Tomas V.V.Cox <cox@idecnet.com>
+* @author      Helgi Þormar <dufuz@php.net>
 * @package File
 */
 class File_CSV
