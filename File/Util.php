@@ -69,7 +69,7 @@ class File_Util
     function buildPath($parts, $separator = DIRECTORY_SEPARATOR)
     {
         $qs = '/^'. preg_quote($separator, '/') .'+$/';
-        foreach (array_keys($parts) as $i) {
+        for ($i = 0, $c = count($parts); $i < $c; $i++) {
             if (!strlen($parts[$i]) || preg_match($qs, $parts[$i])) {
                 unset($parts[$i]);
             } elseif (0 == $i) {
