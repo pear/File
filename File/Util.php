@@ -176,7 +176,7 @@ class File_Util
      */
     function isAbsolute($path)
     {
-        if (preg_match('/\.\./', $path)) {
+        if (preg_match('/(?:\/|\\\)\.\.(?=\/|$)/', $path)) {
             return false;
         } 
         if (FILE_WIN32) {
