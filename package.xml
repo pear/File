@@ -46,7 +46,7 @@
   <license>PHP</license>
   <version>1.2.1</version>
   <state>stable</state>
-  <date>2005-08-00</date>
+  <date>2005-08-09</date>
   <notes><![CDATA[
 * Fixed bug in File::close() on Windows (mike)
 * Fixed bug #4835 - File::readLine() causes memory exhaustion (mike)
