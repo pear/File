@@ -48,7 +48,7 @@
   <state>stable</state>
   <date>2005-08-12</date>
   <notes><![CDATA[
-* Fixed bug #5071   install File throws XML error (helgi)
+* Fixed bug #5071 install File throws XML error (helgi)
 ]]>
   </notes>
 
