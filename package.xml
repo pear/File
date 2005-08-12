@@ -44,18 +44,11 @@
 
  <release>
   <license>PHP</license>
-  <version>1.2.1</version>
+  <version>1.2.2</version>
   <state>stable</state>
-  <date>2005-08-09</date>
+  <date>2005-08-12</date>
   <notes><![CDATA[
-* Fixed bug in File::close() on Windows (mike)
-* Fixed bug #4835 - File::readLine() causes memory exhaustion (mike)
-* Fixed bug #4911 - Bad test in File_Util::isAbsolute() (mike)
-* Fixed bug #5032 - Reverted File::buildPath() to original implementation (mike)
-* Fixed bug #4334 - File_CSV::discoverFormat does not detect quotes in single column (helgi) (thanks to luke_richards_99 at yahoo dot co dot uk)
-* Fixed bug #4559 - Wrong PHP version check in File_CSV (helgi)
-* Fixed bug #4295 - resetPointer method added to allow for reseting the file pointer to the beginning (helgi)
-+ added test for bug #4334 (helgi)
+* Fixed bug #5071   install File throws XML error (helgi)
 ]]>
   </notes>
 
@@ -99,6 +92,23 @@
  </release>
 
  <changelog>
+  <release>
+   <license>PHP</license>
+   <version>1.2.1</version>
+   <state>stable</state>
+   <date>2005-08-00</date>
+   <notes><![CDATA[
+* Fixed bug in File::close() on Windows (mike)
+* Fixed bug #4835 - File::readLine() causes memory exhaustion (mike)
+* Fixed bug #4911 - Bad test in File_Util::isAbsolute() (mike)
+* Fixed bug #5032 - Reverted File::buildPath() to original implementation (mike)
+* Fixed bug #4334 - File_CSV::discoverFormat does not detect quotes in single column (helgi) (thanks to luke_richards_99 at yahoo dot co dot uk)
+* Fixed bug #4559 - Wrong PHP version check in File_CSV (helgi)
+* Fixed bug #4295 - resetPointer method added to allow for reseting the file pointer to the beginning (helgi)
++ added test for bug #4334 (helgi)
+]]>
+  </notes>
+ </release>
  <release>
   <license>PHP</license>
   <version>1.2.0</version>
