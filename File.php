@@ -472,6 +472,9 @@ class File extends PEAR
      */
     function stripTrailingSeparators($path, $separator = DIRECTORY_SEPARATOR)
     {
+        if ($path === $separator) {
+            return $path;
+        }
         return rtrim($path, $separator);
     }
 
@@ -480,6 +483,9 @@ class File extends PEAR
      */
     function stripLeadingSeparators($path, $separator = DIRECTORY_SEPARATOR)
     {
+        if ($path === $separator) {
+            return $path;
+        }
         return ltrim($path, $separator);
     }
 
