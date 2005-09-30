@@ -44,11 +44,12 @@
 
  <release>
   <license>PHP</license>
-  <version>1.2.2</version>
+  <version>1.2.3</version>
   <state>stable</state>
-  <date>2005-08-12</date>
+  <date>2005-00-00</date>
   <notes><![CDATA[
-* Fixed bug #5071 install File throws XML error (helgi)
+* Fixed Bug #5045 File::stripTrailingSeparators should not rtrim the path "/" on linux (mike)
+* Fixed Bug #5464 fwrite returns false but file checks for -1 (mike)
 ]]>
   </notes>
 
@@ -92,6 +93,16 @@
  </release>
 
  <changelog>
+  <release>
+   <license>PHP</license>
+   <version>1.2.2</version>
+   <state>stable</state>
+   <date>2005-08-12</date>
+   <notes><![CDATA[
+* Fixed bug #5071 install File throws XML error (helgi)
+]]>
+   </notes>
+  </release>
   <release>
    <license>PHP</license>
    <version>1.2.1</version>
