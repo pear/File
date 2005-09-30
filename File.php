@@ -258,7 +258,7 @@ class File extends PEAR
             return $fp;
         }
 
-        if (-1 === $bytes = @fwrite($fp, $data, strlen($data))) {
+        if (false === $bytes = @fwrite($fp, $data, strlen($data))) {
             return PEAR::raiseError("Cannot write data: '$data' to file: '$filename'");
         }
 
