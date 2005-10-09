@@ -48,7 +48,7 @@ require_once 'File.php';
 *    is a field with a separator inside, the parser will throw the "wrong count" error
 *
 * @author Tomas V.V.Cox <cox@idecnet.com>
-* @author      Helgi Þormar <dufuz@php.net>
+* @author Helgi Þormar <dufuz@php.net>
 * @package File
 */
 class File_CSV
@@ -312,9 +312,11 @@ class File_CSV
             $last =& $fields[count($fields) - 1];
             // Fallback to read the line with readQuoted when guess
             // that the simple explode won't work right
-            if (($last{strlen($last) - 1} == "\n"
+
+            $len = strlen($last);
+            if (($len !== 0 && $last{strlen($len) - 1} == "\n"
                 && $last{0} == $conf['quote']
-                && $last{strlen(rtrim($last)) - 1} != $conf['quote'])
+                && $last{strlen(rtrim($len)) - 1} != $conf['quote'])
                 ||
                 (count($fields) != $conf['fields'])
                 // XXX perhaps there is a separator inside a quoted field
