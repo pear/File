@@ -181,6 +181,7 @@ class File_CSV
         if ($quote && $field{0} == $quote && $field{strlen($field)-1} == $quote) {
             return substr($field, 1, -1);
         }
+
         return $field;
     }
 
@@ -285,6 +286,7 @@ class File_CSV
             }
             $buff .= $c;
         }
+
         return !feof($fp) ? $ret : false;
     }
 
@@ -301,8 +303,9 @@ class File_CSV
         if (!$fp = File_CSV::getPointer($file, $conf, FILE_MODE_READ)) {
             return false;
         }
+
         // The size is limited to 4K
-        if (!$line   = fgets($fp, 4096)) {
+        if (!$line = fgets($fp, 4096)) {
             return false;
         }
 
@@ -314,9 +317,10 @@ class File_CSV
             // that the simple explode won't work right
 
             $len = strlen($last);
-            if (($len !== 0 && $last{strlen($len) - 1} == "\n"
+            if (
+                ($len !== 0 && $last{$len - 1} == "\n"
                 && $last{0} == $conf['quote']
-                && $last{strlen(rtrim($len)) - 1} != $conf['quote'])
+                && $last{strlen(rtrim($last)) - 1} != $conf['quote'])
                 ||
                 (count($fields) != $conf['fields'])
                 // XXX perhaps there is a separator inside a quoted field
@@ -338,6 +342,7 @@ class File_CSV
                                   "' expected ".$conf['fields']);
             return true;
         }
+
         return $fields;
     }
 
@@ -375,27 +380,33 @@ class File_CSV
         if (!$fp = File_CSV::getPointer($file, $conf, FILE_MODE_WRITE)) {
             return false;
         }
-        if (count($fields) != $conf['fields']) {
-            File_CSV::raiseError("Wrong fields number count: '". count($fields) .
+
+        $field_count = count($fields);
+        if ($field_count != $conf['fields']) {
+            File_CSV::raiseError("Wrong fields number count: '". $field_count .
                                   "' expected ".$conf['fields']);
             return true;
         }
+
         $write = '';
-        for ($i = 0; $i < count($fields); $i++) {
+        for ($i = 0; $i < $field_count; $i++) {
             if (!is_numeric($fields[$i]) && $conf['quote']) {
                 $write .= $conf['quote'] . $fields[$i] . $conf['quote'];
             } else {
                 $write .= $fields[$i];
             }
-            if ($i < (count($fields) - 1)) {
+
+            if ($i < ($field_count - 1)) {
                 $write .= $conf['sep'];
             } else {
                 $write .= $conf['crlf'];
             }
         }
+
         if (!fwrite($fp, $write)) {
             return File_CSV::raiseError('Can not write to file');
         }
+
         return true;
     }
 
@@ -464,12 +475,9 @@ class File_CSV
         $conf['fields'] = $fields[$sep] + 1;
         $conf['sep']    = $sep;
 
-        // Test if there are fields with quotes arround in the first 5 lines
+        // Test if there are fields with quotes arround in the first 10 lines
         $quotes = '"\'';
         $quote  = null;
-        if (count($lines) > 5) {
-            $lines = array_slice($lines, 0, 5);
-        }
 
         foreach ($lines as $line) {
             if (preg_match("|$sep([$quotes]).*([$quotes])$sep|U", $line, $match)) {
@@ -478,9 +486,11 @@ class File_CSV
                     break;
                 }
             }
-            if (preg_match("|^([$quotes]).*([$quotes])$sep{0,1}|", $line, $match)
-                || preg_match("|([$quotes]).*([$quotes])$sep\s$|Us", $line, $match))
-            {
+
+            if (
+                preg_match("|^([$quotes]).*([$quotes])$sep{0,1}|", $line, $match)
+                || preg_match("|([$quotes]).*([$quotes])$sep\s$|Us", $line, $match)
+            ) {
                 if ($match[1] == $match[2]) {
                     $quote = $match[1];
                     break;
