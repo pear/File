@@ -132,12 +132,12 @@ class File_CSV
     {
         static $resources  = array();
         static $config;
-        if (isset($resources[$file])) {
+        if (isset($resources[$file][$mode])) {
             $conf = $config;
             if ($reset) {
-                fseek($resources[$file], 0);
+                fseek($resources[$file][$mode], 0);
             }
-            return $resources[$file];
+            return $resources[$file][$mode];
         }
         File_CSV::_conf($error, $conf);
         if ($error) {
@@ -150,7 +150,7 @@ class File_CSV
         if (PEAR::isError($fp)) {
             return File_CSV::raiseError($fp);
         }
-        $resources[$file] = $fp;
+        $resources[$file][$mode] = $fp;
 
         if ($mode == FILE_MODE_READ && !empty($conf['header'])) {
             if (!File_CSV::read($file, $conf)) {
