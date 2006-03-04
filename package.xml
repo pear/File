@@ -50,6 +50,7 @@
   <notes><![CDATA[
 * Fixed Bug #5045 File::stripTrailingSeparators should not rtrim the path "/" on linux (mike)
 * Fixed Bug #5464 fwrite returns false but file checks for -1 (mike)
+* Request   #6316 File_CSV doesn't allow to read data from a file and after write data to the same file
 ]]>
   </notes>
 
