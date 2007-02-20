@@ -52,6 +52,7 @@
 * Fixed Bug #5464 fwrite returns false but file checks for -1 (mike)
 * Request   #6316 File_CSV doesn't allow to read data from a file and after write data to the same file (dufuz)
 * Request   #7559 File_Util::isIncludable() (file exists within include_path) (mike)
+* Fixed Bug #7789 File::_getFilePointer() cannot return a reference (mike)
 ]]>
   </notes>
 

@@ -200,10 +200,14 @@ class File_Util
      */
     function isIncludable($file, $sep = DIRECTORY_SEPARATOR)
     {
-        foreach ((array) explode(PATH_SEPARATOR, ini_get('include_path')) as $path) {
-            if (file_exists($path .= $sep . $file)) {
-            	return $path;
+    	if (strlen($include_path = ini_get('include_path'))) {
+            foreach ((array) explode(PATH_SEPARATOR, $include_path) as $path) {
+                if (file_exists($path .= $sep . $file)) {
+                    return $path;
+                }
             }
+        } elseif (file_exists($file)) {
+        	return $file;
         }
         return NULL;
     }
