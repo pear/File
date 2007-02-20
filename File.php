@@ -113,7 +113,7 @@ class File extends PEAR
      * @param   mixed   $lock Type of lock to use
      * @return  mixed   PEAR_Error on error or file pointer resource on success
      */
-    function &_getFilePointer($filename, $mode, $lock = false)
+    function _getFilePointer($filename, $mode, $lock = false)
     {
         $filePointers = &PEAR::getStaticProperty('File', 'filePointers');
 
@@ -227,14 +227,14 @@ class File extends PEAR
 
         if (!isset($filePointers[$filename]) ||
             !is_resource($filePointers[$filename])) {
-            $fp = &File::_getFilePointer($filename, FILE_MODE_READ, $lock);
+            $fp = File::_getFilePointer($filename, FILE_MODE_READ, $lock);
             if (PEAR::isError($fp)) {
                 return $fp;
             }
 
-            $filePointers[$filename] = &$fp;
+            $filePointers[$filename] = $fp;
         } else {
-            $fp = &$filePointers[$filename];
+            $fp = $filePointers[$filename];
         }
 
         return !feof($fp) ? fread($fp, $size) : false;
@@ -253,7 +253,7 @@ class File extends PEAR
      */
     function write($filename, $data, $mode = FILE_MODE_APPEND, $lock = false)
     {
-        $fp = &File::_getFilePointer($filename, $mode, $lock);
+        $fp = File::_getFilePointer($filename, $mode, $lock);
         if (PEAR::isError($fp)) {
             return $fp;
         }
@@ -290,7 +290,7 @@ class File extends PEAR
      */
     function writeChar($filename, $char, $mode = FILE_MODE_APPEND, $lock = false)
     {
-        $fp = &File::_getFilePointer($filename, $mode, $lock);
+        $fp = File::_getFilePointer($filename, $mode, $lock);
         if (PEAR::isError($fp)) {
             return $fp;
         }
@@ -317,14 +317,14 @@ class File extends PEAR
 
         if (!isset($filePointers[$filename]) ||
             !is_resource($filePointers[$filename])) {
-            $fp = &File::_getFilePointer($filename, FILE_MODE_READ, $lock);
+            $fp = File::_getFilePointer($filename, FILE_MODE_READ, $lock);
             if (PEAR::isError($fp)) {
                 return $fp;
             }
 
-            $filePointers[$filename] = &$fp;
+            $filePointers[$filename] = $fp;
         } else {
-            $fp = &$filePointers[$filename];
+            $fp = $filePointers[$filename];
         }
 
         if (feof($fp)) {
@@ -347,7 +347,7 @@ class File extends PEAR
      */
     function writeLine($filename, $line, $mode = FILE_MODE_APPEND, $crlf = "\n", $lock = false)
     {
-        $fp = &File::_getFilePointer($filename, $mode, $lock);
+        $fp = File::_getFilePointer($filename, $mode, $lock);
         if (PEAR::isError($fp)) {
             return $fp;
         }
@@ -369,7 +369,7 @@ class File extends PEAR
      */
     function rewind($filename, $mode)
     {
-        $fp = &File::_getFilePointer($filename, $mode);
+        $fp = File::_getFilePointer($filename, $mode);
         if (PEAR::isError($fp)) {
             return $fp;
         }
@@ -455,7 +455,7 @@ class File extends PEAR
      */
     function unlock($filename, $mode)
     {
-        $fp = &File::_getFilePointer($filename, $mode);
+        $fp = File::_getFilePointer($filename, $mode);
         if (PEAR::isError($fp)) {
             return $fp;
         }
