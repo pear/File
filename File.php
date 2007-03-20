@@ -185,24 +185,9 @@ class File extends PEAR
      */
     function readAll($filename, $lock = false)
     {
-        if (function_exists('file_get_contents')) {
-            if (false === $file = @file_get_contents($filename)) {
-                return PEAR::raiseError("Cannot read file: $filename");
-            }
-            return $file;
+        if (false === $file = @file_get_contents($filename)) {
+            return PEAR::raiseError("Cannot read file: $filename");
         }
-
-        $file = '';
-        while (false !== $buf = File::read($filename, FILE_DEFAULT_READSIZE, $lock)) {
-            if (PEAR::isError($buf)) {
-                return $buf;
-            }
-            $file .= $buf;
-        }
-
-        // close the file pointer
-        File::close($filename, FILE_MODE_READ);
-
         return $file;
     }
 
