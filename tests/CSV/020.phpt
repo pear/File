@@ -1,0 +1,52 @@
+--TEST--
+File_CSV Test Case 020: First field quoted = last field being excluded
+--FILE--
+<?php
+// $Id$
+/**
+ * Test for:
+ *   - odd quote behaviour in discoverFormat excludes the last field
+ *     When the first field is quoted and the next field is not then
+ *     the last field is popped off
+ */
+
+require_once 'File/CSV.php';
+
+$file = '020.csv';
+$conf = File_CSV::discoverFormat($file);
+
+print "Format:\n";
+print_r($conf);
+print "\n";
+
+$data = array();
+while ($res = File_CSV::read($file, $conf)) {
+    $data[] = $res;
+}
+
+print "Data:\n";
+print_r($data);
+print "\n";
+?>
+--EXPECT--
+Format:
+Array
+(
+    [fields] => 5
+    [sep] => ,
+    [quote] => "
+)
+
+Data:
+Array
+(
+    [0] => Array
+        (
+            [0] => 004343
+            [1] => Helgi
+            [2] => Project
+            [3] => 007
+            [4] => 008
+        )
+
+)
