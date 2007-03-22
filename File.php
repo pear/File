@@ -280,7 +280,7 @@ class File extends PEAR
             return $fp;
         }
 
-        if (-1 === @fwrite($fp, $char, 1)) {
+        if (false === @fwrite($fp, $char, 1)) {
             return PEAR::raiseError("Cannot write data: '$data' to file: '$filename'");
         }
 
@@ -337,7 +337,7 @@ class File extends PEAR
             return $fp;
         }
 
-        if (-1 === $bytes = fwrite($fp, $line . $crlf)) {
+        if (false === $bytes = fwrite($fp, $line . $crlf)) {
             return PEAR::raiseError("Cannot write data: '$data' to file: '$file'");
         }
 
