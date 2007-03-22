@@ -44,15 +44,20 @@
 
  <release>
   <license>PHP</license>
-  <version>1.2.3</version>
+  <version>1.3.0</version>
   <state>stable</state>
-  <date>2005-00-00</date>
+  <date>2007-03-21</date>
   <notes><![CDATA[
 * Fixed Bug #5045 File::stripTrailingSeparators should not rtrim the path "/" on linux (mike)
 * Fixed Bug #5464 fwrite returns false but file checks for -1 (mike)
-* Request   #6316 File_CSV doesn't allow to read data from a file and after write data to the same file (dufuz)
+* Request   #6316 File_CSV doesn't allow to read data from a file and after write data to the same file (helgi)
 * Request   #7559 File_Util::isIncludable() (file exists within include_path) (mike)
 * Fixed Bug #7789 File::_getFilePointer() cannot return a reference (mike)
+* Added more CSV tests (helgi)
+* Moving the PHP dep to 4.3 to follow PEAR, adding dep on PEAR 1.5.0 to be sure people run proper PEAR version (helgi)
+* File_CSV: add b mode to fopen in disoverFormat for portability (http://www.php.net/fopen)
+* Fixed Bug #6447 Package will not install (helgi)
+* Fixed Bug #5553   File_CVS should detect an occurance of delimeter in field and escape (helgi)
 ]]>
   </notes>
 
@@ -80,6 +85,37 @@
       <file>005.csv</file>
       <file>006.phpt</file>
       <file>006.csv</file>
+      <file>007.phpt</file>
+      <file>007.csv</file>
+      <file>008.phpt</file>
+      <file>008.csv</file>
+      <file>009.phpt</file>
+      <file>009.csv</file>
+      <file>010.phpt</file>
+      <file>010.csv</file>
+      <file>011.phpt</file>
+      <file>011.csv</file>
+      <file>012.phpt</file>
+      <file>012.csv</file>
+      <file>013.phpt</file>
+      <file>013.csv</file>
+      <file>014.phpt</file>
+      <file>014.csv</file>
+      <file>015.phpt</file>
+      <file>015.csv</file>
+      <file>016.phpt</file>
+      <file>016.csv</file>
+      <file>017.phpt</file>
+      <file>017.csv</file>
+      <file>018.phpt</file>
+      <file>018.csv</file>
+      <file>019.phpt</file>
+      <file>019.csv</file>
+      <file>020.phpt</file>
+      <file>020.csv</file>
+      <file>bug5257.phpt</file>
+      <file>bug5257.csv</file>
+      <file>bug5553.phpt</file>
       <file>tests.txt</file>
      </dir>
     </dir>
@@ -87,10 +123,9 @@
   </filelist>
 
   <deps>
-   <dep type="php" rel="ge" version="4.2.0" optional="no" />
-   <dep type="php" rel="ge" version="4.3.0" optional="yes" />
+   <dep type="php" rel="ge" version="4.3.0" optional="no" />
    <dep type="ext" rel="has" optional="no">pcre</dep>
-   <dep type="pkg" rel="has" optional="no">PEAR</dep>
+   <dep type="pkg" rel="ge" version="1.5.0" optional="no">PEAR</dep>
   </deps>
 
  </release>
