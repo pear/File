@@ -388,6 +388,12 @@ class File_CSV
         if (strpos($str, "\t") !== false) {
             $str = str_replace("\t", "_t_", $str);
         }
+        if ($str === null) {
+            $str = '_NULL_';
+        }
+        if ($str === '') {
+            $str = 'Empty string';
+        }
         echo "buff: ($str)\n";
     }
 
