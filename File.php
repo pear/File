@@ -119,7 +119,7 @@ class File extends PEAR
 
         // Win32 is case-insensitive
         if (OS_WINDOWS) {
-            $filename = strToLower($filename);
+            $filename = strtolower($filename);
         }
 
         // check if file pointer already exists
@@ -130,8 +130,8 @@ class File extends PEAR
             switch ($mode)
             {
                 case FILE_MODE_READ:
-                    if (    !preg_match('/^.+(?<!file):\/\//i', $filename) &&
-                            !file_exists($filename)) {
+                    if (!preg_match('/^.+(?<!file):\/\//i', $filename) &&
+                        !file_exists($filename)) {
                         return PEAR::raiseError("File does not exist: $filename");
                     }
                 break;
