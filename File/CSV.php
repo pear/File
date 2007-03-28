@@ -154,12 +154,6 @@ class File_CSV
             return File_CSV::raiseError($fp);
         }
         $resources[$file][$mode] = $fp;
-
-        if ($mode == FILE_MODE_READ && !empty($conf['header'])) {
-            if (!File_CSV::read($file, $conf)) {
-                return false;
-            }
-        }
         return $fp;
     }
 
@@ -181,6 +175,11 @@ class File_CSV
             return $field;
         }
 
+        // excel compat
+        if ($field[0] == '=' && $field[1] == '"') {
+            $field = str_replace('="', '"', $field);
+        }
+
         $field_len = strlen($field);
         if ($quote && $field[0] == $quote && $field[$field_len - 1] == $quote) {
             // Get rid of escaping quotes
@@ -192,9 +191,9 @@ class File_CSV
                 if ($c == $quote && $prev == $quote) {
                     $c = '';
                 }
+
                 $new .= $c;
             }
-
             $field = substr($new, 1, -1);
         }
 
@@ -216,7 +215,7 @@ class File_CSV
             return false;
         }
 
-        $buff = $c = '';
+        $buff = $prev = $c = '';
         $ret  = array();
         $i = 1;
         $in_quote = false;
@@ -236,15 +235,22 @@ class File_CSV
             // Start quote.
             if (
                 $quote && $c == $quote &&
-                ($prev == $sep || $prev == "\n" || $prev === null ||
-                 $prev == "\r" || $prev == '')
+                (
+                 $prev == $sep || $prev == "\n" || $prev === null ||
+                 $prev == "\r" || $prev == '' || $prev == ' '
+                 || $prev == '=' //excel compat
+                )
             ) {
                 $in_quote = true;
+                // excel compat, removing the = part but only if we are in a quote
+                if ($prev == '=') {
+                    $buff{strlen($buff) - 1} = '';
+                }
             }
 
             if ($in_quote) {
-                // When does the quote end
-                if ($c == $sep && $prev == $quote) {
+                // When does the quote end, make sure it's not double quoted
+                if ($c == $sep && $prev == $quote && $old != $quote) {
                     $in_quote = false;
                 } elseif ($c == "\n" || $c == "\r") {
                     $sub = ($prev == "\r") ? 2 : 1;
@@ -264,7 +270,7 @@ class File_CSV
                     // Seek the pointer into linebreak character.
                     while (true) {
                         $c = fgetc($fp);
-                        if  ($c == "\n" || $c == "\r") {
+                        if  ($c == "\n" || $c == "\r" || $c == '') {
                             break;
                         }
                     }
@@ -329,6 +335,7 @@ class File_CSV
     */
     function read($file, &$conf)
     {
+        static $headers = array();
         if (!$fp = File_CSV::getPointer($file, $conf, FILE_MODE_READ)) {
             return false;
         }
@@ -340,6 +347,11 @@ class File_CSV
 
         $fields = $conf['fields'] == 1 ? array($line) : explode($conf['sep'], $line);
 
+        $nl = array("\n", "\r");
+        if (in_array($fields[count($fields) - 1], $nl)) {
+            array_pop($fields);
+        }
+
         $field_count = count($fields);
         $last =& $fields[$field_count - 1];
         $len = strlen($last);
@@ -348,8 +360,17 @@ class File_CSV
             $conf['quote'] &&
             (
              $len !== 0 && $last[$len - 1] == "\n"
-             && $last[0] == $conf['quote']
-             && $last[strlen(rtrim($last)) - 1] != $conf['quote']
+             &&
+                (
+                    ($last[0] == $conf['quote']
+                    && $last[strlen(rtrim($last)) - 1] != $conf['quote'])
+                    ||
+                    // excel support
+                    ($last[0] == '=' && $last[1] == $conf['quote'])
+                    ||
+                    // if the row has spaces before the quote
+                    preg_match('|^\s+'.preg_quote($conf['quote']) .'|Ums', $last, $match)
+                )
             )
             // XXX perhaps there is a separator inside a quoted field
             //preg_match("|{$conf['quote']}.*{$conf['sep']}.*{$conf['quote']}|U", $line)
@@ -362,10 +383,24 @@ class File_CSV
             }
         }
 
+        if (isset($conf['header']) && empty($headers)) {
+            // read the first row and assign to $headers
+            $headers = $fields;
+            return $headers;
+        }
+
         if ($field_count != $conf['fields']) {
             File_CSV::raiseError("Read wrong fields number count: '". $field_count .
                                   "' expected ".$conf['fields']);
             return true;
+        }
+
+        if (!empty($headers)) {
+            $tmp = array();
+            foreach ($fields as $k => $v) {
+                $tmp[$headers[$k]] = $v;
+            }
+            $fields = $tmp;
         }
 
         return $fields;
@@ -456,17 +491,21 @@ class File_CSV
 
         // Set auto detect line ending for Mac EOL support
         $oldini = ini_get('auto_detect_line_endings');
-        ini_set('auto_detect_line_endings', '1');
+        if ($oldini != '1') {
+            ini_set('auto_detect_line_endings', '1');
+        }
 
-        // Take the first 10 lines and store the number of ocurrences
+        // Take the first 30 lines and store the number of ocurrences
         // for each separator in each line
         $lines = file($file);
-        if (count($lines) > 10) {
-            $lines = array_slice($lines, 0, 10);
+        if (count($lines) > 30) {
+            $lines = array_slice($lines, 0, 30);
         }
         fclose($fp);
 
-        ini_set('auto_detect_line_endings', $oldini);
+        if ($oldini != '1') {
+            ini_set('auto_detect_line_endings', $oldini);
+        }
 
         $seps = array("\t", ';', ':', ',');
         $seps = array_merge($seps, $extraSeps);
@@ -477,7 +516,9 @@ class File_CSV
             foreach ($seps as $sep) {
                 // Find all seps that are within qoutes
                 ///FIXME ... counts legitimit lines as bad ones
-                $regex = "|(?:\=?[$quotes])(.*(?:[^$quotes])$sep(?:[^$quotes]).*)(?:[$quotes](?:$sep?))|Ums";
+                $regex = "|\s*?(?:\=?[$quotes])";
+                $regex.= "(.*(?:[^$quotes])$sep(?:[^$quotes]).*)";
+                $regex.= "(?:[$quotes](?:$sep?))|Ums";
                 preg_match_all($regex, $line, $match);
                 // Finding all seps, within quotes or not
                 $sep_count = substr_count($line, $sep);
@@ -509,29 +550,30 @@ class File_CSV
         $conf['fields'] = $fields[$sep] + 1;
         $conf['sep']    = $sep;
 
-        // Test if there are fields with quotes around in the first 10 lines
+        // Test if there are fields with quotes around in the first 30 lines
         $quote  = null;
 
-        foreach ($lines as $line) {
-            if (preg_match("|$sep([$quotes]).*([$quotes])$sep|U", $line, $match)) {
-                if ($match[1] == $match[2]) {
-                    $quote = $match[1];
+        $string = implode('', $lines);
+        foreach (array('"', '\'') as $q) {
+            if (preg_match_all("|$sep(?:\s*?)(\=?[$q]).*([$q])$sep|Us", $string, $match)) {
+                if ($match[1][0] == $match[2][0]) {
+                    $quote = $match[1][0];
                     break;
                 }
             }
 
             if (
-                preg_match("|^([$quotes]).*([$quotes])$sep{0,1}|", $line, $match)
-                || preg_match("|([$quotes]).*([$quotes])$sep\s$|Us", $line, $match)
+                preg_match_all("|^(\=?[$q]).*([$q])$sep{0,1}|Ums", $string, $match)
+                || preg_match_all("|(\=?[$q]).*([$q])$sep\s$|Ums", $string, $match)
             ) {
-                if ($match[1] == $match[2]) {
-                    $quote = $match[1];
+                if ($match[1][0] == $match[2][0]) {
+                    $quote = $match[1][0];
                     break;
                 }
             }
         }
+
         $conf['quote'] = $quote;
-        // XXX What about trying to discover the "header"?
         return $conf;
     }
 
