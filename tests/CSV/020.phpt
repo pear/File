@@ -8,6 +8,10 @@ File_CSV Test Case 020: First field quoted = last field being excluded
  *   - odd quote behaviour in discoverFormat excludes the last field
  *     When the first field is quoted and the next field is not then
  *     the last field is popped off
+ *   - Happens because when the first and last/second last fields
+ *     are quoted but not the middle ones it thinks they are inside the
+ *     quotes and thus one to few fields but the read process works things
+ *     out perfectly, only discoverFormat messes up
  */
 
 require_once 'File/CSV.php';
