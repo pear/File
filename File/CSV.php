@@ -497,9 +497,9 @@ class File_CSV
 
         // Take the first 30 lines and store the number of ocurrences
         // for each separator in each line
-        $lines = file($file);
-        if (count($lines) > 30) {
-            $lines = array_slice($lines, 0, 30);
+        $lines = array();
+        for ($i = 0; $i < 30 && $line = fgets($fp, 4096); $i++) {
+            $lines[] = $line;
         }
         fclose($fp);
 
