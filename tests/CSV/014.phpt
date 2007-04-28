@@ -29,7 +29,7 @@ foreach ($data as $row) {
 }
 echo "Write:\n";
 var_dump($res);
-unlink(014-write.csv)
+unlink('014-write.csv');
 ?>
 --EXPECT--
 Data:
