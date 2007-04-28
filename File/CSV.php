@@ -516,8 +516,18 @@ class File_CSV
             foreach ($seps as $sep) {
                 // Find all seps that are within qoutes
                 ///FIXME ... counts legitimit lines as bad ones
-                $regex = "|\s*?(?:\=?[$quotes])";
-                $regex.= "(.*(?:[^$quotes])$sep(?:[^$quotes]).*)";
+
+                 // In case there's a whitespace infront the field
+                $regex = '|\s*?';
+                 // Match the first quote (optional), also optionally match = since it's excel stuff
+                $regex.= "(?:\=?[$quotes])";
+                $regex.= '(.*';
+                // Don't match a sep if we are inside a quote
+                // also don't accept the sep if it has a quote on the either side
+                ///FIXME has to be possible if we are inside a quote! (tests fail because of this)
+                $regex.= "(?:[^$quotes])$sep(?:[^$quotes])";
+                $regex.= '.*)';
+                // Close quote (if it's present) and the sep (optional, could be end of line)
                 $regex.= "(?:[$quotes](?:$sep?))|Ums";
                 preg_match_all($regex, $line, $match);
                 // Finding all seps, within quotes or not
