@@ -513,6 +513,7 @@ class File_CSV
 
         $quotes = '"\'';
         foreach ($lines as $line) {
+             $line = str_replace('""', '', $line);
             foreach ($seps as $sep) {
                 // Find all seps that are within qoutes
                 ///FIXME ... counts legitimit lines as bad ones
