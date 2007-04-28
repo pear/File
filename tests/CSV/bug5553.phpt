@@ -35,7 +35,7 @@ echo "Data:\n";
 print_r($read);
 echo "\n";
 
-unlink(bug5553.csv)
+unlink('bug5553.csv');
 ?>
 --EXPECT--
 Write:
