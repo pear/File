@@ -13,6 +13,7 @@ File_CSV Test Case 014: Use 2 modes, first read the file then write to it.
 require_once 'File/CSV.php';
 
 $file = '014.csv';
+$fileWrite = '014-write.csv';
 $conf = File_CSV::discoverFormat($file);
 
 $data = array();
@@ -25,11 +26,11 @@ print_r($data);
 echo "\n";
 
 foreach ($data as $row) {
-    $res = File_CSV::write($file, $row, $conf);
+    $res = File_CSV::write($fileWrite, $row, $conf);
 }
 echo "Write:\n";
 var_dump($res);
-unlink('014-write.csv');
+unlink($fileWrite);
 ?>
 --EXPECT--
 Data:
