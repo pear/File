@@ -61,6 +61,7 @@
 * Fixed Bug #5553 File_CSV should detect an occurance of delimeter in field and escape (helgi)
 * Fixed Bug #4792 File_CSV: Last column keeps line breaks (helgi)
 * Fixed Bug #10721 File_CSV: discoverFormat() can't handle large files (ieure)
+* Fixed Bug #10883 Test 019 mislabeled
 * File_CSV: discoverFormat now uses the first 30 lines of the file. (helgi)
 * File_CSV: supports reading ="" quoting, i.e. Excel only way of being smart with items starting with 00 and spaces and such (helgi)
 * File_CSV: Now handles headers, pass header = true in the config for it to process it, we recommend reading like this:
@@ -180,7 +181,7 @@ detection of headers will never be added since CSV has no standard for defining 
   <deps>
    <dep type="php" rel="ge" version="4.3.0" optional="no" />
    <dep type="ext" rel="has" optional="no">pcre</dep>
-   <dep type="pkg" rel="ge" version="1.5.0" optional="no">PEAR</dep>
+   <dep type="pkg" rel="ge" version="1.5.3" optional="no">PEAR</dep>
   </deps>
 
  </release>
