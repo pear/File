@@ -347,7 +347,7 @@ class File_CSV
 
         $fields = $conf['fields'] == 1 ? array($line) : explode($conf['sep'], $line);
 
-        $nl = array("\n", "\r");
+        $nl = array("\n", "\r", "\r\n");
         if (in_array($fields[count($fields) - 1], $nl)) {
             array_pop($fields);
         }
