@@ -497,9 +497,9 @@ class File_CSV
 
         // Take the first 30 lines and store the number of ocurrences
         // for each separator in each line
-        $lines = array();
+        $lines = '';
         for ($i = 0; $i < 30 && $line = fgets($fp, 4096); $i++) {
-            $lines[] = $line;
+            $lines .= $line;
         }
         fclose($fp);
 
@@ -510,11 +510,18 @@ class File_CSV
         $seps = array("\t", ';', ':', ',');
         $seps = array_merge($seps, $extraSeps);
         $matches = array();
-
         $quotes = '"\'';
+        
+	    $lines = str_replace('""', '', $lines);
+        while ($lines != ($newLines = preg_replace('|((["\'])[^"]*(\2))|', '\2_\2', $lines))){
+            $lines = $newLines;
+        }
+        
+        $lines = explode("\n", $lines);
         foreach ($lines as $line) {
-             $line = str_replace('""', '', $line);
+            $orgLine = $line;
             foreach ($seps as $sep) {
+                $line = preg_replace("|^[^$quotes$sep]*$sep*([$quotes][^$quotes]*[$quotes])|sm", '_', $orgLine);
                 // Find all seps that are within qoutes
                 ///FIXME ... counts legitimit lines as bad ones
 
