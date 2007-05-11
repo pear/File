@@ -284,11 +284,15 @@ class File_CSV
                 if (($c == "\n" || $c == "\r") && $i != $f) {
                     // Insert last field value.
                     $ret[] = File_CSV::unquote($buff, $quote);
+                    if (count($ret) == 1 && empty($ret[0])) {
+                        return array();
+                    }
 
                     // Pair the array elements to fields count. - inserting empty values
                     $ret_count = count($ret);
                     $sum = ($f - 1) - ($ret_count - 1);
-                    return array_merge($ret, array_fill($ret_count, $sum, ''));
+                    $data = array_merge($ret, array_fill($ret_count, $sum, ''));
+                    return $data;
                 }
 
                 if ($prev == "\r") {
@@ -315,7 +319,7 @@ class File_CSV
          * then we process it since files can have no CL/FR at the end
          */
         $feof = feof($fp);
-        if ($feof && strlen($buff) > 0) {
+        if ($feof && !in_array($buff, array("\r", "\n", "\r\n")) && strlen($buff) > 0) {
             $ret[] = File_CSV::unquote($buff, $quote);
             if (count($ret) == $f) {
                 return $ret;
