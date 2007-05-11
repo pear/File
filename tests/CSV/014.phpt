@@ -30,7 +30,7 @@ foreach ($data as $row) {
 }
 echo "Write:\n";
 var_dump($res);
-unlink($fileWrite);
+@unlink($fileWrite);
 ?>
 --EXPECT--
 Data:
