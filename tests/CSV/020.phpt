@@ -16,7 +16,7 @@ File_CSV Test Case 020: First field quoted = last field being excluded
 
 require_once 'File/CSV.php';
 
-$file = '020.csv';
+$file = dirname(__FILE__) . '/020.csv';
 $conf = File_CSV::discoverFormat($file);
 
 print "Format:\n";

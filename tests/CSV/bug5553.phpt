@@ -19,7 +19,7 @@ $data[] = 'Hi';
 $data[] = 'Hello';
 $data[] = 'Hi,world';
 
-$file = 'bug5553.csv';
+$file = dirname(__FILE__) . '/bug5553.csv';
 $res = File_CSV::write($file, $data, $conf);
 
 echo "Write:\n";
@@ -35,7 +35,7 @@ echo "Data:\n";
 print_r($read);
 echo "\n";
 
-@unlink('bug5553.csv');
+@unlink(dirname(__FILE__) . '/bug5553.csv');
 ?>
 --EXPECT--
 Write:

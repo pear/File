@@ -9,7 +9,7 @@ File_CSV Test Case 027: Records with spaces around them but no quotes
 
 require_once 'File/CSV.php';
 
-$file = '027.csv';
+$file = dirname(__FILE__) . '/027.csv';
 $conf = File_CSV::discoverFormat($file);
 
 print "Format:\n";

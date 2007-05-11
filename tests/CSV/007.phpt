@@ -12,7 +12,7 @@ File_CSV Test Case 007: Various different lines.
 
 require_once 'File/CSV.php';
 
-$file = '007.csv';
+$file = dirname(__FILE__) . '/007.csv';
 $conf = File_CSV::discoverFormat($file);
 
 $data = array();

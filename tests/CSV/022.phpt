@@ -13,7 +13,7 @@ File_CSV Test Case 022: Only one field that's multiline with out a EOL
 
 require_once 'File/CSV.php';
 
-$file = '022.csv';
+$file = dirname(__FILE__) . '/022.csv';
 $conf = File_CSV::discoverFormat($file);
 
 print "Format:\n";

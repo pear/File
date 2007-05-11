@@ -12,7 +12,7 @@ File_CSV Test Case 009: Escaping of quotes within quotes.
 
 require_once 'File/CSV.php';
 
-$file = '009.csv';
+$file = dirname(__FILE__) . '/009.csv';
 $conf = File_CSV::discoverFormat($file);
 
 $data = array();

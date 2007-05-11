@@ -10,7 +10,7 @@ File_CSV Test Case 029: Output double quotes.
 
 require_once 'File/CSV.php';
 
-$file = '029.csv';
+$file = dirname(__FILE__) . '/029.csv';
 $conf = array(
     'fields' => 1,
     'quote' => '"'

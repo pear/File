@@ -11,7 +11,7 @@ File_CSV Test Case 008: Various different lines.
 
 require_once 'File/CSV.php';
 
-$file = '008.csv';
+$file = dirname(__FILE__) . '/008.csv';
 $conf = File_CSV::discoverFormat($file);
 
 

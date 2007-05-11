@@ -10,7 +10,7 @@ File_CSV Test Case 021: Tabs as separators and no quotes
 
 require_once 'File/CSV.php';
 
-$file = '021.csv';
+$file = dirname(__FILE__) . '/021.csv';
 $conf = File_CSV::discoverFormat($file);
 
 print "Format:\n";

@@ -11,7 +11,7 @@ File_CSV Test Case 028: Variant of 016 with out the sep after the double quotes
 
 require_once 'File/CSV.php';
 
-$file = '028.csv';
+$file = dirname(__FILE__) . '/028.csv';
 $conf = File_CSV::discoverFormat($file);
 
 print "Format:\n";

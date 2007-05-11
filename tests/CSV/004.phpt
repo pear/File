@@ -11,7 +11,7 @@ File_CSV Test Case 004: Unix EOL
 
 require_once 'File/CSV.php';
 
-$file = '004.csv';
+$file = dirname(__FILE__) . '/004.csv';
 $conf = File_CSV::discoverFormat($file);
 
 print "Format:\n";

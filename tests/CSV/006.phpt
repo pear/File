@@ -10,7 +10,7 @@ File_CSV Test Case 006: One field quote autodiscovery
 
 require_once 'File/CSV.php';
 
-$file = '006.csv';
+$file = dirname(__FILE__) . '/006.csv';
 $conf = File_CSV::discoverFormat($file);
 
 print "Format:\n";

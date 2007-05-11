@@ -12,8 +12,8 @@ File_CSV Test Case 014: Use 2 modes, first read the file then write to it.
 
 require_once 'File/CSV.php';
 
-$file = '014.csv';
-$fileWrite = '014-write.csv';
+$file = dirname(__FILE__) . '/014.csv';
+$fileWrite = dirname(__FILE__) . '/014-write.csv';
 $conf = File_CSV::discoverFormat($file);
 
 $data = array();

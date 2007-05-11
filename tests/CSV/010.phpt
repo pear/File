@@ -12,7 +12,7 @@ File_CSV Test Case 010: Empty first field and no quoting but some fields have ex
 
 require_once 'File/CSV.php';
 
-$file = '010.csv';
+$file = dirname(__FILE__) . '/010.csv';
 $conf = File_CSV::discoverFormat($file);
 
 $data = array();

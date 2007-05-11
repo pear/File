@@ -11,7 +11,7 @@ File_CSV Test Case 003: Windows EOL
 
 require_once 'File/CSV.php';
 
-$file = '003.csv';
+$file = dirname(__FILE__) . '/003.csv';
 $conf = File_CSV::discoverFormat($file);
 
 print "Format:\n";

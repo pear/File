@@ -10,7 +10,7 @@ File_CSV Test Case 012: Read headers
 
 require_once 'File/CSV.php';
 
-$file = '012.csv';
+$file = dirname(__FILE__) . '/012.csv';
 $conf = File_CSV::discoverFormat($file);
 $conf['header'] = true;
 

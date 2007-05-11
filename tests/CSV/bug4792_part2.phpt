@@ -12,7 +12,7 @@ File_CSV Test Case bug4792_part2: All lines but last end with a whitespace Part 
 
 require_once 'File/CSV.php';
 
-$file = 'bug4792_part2.csv';
+$file = dirname(__FILE__) . '/bug4792_part2.csv';
 $conf = File_CSV::discoverFormat($file);
 
 echo "Data:\n";

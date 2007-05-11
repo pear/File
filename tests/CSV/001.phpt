@@ -11,7 +11,7 @@ File_CSV Test Case 001: Fields count less than expected
 
 require_once 'File/CSV.php';
 
-$file = '001.csv';
+$file = dirname(__FILE__) . '/001.csv';
 $conf = File_CSV::discoverFormat($file);
 
 print "Format:\n";

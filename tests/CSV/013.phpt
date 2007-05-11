@@ -10,7 +10,7 @@ File_CSV Test Case 013: Reading ="" excel only fields
 
 require_once 'File/CSV.php';
 
-$file = '013.csv';
+$file = dirname(__FILE__) . '/013.csv';
 $conf = File_CSV::discoverFormat($file);
 $conf['quote'] = '"';
 print "Format:\n";

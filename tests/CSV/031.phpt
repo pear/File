@@ -11,7 +11,7 @@ File_CSV Test Case 031: One row, four fields that are multiline with out a EOL a
 
 require_once 'File/CSV.php';
 
-$file = '031.csv';
+$file = dirname(__FILE__) . '/031.csv';
 $conf = array(
     'fields' => 3,
     'sep'    => ',',

@@ -13,7 +13,7 @@ File_CSV Test Case 017: Various different lines.
 
 require_once 'File/CSV.php';
 
-$file = '017.csv';
+$file = dirname(__FILE__) . '/017.csv';
 $conf = array(
     'fields' => 6,
     'sep' => ',',
