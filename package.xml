@@ -179,6 +179,10 @@ detection of headers will never be added since CSV has no standard for defining 
       <file>bug5257.phpt</file>
       <file>bug5257.csv</file>
       <file>bug5553.phpt</file>
+      <file>bug4792_part1.phpt</file>
+      <file>bug4792_part1.csv</file>
+      <file>bug4792_part2.phpt</file>
+      <file>bug4792_part2.csv</file>
       <file>tests.txt</file>
      </dir>
     </dir>
