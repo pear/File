@@ -254,7 +254,6 @@ class File_CSV
                 if ($c == $sep && $prev == $quote && $old != $quote) {
                     $in_quote = false;
                 } elseif ($c == $sep && $buff == $quote.$quote) {
-                    var_dump($buff);
                     $in_quote = false;
                 } elseif ($c == "\n" || $c == "\r") {
                     $sub = ($prev == "\r") ? 2 : 1;
