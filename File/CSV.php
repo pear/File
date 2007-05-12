@@ -215,18 +215,20 @@ class File_CSV
             return false;
         }
 
-        $buff = $prev = $c = '';
+        $buff = $old = $prev = $c = '';
         $ret  = array();
         $i = 1;
         $in_quote = false;
         $quote = $conf['quote'];
         $f     = $conf['fields'];
         $sep   = $conf['sep'];
+        $length = 0;
         while (false !== $ch = fgetc($fp)) {
+            $length++;
             $old  = $prev;
             $prev = $c;
             $c    = $ch;
-            
+
             // Common case
             if ($c != $quote && $c != $sep && $c != "\n" && $c != "\r") {
                 $buff .= $c;
@@ -254,6 +256,7 @@ class File_CSV
                 if ($c == $sep && $prev == $quote && $old != $quote) {
                     $in_quote = false;
                 } elseif ($c == $sep && $buff == $quote.$quote) {
+                    // In case we are dealing with double quote but empty value
                     $in_quote = false;
                 } elseif ($c == "\n" || $c == "\r") {
                     $sub = ($prev == "\r") ? 2 : 1;
