@@ -176,6 +176,8 @@ detection of headers will never be added since CSV has no standard for defining 
       <file>031.csv</file>
       <file>032.phpt</file>
       <file>032.csv</file>
+      <file>033.phpt</file>
+      <file>033.csv</file>
       <file>bug5257.phpt</file>
       <file>bug5257.csv</file>
       <file>bug5553.phpt</file>
