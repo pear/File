@@ -6,7 +6,7 @@ File_CSV Test Case 033: Double quoting madness
 
 require_once 'File/CSV.php';
 
-$file = '033.csv';
+$file = dirname(__FILE__) . '/032.csv';
 $conf = File_CSV::discoverFormat($file);
 
 echo "Format:\n";
