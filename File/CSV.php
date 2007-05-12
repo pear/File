@@ -520,8 +520,9 @@ class File_CSV
         while ($lines != ($newLines = preg_replace('|((["\'])[^"]*(\2))|', '\2_\2', $lines))){
             $lines = $newLines;
         }
-        
-        $lines = explode("\n", $lines);
+
+        $eol   = strpos($lines, "\r") ? "\r" : "\n";
+        $lines = explode($eol, $lines);
         foreach ($lines as $line) {
             $orgLine = $line;
             foreach ($seps as $sep) {
