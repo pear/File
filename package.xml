@@ -5,7 +5,7 @@ http://pear.php.net/dtd/package-2.0
 http://pear.php.net/dtd/package-2.0.xsd">
  <name>File</name>
  <channel>pear.php.net</channel>
- <summary>Common file and directory routines</summary>
+ <summary>Common file and directory routines, also CSV handling</summary>
  <description>Provides easy access to read/write to files along with
 some common routines to deal with paths.
 
@@ -47,61 +47,18 @@ Also provides interface for handling CSV files.
   <email>cipri@php.net</email>
   <active>yes</active>
  </developer>
- <date>2007-05-13</date>
- <time>15:30:29</time>
+ <date>2007-05-20</date>
  <version>
-  <release>1.3.0a1</release>
-  <api>1.3.0a1</api>
+  <release>1.3.0RC1</release>
+  <api>1.3.0RC1</api>
  </version>
  <stability>
-  <release>alpha</release>
+  <release>beta</release>
   <api>stable</api>
  </stability>
  <license uri="http://www.php.net/license">PHP</license>
- <notes>* Fixed Bug #5045 File::stripTrailingSeparators should not rtrim the path &quot;/&quot; on linux (mike)
-* Fixed Bug #5464 fwrite returns false but file checks for -1 (mike)
-* Request   #6316 File_CSV doesn&apos;t allow to read data from a file and after write data to the same file (helgi)
-* Request   #7559 File_Util::isIncludable() (file exists within include_path) (mike)
-* Fixed Bug #7789 File::_getFilePointer() cannot return a reference (mike)
-* Added more CSV tests (helgi)
-* Moving the PHP dep to 4.3 to follow PEAR, adding dep on PEAR 1.5.0 to be sure people run proper PEAR version (helgi)
-* File_CSV: add b mode to fopen in disoverFormat for portability (http://www.php.net/fopen)
-* Fixed Bug #6447 Package will not install (helgi)
-* Fixed Bug #5553 File_CSV should detect an occurance of delimeter in field and escape (helgi)
-* Fixed Bug #4792 File_CSV: Last column keeps line breaks (helgi)
-* Fixed Bug #10721 File_CSV: discoverFormat() can&apos;t handle large files (ieure)
-* Fixed Bug #10883 Test 019 mislabeled
-* Fixed Bug #10882 Tests fail (helgi / cipri)
-* File_CSV: discoverFormat now uses the first 30 lines of the file. (helgi)
-* File_CSV: supports reading =&quot;&quot; quoting, i.e. Excel only way of being smart with items starting with 00 and spaces and such (helgi)
-* File_CSV: Now handles headers, pass header = true in the config for it to process it, we recommend reading like this:
-$data = array();
-File_CSV::read($file, $conf);
-while ($res = File_CSV::read($file, $conf)) {
-    $data[] = $res;
-}
-
-Note the first read call outside the while loop, it&apos;s because we don&apos;t want to include the header in the final data since
-the first read gives that back just in case someone needs to do something else with those headers.
-Passing this csv and the correct config:
-header,body,foot
-I&apos;m a little header,this is my teapot,can&apos;t be!
-
-Will give you this:
-Array
-(
-    [0] =&gt; Array
-        (
-            [header] =&gt; I&apos;m a little header
-            [body] =&gt; this is my teapot
-            [foot] =&gt; can&apos;t be!
-        )
-
-)
-
-detection of headers will never be added since CSV has no standard for defining what is a header and what is not (helgi)
-
-  
+ <notes>
+No code changes in this release
  </notes>
  <contents>
   <dir name="/">
@@ -211,6 +168,63 @@ detection of headers will never be added since CSV has no standard for defining 
  </dependencies>
  <phprelease />
  <changelog>
+  <release>
+ <date>2007-05-13</date>
+ <version>
+  <release>1.3.0a1</release>
+  <api>1.3.0a1</api>
+ </version>
+ <stability>
+  <release>alpha</release>
+  <api>stable</api>
+ </stability>
+ <license uri="http://www.php.net/license">PHP</license>
+ <notes>* Fixed Bug #5045 File::stripTrailingSeparators should not rtrim the path &quot;/&quot; on linux (mike)
+* Fixed Bug #5464 fwrite returns false but file checks for -1 (mike)
+* Request   #6316 File_CSV doesn&apos;t allow to read data from a file and after write data to the same file (helgi)
+* Request   #7559 File_Util::isIncludable() (file exists within include_path) (mike)
+* Fixed Bug #7789 File::_getFilePointer() cannot return a reference (mike)
+* Added more CSV tests (helgi)
+* Moving the PHP dep to 4.3 to follow PEAR, adding dep on PEAR 1.5.0 to be sure people run proper PEAR version (helgi)
+* File_CSV: add b mode to fopen in disoverFormat for portability (http://www.php.net/fopen)
+* Fixed Bug #6447 Package will not install (helgi)
+* Fixed Bug #5553 File_CSV should detect an occurance of delimeter in field and escape (helgi)
+* Fixed Bug #4792 File_CSV: Last column keeps line breaks (helgi)
+* Fixed Bug #10721 File_CSV: discoverFormat() can&apos;t handle large files (ieure)
+* Fixed Bug #10883 Test 019 mislabeled
+* Fixed Bug #10882 Tests fail (helgi / cipri)
+* File_CSV: discoverFormat now uses the first 30 lines of the file. (helgi)
+* File_CSV: supports reading =&quot;&quot; quoting, i.e. Excel only way of being smart with items starting with 00 and spaces and such (helgi)
+* File_CSV: Now handles headers, pass header = true in the config for it to process it, we recommend reading like this:
+$data = array();
+File_CSV::read($file, $conf);
+while ($res = File_CSV::read($file, $conf)) {
+    $data[] = $res;
+}
+
+Note the first read call outside the while loop, it&apos;s because we don&apos;t want to include the header in the final data since
+the first read gives that back just in case someone needs to do something else with those headers.
+Passing this csv and the correct config:
+header,body,foot
+I&apos;m a little header,this is my teapot,can&apos;t be!
+
+Will give you this:
+Array
+(
+    [0] =&gt; Array
+        (
+            [header] =&gt; I&apos;m a little header
+            [body] =&gt; this is my teapot
+            [foot] =&gt; can&apos;t be!
+        )
+
+)
+
+detection of headers will never be added since CSV has no standard for defining what is a header and what is not (helgi)
+
+  
+ </notes>
+  </release>
   <release>
    <version>
     <release>1.2.2</release>
