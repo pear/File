@@ -222,9 +222,7 @@ class File_CSV
         $quote = $conf['quote'];
         $f     = $conf['fields'];
         $sep   = $conf['sep'];
-        $length = 0;
         while (false !== $ch = fgetc($fp)) {
-            $length++;
             $old  = $prev;
             $prev = $c;
             $c    = $ch;
@@ -237,6 +235,7 @@ class File_CSV
 
             // Start quote.
             if (
+                $in_quote === false &&
                 $quote && $c == $quote &&
                 (
                  $prev == $sep || $prev == "\n" || $prev === null ||
@@ -252,6 +251,7 @@ class File_CSV
             }
 
             if ($in_quote) {
+
                 // When does the quote end, make sure it's not double quoted
                 if ($c == $sep && $prev == $quote && $old != $quote) {
                     $in_quote = false;
