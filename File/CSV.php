@@ -508,7 +508,7 @@ class File_CSV
         // Take the first 30 lines and store the number of ocurrences
         // for each separator in each line
         $lines = '';
-        for ($i = 0; $i < 30 && $line = fgets($fp, 4096); $i++) {
+        for ($i = 0; $i < 30 && !feof($fp) && $line = fgets($fp, 4096); $i++) {
             $lines .= $line;
         }
         fclose($fp);
@@ -521,8 +521,8 @@ class File_CSV
         $seps = array_merge($seps, $extraSeps);
         $matches = array();
         $quotes = '"\'';
-        
-	    $lines = str_replace('""', '', $lines);
+
+        $lines = str_replace('""', '', $lines);
         while ($lines != ($newLines = preg_replace('|((["\'])[^"]*(\2))|', '\2_\2', $lines))){
             $lines = $newLines;
         }
@@ -548,6 +548,7 @@ class File_CSV
                 $regex.= '.*)';
                 // Close quote (if it's present) and the sep (optional, could be end of line)
                 $regex.= "(?:[$quotes](?:$sep?))|Ums";
+
                 preg_match_all($regex, $line, $match);
                 // Finding all seps, within quotes or not
                 $sep_count = substr_count($line, $sep);
