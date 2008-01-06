@@ -14,4 +14,4 @@ while ($row = File_CSV::read($file, $conf)) {
     $foo = substr($row[0] ,0 , 1);
 }
 
-echo '<br>Processing time: ', time()-$_start_time, ' seconds.';
+echo "\n" . 'Processing time: ', time()-$_start_time, ' seconds.';
