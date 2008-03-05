@@ -48,7 +48,7 @@ require_once 'File.php';
 *    is a field with a separator inside, the parser will throw the "wrong count" error
 *
 * Info about CSV and links to other sources
-* http://www.shaftek.org/publications/drafts/mime-csv/draft-shafranovich-mime-csv-00.html#appendix
+* http://rfc.net/rfc4180.html
 *
 * @author Tomas V.V.Cox <cox@idecnet.com>
 * @author Helgi Þormar <dufuz@php.net>
@@ -220,7 +220,7 @@ class File_CSV
         $i = 1;
         $in_quote = false;
         $quote = $conf['quote'];
-        $f     = $conf['fields'];
+        $f     = (int)$conf['fields'];
         $sep   = $conf['sep'];
         while (false !== $ch = fgetc($fp)) {
             $old  = $prev;
@@ -251,7 +251,6 @@ class File_CSV
             }
 
             if ($in_quote) {
-
                 // When does the quote end, make sure it's not double quoted
                 if ($c == $sep && $prev == $quote && $old != $quote) {
                     $in_quote = false;
@@ -272,7 +271,7 @@ class File_CSV
 
             if (!$in_quote && ($c == $sep || $c == "\n" || $c == "\r") && $prev != '') {
                 // More fields than expected
-                if ($c == $sep && (count($ret) + 1) == $f) {
+                if ($c == $sep && (count($ret) + 1) === $f) {
                     // Seek the pointer into linebreak character.
                     while (true) {
                         $c = fgetc($fp);
@@ -287,7 +286,7 @@ class File_CSV
                 }
 
                 // Less fields than expected
-                if (($c == "\n" || $c == "\r") && $i != $f) {
+                if (($c == "\n" || $c == "\r") && $i !== $f) {
                     // Insert last field value.
                     $ret[] = File_CSV::unquote($buff, $quote);
                     if (count($ret) == 1 && empty($ret[0])) {
@@ -311,7 +310,7 @@ class File_CSV
                 }
 
                 $ret[] = File_CSV::unquote($buff, $quote);
-                if (count($ret) == $f) {
+                if (count($ret) === $f) {
                     return $ret;
                 }
                 $buff = '';
@@ -325,6 +324,7 @@ class File_CSV
          * then we process it since files can have no CL/FR at the end
          */
         $feof = feof($fp);
+        // TODO check, strlen on buff AFTER we do in_array on it, a bit reverse
         if ($feof && !in_array($buff, array("\r", "\n", "\r\n")) && strlen($buff) > 0) {
             $ret[] = File_CSV::unquote($buff, $quote);
             if (count($ret) == $f) {
@@ -387,10 +387,10 @@ class File_CSV
         ) {
             fseek($fp, -1 * strlen($line), SEEK_CUR);
             return File_CSV::readQuoted($file, $conf);
-        } else {
-            foreach ($fields as $k => $v) {
-                $fields[$k] = File_CSV::unquote($v, $conf['quote']);
-            }
+        }
+
+        foreach ($fields as $k => $v) {
+            $fields[$k] = File_CSV::unquote($v, $conf['quote']);
         }
 
         if (isset($conf['header']) && empty($headers)) {
