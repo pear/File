@@ -108,7 +108,7 @@ class File_CSV
                 return $error = 'The quote char must be one char (the "quote" key)';
             }
         } else {
-            $conf['quote'] = null;
+            $conf['quote'] = '"';
         }
 
         if (!isset($conf['crlf'])) {
