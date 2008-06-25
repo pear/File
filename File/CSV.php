@@ -96,7 +96,7 @@ class File_CSV
         }
 
         if (isset($conf['sep'])) {
-            if (strlen($conf['sep']) != 1) {
+            if (strlen($conf['sep']) !== 1) {
                 return $error = 'Separator can only be one char';
             }
         } elseif ($conf['fields'] > 1) {
@@ -104,7 +104,7 @@ class File_CSV
         }
 
         if (isset($conf['quote'])) {
-            if (strlen($conf['quote']) != 1) {
+            if (strlen($conf['quote']) !== 1) {
                 return $error = 'The quote char must be one char (the "quote" key)';
             }
         } else {
@@ -158,12 +158,12 @@ class File_CSV
     }
 
     /**
-    * Unquote data
-    *
-    * @param string $field The data to unquote
-    * @param string $quote The quote char
-    * @return string the unquoted data
-    */
+     * Unquote data
+     *
+     * @param string $field The data to unquote
+     * @param string $quote The quote char
+     * @return string the unquoted data
+     */
     function unquote($field, $quote)
     {
         // Trim first the string.
@@ -564,7 +564,7 @@ class File_CSV
             $times[0] = 0;
             foreach ($res as $k => $num) {
                 if ($num > 0) {
-                    $times[$num] = (isset($times[$num])) ? $times[$num] + 1 : 1;
+                    $times[$num] = isset($times[$num]) ? $times[$num] + 1 : 1;
                 }
             }
             arsort($times);
