@@ -465,12 +465,33 @@ class File_CSV
         }
 
         $write = '';
+        $quote_char = $conf['quote'];
         for ($i = 0; $i < $field_count; ++$i) {
-            // only quote if the field contains a sep
-            if (!is_numeric($fields[$i]) && $conf['quote']
-                && isset($conf['sep']) && strpos($fields[$i], $conf['sep'])
-            ) {
-                $write .= $conf['quote'] . $fields[$i] . $conf['quote'];
+            // Write a single field
+
+            $quote_field = false;
+            // Only quote this field in the following cases:
+            if (is_numeric($fields[$i])) {
+                // Numeric fields should not be quoted
+            } elseif (isset($conf['sep']) && (strpos($fields[$i], $conf['sep']) !== false)) {
+                // Separator is present in field
+                $quote_field = true;
+            } elseif (strpos($fields[$i], $quote_char)!==false) {
+                // Quote character is present in field
+                $quote_field = true;
+            } elseif (strpos($fields[$i], "\n") !== false) {
+                // Newline is present in field
+                $quote_field = true;
+            } elseif (!is_numeric($fields[$i]) && (substr($fields[$i], 0, 1) == " " || substr($fields[$i], -1) == " ")) {
+                // Space found at beginning or end of field value
+                $quote_field = true;
+            }
+
+            if ($quote_field) {
+                // Escape the quote character within the field (e.g. " becomes "")
+                $quoted_value = str_replace($quote_char, $quote_char.$quote_char, $fields[$i]);
+
+                $write .= $quote_char . $quoted_value . $quote_char;
             } else {
                 $write .= $fields[$i];
             }
