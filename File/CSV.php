@@ -134,25 +134,26 @@ class File_CSV
     function getPointer($file, &$conf, $mode = FILE_MODE_READ, $reset = false)
     {
         static $resources = array();
-        static $config;
         if (isset($resources[$file][$mode])) {
-            $conf = $config;
             if ($reset) {
                 fseek($resources[$file][$mode], 0);
             }
+
             return $resources[$file][$mode];
         }
+
         File_CSV::_conf($error, $conf);
         if ($error) {
             return File_CSV::raiseError($error);
         }
-        $config = $conf;
+
         PEAR::pushErrorHandling(PEAR_ERROR_RETURN);
         $fp = File::_getFilePointer($file, $mode);
         PEAR::popErrorHandling();
         if (PEAR::isError($fp)) {
             return File_CSV::raiseError($fp);
         }
+
         $resources[$file][$mode] = $fp;
         return $fp;
     }
@@ -160,44 +161,55 @@ class File_CSV
     /**
      * Unquote data
      *
-     * @param string $field The data to unquote
+     * @param array|string $data The data to unquote
      * @param string $quote The quote char
      * @return string the unquoted data
      */
-    function unquote($field, $quote)
+    function unquote($data, $quote)
     {
-        // Trim first the string.
-        $field = trim($field);
-        $quote = trim($quote);
-
-        // Incase null fields (form: ;;)
-        if (!strlen($field)) {
-            return $field;
+        $isString = false;
+        if (!is_array($data)) {
+            $data = array($data);
+            $isString = true;
         }
 
-        // excel compat
-        if ($field[0] == '=' && $field[1] == '"') {
-            $field = str_replace('="', '"', $field);
-        }
+        // Get rid of escaped quotes
+        $data = str_replace($quote.$quote, $quote, $data);
 
-        $field_len = strlen($field);
-        if ($quote && $field[0] == $quote && $field[$field_len - 1] == $quote) {
-            // Get rid of escaping quotes
-            $new = $prev = $c = '';
-            for ($i = 0; $i < $field_len; ++$i) {
-                $prev = $c;
-                $c = $field[$i];
-                // Deal with escaping quotes
-                if ($c == $quote && $prev == $quote) {
-                    $c = '';
+        $tmp = array();
+        foreach ($data as $key => $field) {
+            // Trim first the string.
+            $field = trim($field);
+
+            // Incase null fields (form: ;;)
+            $field_len = strlen($field);
+            if (!$field_len) {
+                if ($isString) {
+                    return $field;
                 }
-
-                $new .= $c;
+                $tmp[$key] = $field;
+                continue;
             }
-            $field = substr($new, 1, -1);
+
+            // excel compat
+            if ($field[0] === '=' && $field[1] === '"') {
+                $field = str_replace('="', '"', $field);
+                --$field_len;
+            }
+
+            if ($field[0] === $quote && $field[$field_len - 1] === $quote) {
+                // Get rid of quotes around the field
+                $field = substr($field, 1, -1);
+            }
+
+            if ($isString) {
+                $tmp = $field;
+            } else {
+                $tmp[$key] = $field;
+            }
         }
 
-        return $field;
+        return $tmp;
     }
 
     /**
@@ -216,12 +228,12 @@ class File_CSV
         }
 
         $buff = $old = $prev = $c = '';
-        $ret  = array();
-        $i = 1;
+        $ret    = array();
+        $fields = 1;
         $in_quote = false;
-        $quote = $conf['quote'];
-        $f     = (int)$conf['fields'];
-        $sep   = $conf['sep'];
+        $quote    = $conf['quote'];
+        $f        = (int)$conf['fields'];
+        $sep      = $conf['sep'];
         while (false !== $ch = fgetc($fp)) {
             $old  = $prev;
             $prev = $c;
@@ -269,7 +281,7 @@ class File_CSV
                 }
             }
 
-            if (!$in_quote && ($c == $sep || $c == "\n" || $c == "\r") && $prev != '') {
+            if (!$in_quote && ($c == $sep || $c == "\n" || $c == "\r")) {
                 // More fields than expected
                 if ($c == $sep && (count($ret) + 1) === $f) {
                     // Seek the pointer into linebreak character.
@@ -286,10 +298,10 @@ class File_CSV
                 }
 
                 // Less fields than expected
-                if (($c == "\n" || $c == "\r") && $i !== $f) {
+                if (($c == "\n" || $c == "\r") && $fields !== $f) {
                     // Insert last field value.
                     $ret[] = File_CSV::unquote($buff, $quote);
-                    if (count($ret) == 1 && empty($ret[0])) {
+                    if (count($ret) === 1 && empty($ret[0])) {
                         return array();
                     }
 
@@ -307,6 +319,8 @@ class File_CSV
                 // Convert EOL character to Unix EOL (LF).
                 if ($conf['eol2unix']) {
                     $buff = preg_replace('/(\r\n|\r)$/', "\n", $buff);
+                    // Below replaces things everywhere not just EOL
+                    //$buff = str_replace(array("\r\n", "\r"), "\n", $buff);
                 }
 
                 $ret[] = File_CSV::unquote($buff, $quote);
@@ -314,9 +328,10 @@ class File_CSV
                     return $ret;
                 }
                 $buff = '';
-                ++$i;
+                ++$fields;
                 continue;
             }
+
             $buff .= $c;
         }
 
@@ -324,8 +339,7 @@ class File_CSV
          * then we process it since files can have no CL/FR at the end
          */
         $feof = feof($fp);
-        // TODO check, strlen on buff AFTER we do in_array on it, a bit reverse
-        if ($feof && !in_array($buff, array("\r", "\n", "\r\n")) && strlen($buff) > 0) {
+        if ($feof && strlen($buff) > 0 && !in_array($buff, array("\r", "\n"))) {
             $ret[] = File_CSV::unquote($buff, $quote);
             if (count($ret) == $f) {
                 return $ret;
@@ -355,31 +369,32 @@ class File_CSV
             return false;
         }
 
-        $fields = $conf['fields'] == 1 ? array($line) : explode($conf['sep'], $line);
-
-        $nl = array("\n", "\r", "\r\n");
-        if (in_array($fields[count($fields) - 1], $nl)) {
-            array_pop($fields);
+        if ($conf['fields'] === 1) {
+            $fields      = array($line);
+            $field_count = 1;
+        } else {
+            $fields      = explode($conf['sep'], $line);
+            $field_count = count($fields);
         }
 
-        $field_count = count($fields);
-        $last =& $fields[$field_count - 1];
-        $len = strlen($last);
+        $real_field_count = $field_count - 1;
+        $check_char = $fields[$real_field_count];
+        if ($check_char === "\n" || $check_char === "\r") {
+            array_pop($fields);
+            --$field_count;
+        }
+
+        $last =& $fields[$real_field_count];
         if (
-            $field_count != $conf['fields'] ||
-            $conf['quote'] &&
-            (
-             $len !== 0 && $last[$len - 1] == "\n"
-             &&
-                (
-                    ($last[0] == $conf['quote']
-                    && $last[strlen(rtrim($last)) - 1] != $conf['quote'])
-                    ||
+            $field_count !== $conf['fields'] || $conf['quote']
+            && (
+                $last !== ''
+                && (
+                    ($last[0] === $conf['quote'] && $last[strlen(rtrim($last)) - 1] !== $conf['quote'])
                     // excel support
-                    ($last[0] == '=' && $last[1] == $conf['quote'])
-                    ||
-                    // if the row has spaces before the quote
-                    preg_match('|^\s+'.preg_quote($conf['quote']) .'|Ums', $last, $match)
+                    || ($last[0] === '=' && $last[1] === $conf['quote'])
+                    // if the row has spaces or other extra chars before the quote
+                    //|| preg_match('|^\s+\\' . $conf['quote'] .'|', $last)
                 )
             )
             // XXX perhaps there is a separator inside a quoted field
@@ -389,9 +404,7 @@ class File_CSV
             return File_CSV::readQuoted($file, $conf);
         }
 
-        foreach ($fields as $k => $v) {
-            $fields[$k] = File_CSV::unquote($v, $conf['quote']);
-        }
+        $fields = File_CSV::unquote($fields, $conf['quote']);
 
         if (isset($conf['header']) && empty($headers)) {
             // read the first row and assign to $headers
@@ -465,7 +478,7 @@ class File_CSV
         }
 
         $write = '';
-        $quote_char = $conf['quote'];
+        $quote = $conf['quote'];
         for ($i = 0; $i < $field_count; ++$i) {
             // Write a single field
 
@@ -476,10 +489,13 @@ class File_CSV
             } elseif (isset($conf['sep']) && (strpos($fields[$i], $conf['sep']) !== false)) {
                 // Separator is present in field
                 $quote_field = true;
-            } elseif (strpos($fields[$i], $quote_char)!==false) {
+            } elseif (strpos($fields[$i], $quote) !== false) {
                 // Quote character is present in field
                 $quote_field = true;
-            } elseif (strpos($fields[$i], "\n") !== false) {
+            } elseif (
+                   strpos($fields[$i], "\n") !== false
+                || strpos($fields[$i], "\r") !== false
+            ) {
                 // Newline is present in field
                 $quote_field = true;
             } elseif (!is_numeric($fields[$i]) && (substr($fields[$i], 0, 1) == " " || substr($fields[$i], -1) == " ")) {
@@ -489,9 +505,9 @@ class File_CSV
 
             if ($quote_field) {
                 // Escape the quote character within the field (e.g. " becomes "")
-                $quoted_value = str_replace($quote_char, $quote_char.$quote_char, $fields[$i]);
+                $quoted_value = str_replace($quote, $quote.$quote, $fields[$i]);
 
-                $write .= $quote_char . $quoted_value . $quote_char;
+                $write .= $quote . $quoted_value . $quote;
             } else {
                 $write .= $fields[$i];
             }
