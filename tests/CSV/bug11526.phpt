@@ -7,5 +7,6 @@ require_once 'File/CSV.php';
 $path = dirname(__FILE__) . '/bug11526.csv';
 $conf = File_CSV::discoverFormat($path);
 echo $conf['fields'];
+?>
 --EXPECT--
 12
