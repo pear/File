@@ -119,6 +119,10 @@ For more information on CSV: http://rfc.net/rfc4180.html
      <file name="031.phpt" role="test" />
      <file name="032.csv" role="test" />
      <file name="032.phpt" role="test" />
+     <file name="033.csv" role="test" />
+     <file name="033.phpt" role="test" />
+     <file name="034.csv" role="test" />
+     <file name="034.phpt" role="test" />
      <file name="bug4792_part1.csv" role="test" />
      <file name="bug4792_part1.phpt" role="test" />
      <file name="bug4792_part2.csv" role="test" />
@@ -127,6 +131,10 @@ For more information on CSV: http://rfc.net/rfc4180.html
      <file name="bug5257.phpt" role="test" />
      <file name="bug5257-2.csv" role="test" />
      <file name="bug5257-2.phpt" role="test" />
+     <file name="bug5257-3.csv" role="test" />
+     <file name="bug5257-3.phpt" role="test" />
+     <file name="bug5257-4.csv" role="test" />
+     <file name="bug5257-4.phpt" role="test" />
      <file name="bug5553.phpt" role="test" />
      <file name="bug11526.csv" role="test" />
      <file name="bug11526.phpt" role="test" />
