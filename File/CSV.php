@@ -282,34 +282,10 @@ class File_CSV
             }
 
             if (!$in_quote && ($c == $sep || $c == "\n" || $c == "\r")) {
-                // More fields than expected
-                if ($c == $sep && (count($ret) + 1) === $f) {
-                    // Seek the pointer into linebreak character.
-                    while (true) {
-                        $c = fgetc($fp);
-                        if  ($c == "\n" || $c == "\r" || $c == '') {
-                            break;
-                        }
-                    }
-
-                    // Insert last field value.
-                    $ret[] = File_CSV::unquote($buff, $quote);
-                    return $ret;
-                }
-
-                // Less fields than expected
-                if (($c == "\n" || $c == "\r") && $fields !== $f) {
-                    // Insert last field value.
-                    $ret[] = File_CSV::unquote($buff, $quote);
-                    if (count($ret) === 1 && empty($ret[0])) {
-                        return array();
-                    }
-
-                    // Pair the array elements to fields count. - inserting empty values
-                    $ret_count = count($ret);
-                    $sum = ($f - 1) - ($ret_count - 1);
-                    $data = array_merge($ret, array_fill($ret_count, $sum, ''));
-                    return $data;
+                $return = File_CSV::_readQuotedFillers($fp, $f, $fields, $ret,
+                                                       $buff, $quote, $c, $sep);
+                if ($return !== false) {
+                    return $return;
                 }
 
                 if ($prev == "\r") {
@@ -346,7 +322,65 @@ class File_CSV
             }
         }
 
+        if ($feof && count($ret) !== $f) {
+            $return = File_CSV::_readQuotedFillers($fp, $f, $fields, $ret,
+                                                   $buff, $quote, $c, $sep);
+            if ($return !== false) {
+                return $return;
+            }
+        }
+
         return !$feof ? $ret : false;
+    }
+
+    /**
+     * Adds missing fields (empty ones)
+     *
+     * @param resource $fp the file resource
+     * @param string   $f
+     * @param integer  $fields the field count
+     * @param array    $ret    the processed fields in a array
+     * @param string   $buff   the buffer before it gets put through unquote
+     * @param string   $quote  Quote in use
+     * @param string   $c      the char currently being worked with
+     * @param string   $sep    Separator in use
+     *
+     * @access private
+     * @return array | boolean returns false if no data should return out.
+     */
+    function _readQuotedFillers($fp, $f, $fields, $ret, $buff, $quote, &$c, $sep)
+    {
+        // More fields than expected
+        if ($c == $sep && (count($ret) + 1) === $f) {
+            // Seek the pointer into linebreak character.
+            while (true) {
+                $c = fgetc($fp);
+                if  ($c == "\n" || $c == "\r" || $c == '') {
+                    break;
+                }
+            }
+
+            // Insert last field value.
+            $ret[] = File_CSV::unquote($buff, $quote);
+            return $ret;
+        }
+
+        // Less fields than expected
+        if (($c == "\n" || $c == "\r") && $fields !== $f) {
+            // Insert last field value.
+            $ret[] = File_CSV::unquote($buff, $quote);
+            if (count($ret) === 1 && empty($ret[0])) {
+                return array();
+            }
+
+            // Pair the array elements to fields count. - inserting empty values
+            $ret_count = count($ret);
+            $sum = ($f - 1) - ($ret_count - 1);
+            $data = array_merge($ret, array_fill($ret_count, $sum, ''));
+            return $data;
+        }
+
+        return false;
     }
 
     /**
