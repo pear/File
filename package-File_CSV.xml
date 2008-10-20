@@ -30,7 +30,7 @@ For more information on CSV: http://rfc.net/rfc4180.html
   <email>cipri@php.net</email>
   <active>yes</active>
  </developer>
- <date>2007-06-01</date>
+ <date>2008-10-20</date>
  <version>
   <release>1.0.0alpha1</release>
   <api>1.0.0</api>
@@ -121,10 +121,6 @@ For more information on CSV: http://rfc.net/rfc4180.html
      <file name="031.phpt" role="test" />
      <file name="032.csv" role="test" />
      <file name="032.phpt" role="test" />
-     <file name="033.csv" role="test" />
-     <file name="033.phpt" role="test" />
-     <file name="034.csv" role="test" />
-     <file name="034.phpt" role="test" />
      <file name="bug4792_part1.csv" role="test" />
      <file name="bug4792_part1.phpt" role="test" />
      <file name="bug4792_part2.csv" role="test" />
