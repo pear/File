@@ -39,9 +39,10 @@ For more information on CSV: http://rfc.net/rfc4180.html
   <release>alpha</release>
   <api>stable</api>
  </stability>
- <license uri="http://www.php.net/license">PHP</license>
+ <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD</license>
  <notes>
 * Split File_CSV from File into it's own package
+* Change license to New BSD
 * File_CSV::unquote now takes in an array and a string (string being the old way)
   Passing in an array of fields, for example a whole line.
 * Double quotes is now the default quoting character when people don't specify which quoting character to use
@@ -52,6 +53,7 @@ For more information on CSV: http://rfc.net/rfc4180.html
  </notes>
  <contents>
   <dir name="/">
+   <file name="FILE_CSV_LICENSE" role="doc" />
    <dir name="File">
     <file name="CSV.php" role="php" />
    </dir> <!-- /File -->

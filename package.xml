@@ -28,7 +28,7 @@ some common routines to deal with paths.
   <active>no</active>
  </lead>
  <lead>
-  <name>Helgi Þormar</name>
+  <name>Helgi Þormar Þorbjörnsson</name>
   <user>dufuz</user>
   <email>helgi@php.net</email>
   <active>yes</active>
@@ -57,6 +57,7 @@ some common routines to deal with paths.
  <license uri="http://www.php.net/license">PHP</license>
  <notes>
 - Split File_CSV from File into it's own package
+- Split File_Util from File into it's own package
  </notes>
  <contents>
   <dir name="/">

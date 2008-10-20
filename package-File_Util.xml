@@ -11,7 +11,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
   Path handling, temp dir/file, sorting of files, listDirs, isIncludable and more
  </description>
  <lead>
-  <name>Helgi Þormar</name>
+  <name>Helgi Þormar Þorbjörnsson</name>
   <user>dufuz</user>
   <email>helgi@php.net</email>
   <active>yes</active>
