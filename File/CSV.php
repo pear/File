@@ -594,7 +594,7 @@ class File_CSV
         $quotes = '"\'';
 
         $lines = str_replace('""', '', $lines);
-        while ($lines != ($newLines = preg_replace('|((["\'])[^"]*(\2))|', '\2_\2', $lines))){
+        while ($lines != ($newLines = preg_replace('|((["\'])[^"]*(\2))|', '\2_\2', $lines))) {
             $lines = $newLines;
         }
 
