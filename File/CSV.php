@@ -121,6 +121,9 @@ class File_CSV
             }
         } elseif ($conf['fields'] > 1) {
             return $error = 'Missing separator (the "sep" key)';
+        } else {
+            // to avoid undefined index notices
+            $conf['sep'] = ',';
         }
 
         if (isset($conf['quote'])) {
