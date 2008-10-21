@@ -144,6 +144,8 @@ For more information on CSV: http://rfc.net/rfc4180.html
      <file name="bug14030.phpt" role="test" />
      <file name="bug14118.csv" role="test" />
      <file name="bug14118.phpt" role="test" />
+     <file name="bug14118-1.csv" role="test" />
+     <file name="bug14118-1.phpt" role="test" />
      <file name="tests.txt" role="test" />
     </dir> <!-- /tests/CSV -->
     <file name="parser.php" role="test" />
