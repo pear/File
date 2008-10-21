@@ -616,7 +616,8 @@ class File_CSV
         $matches = array();
         $quotes = '"\'';
 
-        $lines = str_replace('""', '', $lines);
+        // XXX commenting this line fixes bug #11526
+        // $lines = str_replace('""', '', $lines);
         while ($lines != ($newLines = preg_replace('|((["\'])[^"]*(\2))|', '\2_\2', $lines))) {
             $lines = $newLines;
         }

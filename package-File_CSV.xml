@@ -48,6 +48,7 @@ For more information on CSV: http://rfc.net/rfc4180.html
 * Double quotes is now the default quoting character when people don't specify which quoting character to use
 
 * Fix Bug #5257:  File_CSV: delimiter problem if first field is empty [dufuz]
+* Fix Bug #11526: DiscoverFormat returns wrong nr of fields [izi]
 * Fix Bug #11892: File_CSV performance severely hurt [dufuz]
 * Fix Bug #14030: File_CSV::write() does not correctly quote field values [dufuz, walter]
  </notes>
