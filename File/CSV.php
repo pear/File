@@ -455,7 +455,9 @@ class File_CSV
                 )
             )
             // XXX perhaps there is a separator inside a quoted field
-            //preg_match("|{$conf['quote']}.*{$conf['sep']}.*{$conf['quote']}|U", $line)
+            // || preg_match("|{$conf['quote']}.*{$conf['sep']}.*{$conf['quote']}|", $line)
+            // The regex above is really slow
+             || ((count(explode(',', $line))) > $field_count)
         ) {
             fseek($fp, -1 * strlen($line), SEEK_CUR);
             return File_CSV::readQuoted($file, $conf);
