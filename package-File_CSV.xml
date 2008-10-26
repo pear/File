@@ -30,7 +30,7 @@ For more information on CSV: http://rfc.net/rfc4180.html
   <email>cipri@php.net</email>
   <active>yes</active>
  </developer>
- <date>2008-10-20</date>
+ <date>2008-10-27</date>
  <version>
   <release>1.0.0alpha1</release>
   <api>1.0.0</api>
