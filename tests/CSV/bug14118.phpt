@@ -13,14 +13,14 @@ while ($row = File_CSV::read($path, $config)) {
 }
 ?>
 --EXPECT--
-fields count: 4
+fields count: 5
 Array
 (
     [0] => ENFB
     [1] => closed
     [2] => Oslo, Fornebu
     [3] => Airport
-    [4] =>
+    [4] => 
 )
 Array
 (

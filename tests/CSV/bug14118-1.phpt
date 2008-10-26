@@ -4,7 +4,7 @@ File_CSV Test Case bug14118: Error with quoted fields and separators
 <?php
 // $Id$
 require_once 'File/CSV.php';
-$path = dirname(__FILE__) . '/bug14118-1.csv'
+$path = dirname(__FILE__) . '/bug14118-1.csv';
 
 $config = array(
     'sep'    => ',',
@@ -22,7 +22,7 @@ Array
     [1] => closed
     [2] => Oslo, Fornebu
     [3] => Airport
-    [4] =>
+    [4] => 
 )
 Array
 (
