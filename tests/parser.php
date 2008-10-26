@@ -1,6 +1,5 @@
 <?php
-$path = ini_get('include_path');
-ini_set('include_path', realpath('../') . ":$path");
+error_reporting(1803);
 require_once 'File/CSV.php';
 
 /*/Example conf:
