@@ -477,6 +477,54 @@ class File_Util
 
         return $filename .'.'. $to;
     }
+
+    /**
+     * Returns the filesize using a prefix like "kilo", "mebi" or "giga"
+     *
+     * @author Christian Weiske <cweiske@cweiske.de>
+     *
+     * @param integer $size       The size to convert
+     * @param integer $decimals   The number of decimals to use
+     * @param boolean $long       Use long names (kilobyte) instead of
+     *                            short ones (kB)
+     * @param boolean $oldStyle   If the old style should be used
+     * @param boolean $useBiBytes If the "BiBytes" names should be
+     *                            used [applies only to !$bOldStyle]
+     *
+     * @return string The filesize in human readable format
+     *
+     * @static
+     */
+    function prefixed(
+        $size, $decimals = 1, $long = false, $oldStyle = true,
+        $useBiBytes = true
+    ) {
+        $base  = ($oldStyle || $useBiBytes) ? 1024 : 1000;
+        $names = array(
+            '', 'kilo', 'mega', 'giga', 'tera',
+             'peta', 'exa', 'zetta', 'yotta'
+        );
+        $max   = count($names) - 1;
+        
+        for ($a = 0; $size >= $base && $a < $max; $a++) {
+            $size /= $base;
+        }
+        
+        $name = ($oldStyle || !$useBiBytes)
+            ? $names[$a]
+            : $names[$a] . 'bi';
+        if (!$long) {
+            $name = $oldStyle || !$useBiBytes
+                ? strtoupper(substr($name, 0, 1))
+                : strtoupper(substr($name, 0, 1)) . 'i';
+            $name .= 'B';
+        } else {
+            $name .= $size == 1 ? 'byte' : 'bytes';
+        }
+        
+        return round($size, $decimals) . ' ' . $name;
+    }
+
 }
 
 ?>
