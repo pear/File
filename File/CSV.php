@@ -8,7 +8,7 @@
  *
  * Copyright (c) 2002-2008,
  *  Tomas V.V.Cox <cox@idecnet.com>,
- *  Helgi Þormar Þorbjörnsson <helgi@php.net>
+ *  Helgi Ãžormar ÃžorbjÃ¶rnsson <helgi@php.net>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,7 +34,7 @@
  * @category    File
  * @package     File
  * @author      Tomas V.V.Cox <cox@idecnet.com>
- * @author      Helgi Þormar Þorbjörnsson <helgi@php.net>
+ * @author      Helgi Ãžormar ÃžorbjÃ¶rnsson <helgi@php.net>
  * @copyright   2004-2008 The Authors
  * @license     http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @version     CVS: $Id$
@@ -70,7 +70,7 @@ require_once 'File.php';
  * http://rfc.net/rfc4180.html
  *
  * @author Tomas V.V.Cox <cox@idecnet.com>
- * @author Helgi Þormar Þorbjörnsson <helgi@php.net>
+ * @author Helgi Ãžormar ÃžorbjÃ¶rnsson <helgi@php.net>
  * @package File
  * @license http://www.opensource.org/licenses/bsd-license.php New BSD License
  */
@@ -416,7 +416,6 @@ class File_CSV
     */
     function read($file, &$conf)
     {
-        static $headers = array();
         if (!$fp = File_CSV::getPointer($file, $conf, FILE_MODE_READ)) {
             return false;
         }
@@ -460,21 +459,40 @@ class File_CSV
              || ((count(explode(',', $line))) > $field_count)
         ) {
             fseek($fp, -1 * strlen($line), SEEK_CUR);
-            return File_CSV::readQuoted($file, $conf);
+            $fields = File_CSV::readQuoted($file, $conf);
+            $fields = File_CSV::_processHeaders($fields, $conf);
+            return $fields;
         }
 
         $fields = File_CSV::unquote($fields, $conf['quote']);
-
-        if (isset($conf['header']) && empty($headers)) {
-            // read the first row and assign to $headers
-            $headers = $fields;
-            return $headers;
-        }
 
         if ($field_count != $conf['fields']) {
             File_CSV::raiseError("Read wrong fields number count: '". $field_count .
                                   "' expected ".$conf['fields']);
             return true;
+        }
+
+        $fields = File_CSV::_processHeaders($fields, $conf);
+        return $fields;
+    }
+
+    /**
+     * Process the field array being passed in and map the array over to
+     * the header values if the configuration is set on.
+     *
+     * @param array $fields The CSV row columns
+     * @param array $conf File_CSV configuration
+     *
+     * @return array Processed array
+     */
+    function _processHeaders($fields, &$conf)
+    {
+        static $headers = array();
+
+        if (isset($conf['header']) && empty($headers)) {
+            // read the first row and assign to $headers
+            $headers = $fields;
+            return $headers;
         }
 
         if (!empty($headers)) {
