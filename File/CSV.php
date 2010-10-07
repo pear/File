@@ -498,7 +498,9 @@ class File_CSV
         if (!empty($headers)) {
             $tmp = array();
             foreach ($fields as $k => $v) {
-                $tmp[$headers[$k]] = $v;
+                if (isset($headers[$k])) {
+                    $tmp[$headers[$k]] = $v;
+                }
             }
             $fields = $tmp;
         }
