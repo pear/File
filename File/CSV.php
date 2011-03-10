@@ -489,7 +489,7 @@ class File_CSV
     {
         static $headers = array();
 
-        if (isset($conf['header']) && empty($headers)) {
+        if (isset($conf['header']) && $conf['header'] == true && empty($headers)) {
             // read the first row and assign to $headers
             $headers = $fields;
             return $headers;
