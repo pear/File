@@ -44,6 +44,7 @@ For more information on CSV: http://rfc.net/rfc4180.html
 * Fixed Bug #15123: Broken CSV unit tests [dufuz]
 * Fixed Bug #18049: discoverFormat bug, Find all seps that are within qoutes [dufuz]
 * Fixed Bug #18111: discoverFormat: Quote not detected in short lines [dufuz]
+* Fixed Bug #18358: Headers incorrectly being applied to quoted rows only [dufuz]
  </notes>
  <contents>
   <dir name="/">
