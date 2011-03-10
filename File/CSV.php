@@ -649,7 +649,7 @@ class File_CSV
         foreach ($lines as $line) {
             $orgLine = $line;
             foreach ($seps as $sep) {
-                $line = preg_replace("|^[^$quotes$sep]*$sep*([$quotes][^$quotes]*[$quotes])|sm", '_', $orgLine);
+                $line = preg_replace("|^[$quotes$sep]*$sep*([$quotes][^$quotes]*[$quotes])|sm", '_', $orgLine);
                 // Find all seps that are within qoutes
                 ///FIXME ... counts legitimit lines as bad ones
 
@@ -702,7 +702,7 @@ class File_CSV
 
         $string = implode('', $lines);
         foreach (array('"', '\'') as $q) {
-            if (preg_match_all("|$sep(?:\s*?)(\=?[$q]).*([$q])$sep|Us", $string, $match)) {
+            if (preg_match_all("|$sep(?:\s*?)(\=?[$q]).*([$q])$sep?|Us", $string, $match)) {
                 if ($match[1][0] == $match[2][0]) {
                     $quote = $match[1][0];
                     break;
