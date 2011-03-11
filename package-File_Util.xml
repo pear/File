@@ -22,9 +22,9 @@ http://pear.php.net/dtd/package-2.0.xsd">
   <email>mike@php.net</email>
   <active>no</active>
  </lead>
- <date>2008-10-26</date>
+ <date>2011-03-11</date>
  <version>
-  <release>1.0.0alpha1</release>
+  <release>1.0.0</release>
   <api>1.0.0</api>
  </version>
  <stability>
@@ -33,7 +33,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
  </stability>
  <license uri="http://www.php.net/license">PHP</license>
  <notes>
-- Split File_Util from File into it's own package
+
  </notes>
  <contents>
   <dir name="/">
@@ -41,7 +41,22 @@ http://pear.php.net/dtd/package-2.0.xsd">
     <file name="Util.php" role="php" />
    </dir> <!-- /File -->
    <dir name="tests">
-    <file name="File_UtilTest.php" role="test" />
+    <dir name="Util">
+     <dir name="Windows">
+      <file name="isAbsolute.phpt" role="test" />
+      <file name="relativePath.phpt" role="test" />
+      <file name="skipRoot.phpt" role="test" />
+     </dir> <!-- /Windows -->
+     <file name="buildPath.phpt" role="test" />
+     <file name="isAbsolute.phpt" role="test" />
+     <file name="listDir.phpt" role="test" />
+     <file name="realpath.phpt" role="test" />
+     <file name="relativePath.phpt" role="test" />
+     <file name="skipRoot.phpt" role="test" />
+     <file name="sortFiles.phpt" role="test" />
+     <file name="tmpDir.phpt" role="test" />
+     <file name="tmpFile.phpt" role="test" />
+    </dir> <!-- /Util -->
    </dir> <!-- /tests -->
   </dir> <!-- / -->
  </contents>
@@ -70,6 +85,20 @@ http://pear.php.net/dtd/package-2.0.xsd">
  </dependencies>
  <phprelease />
  <changelog>
-
+  <release>
+ <date>2008-10-26</date>
+ <version>
+  <release>1.0.0alpha1</release>
+  <api>1.0.0</api>
+ </version>
+ <stability>
+  <release>alpha</release>
+  <api>stable</api>
+ </stability>
+ <license uri="http://www.php.net/license">PHP</license>
+ <notes>
+- Split File_Util from File into it's own package
+ </notes>
+  </release>
  </changelog>
 </package>
