@@ -6,7 +6,7 @@ define('FILE_LOCKS_BLOCK', false, true);
 require_once 'PHPUnit.php';
 require_once 'File.php';
 
-class FileTest extends PHPUnit_TestCase 
+class FileTest extends PHPUnit_TestCase
 {
     function FileTest($name = 'FileTest')
     {
@@ -19,14 +19,14 @@ class FileTest extends PHPUnit_TestCase
         isset($str) or $str = str_repeat(str_repeat("0123456789", 1000)."\n", 100);
         return $str;
     }
-    
+
     function getTestLine()
     {
         static $str;
         isset($str) or $str = str_repeat("0123456789", 1000);
         return $str;
     }
-    
+
     function setUp()
     {
         $this->tearDown();
@@ -142,85 +142,7 @@ class FileTest extends PHPUnit_TestCase
         $this->assertFalse(PEAR::isError(File::rewind('test.txt', FILE_MODE_WRITE)));
         $this->assertFalse(PEAR::isError(File::rewind('test.txt', FILE_MODE_READ)));
     }
-
-    function testbuildPath()
-    {
-        $path = array(
-            'some',
-            DIRECTORY_SEPARATOR,
-            DIRECTORY_SEPARATOR,
-            DIRECTORY_SEPARATOR,
-            DIRECTORY_SEPARATOR,
-            'weird'.DIRECTORY_SEPARATOR,
-            DIRECTORY_SEPARATOR,
-            DIRECTORY_SEPARATOR,
-            DIRECTORY_SEPARATOR,
-            DIRECTORY_SEPARATOR.'path'.DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR,
-        );
-        $built = implode(DIRECTORY_SEPARATOR, array('some','weird','path','',''));
-        $this->assertEquals($built, File::buildPath($path));
-    }
-
-    function testskipRoot()
-    {
-        if (OS_WINDOWS) {
-            $this->assertEquals('WINDOWS', File::skipRoot('C:\\WINDOWS'));
-            $this->assertEquals('WINDOWS', File::skipRoot('C:\\\\WINDOWS'));
-            $this->assertEquals('WINDOWS', File::skipRoot('C:/WINDOWS'));
-        } else {
-            $this->assertEquals('usr/share/pear', File::skipRoot('/usr/share/pear'));
-        }
-    }
-
-    function testgetTempDir()
-    {
-        $dir = File::getTempDir();
-        $this->assertTrue(is_dir($dir), "is_dir($dir)");
-    }
-
-    function testgetTempFile()
-    {
-        $tmp = File::getTempFile();
-        $this->assertTrue(file_exists($tmp));
-    }
-
-    function testisAbsolute()
-    {
-        $this->assertFalse(File::isAbsolute('abra/../cadabra'));
-        $this->assertFalse(File::isAbsolute('data/dir'));
-        if (OS_WINDOWS) {
-            $this->assertTrue(File::isAbsolute('C:\\\\data'));
-            $this->assertTrue(File::isAbsolute('d:/data'));
-            $this->assertFalse(File::isAbsolute('\\'));
-        } else {
-            $this->assertTrue(File::isAbsolute('/'));
-            $this->assertFalse(File::isAbsolute('\\'));
-            $this->assertTrue(File::isAbsolute('~mike/bin'));
-        }
-    }
-
-    function testrelativePath()
-    {
-        $this->assertEquals('tests/File', File::relativePath('/usr/share/pear/tests/File', '/usr/share/pear', '/'));
-        $this->assertEquals('../etc', File::relativePath('/etc', '/usr', '/'));
-        $this->assertEquals('D:\\Data', File::relativePath('D:\\Data', 'C:\\Data', '\\'));
-        if (OS_WINDOWS) {
-            $this->assertEquals('data\\dir', File::relativePath('/var/data/dir', '/var'));
-        } else {
-            $this->assertEquals('data/dir', File::relativePath('/var/data/dir', '/var'));
-        }
-        $this->assertEquals('../', File::relativePath('data', 'data/dir', '/'));
-    }
-
-    function testrealpath()
-    {
-        $drive = OS_WINDOWS ? substr(getcwd(),0, 2) :'';
-        $this->assertEquals($drive . '/a/weird/path/is', File::realpath('/a\\weird//path\is/that/./../', '/'));
-        $this->assertEquals($drive . '/a/weird/path/is/that', File::realpath('/a\\weird//path\is/that/./../that/.', '/'));
-    }
 }
 
 $result = &PHPUnit::run(new PHPUnit_TestSuite('FileTest'));
 echo $result->toString();
-
-?>
