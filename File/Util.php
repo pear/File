@@ -186,9 +186,9 @@ class File_Util
     }
 
     /**
-     * Checks for a file's existence, taking the current include path 
+     * Checks for a file's existence, taking the current include path
      * into consideration
-     * 
+     *
      * This method can be called statically
      * (e.g., File_Util::isIncludable('config.php'))
      *
@@ -196,7 +196,7 @@ class File_Util
      * @param string $sep the directory separator (optional)
      * @return string the includable path
      * @access public
-     * @static     
+     * @static
      */
     function isIncludable($file, $sep = DIRECTORY_SEPARATOR)
     {
@@ -208,9 +208,9 @@ class File_Util
         if (file_exists($file)) {
             return $file;
         }
-        return NULL;
+        return null;
     }
-    
+
     /**
      * Get path relative to another path
      *
@@ -262,8 +262,8 @@ class File_Util
         }
 
         $drive = '';
+        $path = preg_replace('/[\\\\\/]/', $separator, $path);
         if (FILE_WIN32) {
-            $path = preg_replace('/[\\\\\/]/', $separator, $path);
             if (preg_match('/([a-zA-Z]\:)(.*)/', $path, $matches)) {
                 $drive = $matches[1];
                 $path  = $matches[2];
@@ -505,11 +505,11 @@ class File_Util
              'peta', 'exa', 'zetta', 'yotta'
         );
         $max   = count($names) - 1;
-        
+
         for ($a = 0; $size >= $base && $a < $max; $a++) {
             $size /= $base;
         }
-        
+
         $name = ($oldStyle || !$useBiBytes)
             ? $names[$a]
             : $names[$a] . 'bi';
@@ -521,10 +521,8 @@ class File_Util
         } else {
             $name .= $size == 1 ? 'byte' : 'bytes';
         }
-        
+
         return round($size, $decimals) . ' ' . $name;
     }
 
 }
-
-?>
