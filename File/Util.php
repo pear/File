@@ -180,7 +180,7 @@ class File_Util
             return false;
         }
         if (FILE_WIN32) {
-            return preg_match('/^[a-zA-Z]:(\\\|\/)/', $path);
+            return (($path{0} == '/') ||  preg_match('/^[a-zA-Z]:(\\\|\/)/', $path));
         }
         return ($path{0} == '/') || ($path{0} == '~');
     }
