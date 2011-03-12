@@ -28,12 +28,26 @@ http://pear.php.net/dtd/package-2.0.xsd">
   <api>1.0.0</api>
  </version>
  <stability>
-  <release>alpha</release>
+  <release>stable</release>
   <api>stable</api>
  </stability>
  <license uri="http://www.php.net/license">PHP</license>
  <notes>
+Bugs:
+* Fixed Bug #16425: File_Util::isAbsolute(), Windows can resolve /foo/bar as absolute [dufuz]
 
+Features:
+* Implement Request #2798: function for human readable filesize conversion [cweiske]
+  Usage: File_Util::prefixed($size, $decimals = 1, $long = false, $oldStyle = true, $useBiBytes = true)
+
+
+    integer $size       The size to convert
+    integer $decimals   The number of decimals to use
+    boolean $long       Use long names (kilobyte) instead of
+                        short ones (kB)
+    boolean $oldStyle   If the old style should be used
+    boolean $useBiBytes If the "BiBytes" names should be
+                        used [applies only to !$bOldStyle]
  </notes>
  <contents>
   <dir name="/">
