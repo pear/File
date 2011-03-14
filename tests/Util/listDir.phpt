@@ -23,7 +23,7 @@ Array
         (
             [name] => dir
             [size] => 
-            [date] => 1299952130
+            [date] => 1299952337
         )
 
     [2] => stdClass Object
