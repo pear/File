@@ -35,7 +35,7 @@
  * @package     File
  * @author      Tomas V.V.Cox <cox@idecnet.com>
  * @author      Helgi Þormar Þorbjörnsson <helgi@php.net>
- * @copyright   2004-2008 The Authors
+ * @copyright   2004-2011 The Authors
  * @license     http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @version     CVS: $Id$
  * @link        http://pear.php.net/package/File
