@@ -42,6 +42,7 @@ For more information on CSV: http://rfc.net/rfc4180.html
  <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD</license>
  <notes>
 * Fixed Bug #15123: Broken CSV unit tests [dufuz]
+* Fixed Bug #15233: discoverFormat finds wrong separator [dufuz]
 * Fixed Bug #18049: discoverFormat bug, Find all seps that are within qoutes [dufuz]
 * Fixed Bug #18111: discoverFormat: Quote not detected in short lines [dufuz]
 * Fixed Bug #18358: Headers incorrectly being applied to quoted rows only [dufuz]
@@ -159,11 +160,6 @@ For more information on CSV: http://rfc.net/rfc4180.html
    <pearinstaller>
     <min>1.7.0</min>
    </pearinstaller>
-   <package>
-    <name>PEAR</name>
-    <channel>pear.php.net</channel>
-    <min>1.5.3</min>
-   </package>
    <package>
     <name>File</name>
     <channel>pear.php.net</channel>

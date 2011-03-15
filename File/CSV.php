@@ -621,7 +621,7 @@ class File_CSV
             ini_set('auto_detect_line_endings', '1');
         }
 
-        // Take the first 30 lines and store the number of ocurrences
+        // Take the first 30 lines and store the number of occurrences
         // for each separator in each line
         $lines = '';
         for ($i = 0; $i < 30 && !feof($fp) && $line = fgets($fp, 4096); $i++) {
@@ -638,8 +638,6 @@ class File_CSV
         $matches = array();
         $quotes = '"\'';
 
-        // XXX commenting this line fixes bug #11526
-        // $lines = str_replace('""', '', $lines);
         while ($lines != ($newLines = preg_replace('|((["\'])[^"]*(\2))|', '\2_\2', $lines))) {
             $lines = $newLines;
         }
@@ -681,7 +679,7 @@ class File_CSV
             $times[0] = 0;
             foreach ($res as $k => $num) {
                 if ($num > 0) {
-                    $times[$num] = isset($times[$num]) ? $times[$num] + 1 : 1;
+                    $times[$num] = isset($times[$num]) ? $times[$num] + $num : 1;
                 }
             }
             arsort($times);
