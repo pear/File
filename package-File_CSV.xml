@@ -30,7 +30,7 @@ For more information on CSV: http://rfc.net/rfc4180.html
   <email>cipri@php.net</email>
   <active>yes</active>
  </developer>
- <date>2011-03-10</date>
+ <date>2011-03-18</date>
  <version>
   <release>1.0.0</release>
   <api>1.0.0</api>
@@ -163,7 +163,7 @@ For more information on CSV: http://rfc.net/rfc4180.html
    <package>
     <name>File</name>
     <channel>pear.php.net</channel>
-    <min>1.4.0alpha1</min>
+    <min>1.4.0</min>
    </package>
    <extension>
     <name>pcre</name>

@@ -45,7 +45,7 @@ some common routines to deal with paths.
   <email>cipri@php.net</email>
   <active>yes</active>
  </developer>
- <date>2011-03-11</date>
+ <date>2011-03-18</date>
  <version>
   <release>1.4.0</release>
   <api>1.4.0</api>
@@ -87,11 +87,6 @@ Nothing changed in this release
    <pearinstaller>
     <min>1.6.0</min>
    </pearinstaller>
-   <package>
-    <name>PEAR</name>
-    <channel>pear.php.net</channel>
-    <min>1.5.3</min>
-   </package>
    <subpackage>
     <name>File_CSV</name>
     <channel>pear.php.net</channel>

@@ -22,7 +22,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
   <email>mike@php.net</email>
   <active>no</active>
  </lead>
- <date>2011-03-11</date>
+ <date>2011-03-18</date>
  <version>
   <release>1.0.0</release>
   <api>1.0.0</api>
@@ -34,6 +34,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
  <license uri="http://www.php.net/license">PHP</license>
  <notes>
 Bugs:
+* Fixed Bug #12741: Failed to test on Linux and FreeBSD [dufuz]
 * Fixed Bug #16425: File_Util::isAbsolute(), Windows can resolve /foo/bar as absolute [dufuz]
 
 Features:
@@ -56,6 +57,11 @@ Features:
    </dir> <!-- /File -->
    <dir name="tests">
     <dir name="Util">
+     <dir name="listDir">
+      <file name="bug14030-to-delete.csv" role="test" />
+      <file name="parser.php" role="test" />
+      <file name="test.csv" role="test" />
+     </dir> <!-- /listDir -->
      <dir name="Windows">
       <file name="isAbsolute.phpt" role="test" />
       <file name="relativePath.phpt" role="test" />
@@ -83,14 +89,9 @@ Features:
     <min>1.7.0</min>
    </pearinstaller>
    <package>
-    <name>PEAR</name>
-    <channel>pear.php.net</channel>
-    <min>1.5.3</min>
-   </package>
-   <package>
     <name>File</name>
     <channel>pear.php.net</channel>
-    <min>1.4.0alpha1</min>
+    <min>1.4.0</min>
    </package>
    <extension>
     <name>pcre</name>
