@@ -14,26 +14,19 @@ Array
 (
     [0] => stdClass Object
         (
-            [name] => dir
-            [size] => 
-            [date] => 1299952337
-        )
-
-    [1] => stdClass Object
-        (
             [name] => test.csv
             [size] => 537
             [date] => 1299952123
         )
 
-    [2] => stdClass Object
+    [1] => stdClass Object
         (
             [name] => bug14030-to-delete.csv
             [size] => 161
             [date] => 1299952114
         )
 
-    [3] => stdClass Object
+    [2] => stdClass Object
         (
             [name] => parser.php
             [size] => 577

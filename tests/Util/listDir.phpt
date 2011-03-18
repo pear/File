@@ -21,19 +21,12 @@ Array
 
     [1] => stdClass Object
         (
-            [name] => dir
-            [size] => 
-            [date] => 1299952337
-        )
-
-    [2] => stdClass Object
-        (
             [name] => parser.php
             [size] => 577
             [date] => 1299952107
         )
 
-    [3] => stdClass Object
+    [2] => stdClass Object
         (
             [name] => test.csv
             [size] => 537
