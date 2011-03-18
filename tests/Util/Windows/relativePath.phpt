@@ -21,6 +21,6 @@ echo File_Util::relativePath('/var/data/dir', '/var');
 --EXPECT--
 tests/File
 ../etc
-D:\\Data
+D:\Data
 ../
-data\\dir
+data\dir
