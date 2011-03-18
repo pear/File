@@ -2,6 +2,7 @@
 File_Util::skipRoot()
 --SKIPIF--
 <?php
+require_once 'File/Util.php';
 if (FILE_WIN32) {
   die('SKIP This test is not for Windows');
 }
