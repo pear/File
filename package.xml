@@ -45,18 +45,19 @@ some common routines to deal with paths.
   <email>cipri@php.net</email>
   <active>yes</active>
  </developer>
- <date>2011-03-18</date>
+ <date>2011-03-19</date>
  <version>
   <release>1.4.0</release>
   <api>1.4.0</api>
  </version>
  <stability>
-  <release>alpha</release>
+  <release>stable</release>
   <api>stable</api>
  </stability>
  <license uri="http://www.php.net/license">PHP</license>
  <notes>
-Nothing changed in this release
+Re-release of 1.4.0
+Original release of 1.4.0 was released as alpha instead of stable.
  </notes>
  <contents>
   <dir name="/">
