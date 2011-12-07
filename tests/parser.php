@@ -1,5 +1,4 @@
 <?php
-error_reporting(1803);
 require_once 'File/CSV.php';
 
 /*/Example conf:

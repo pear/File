@@ -1,5 +1,4 @@
 <?php
-error_reporting(1803);
 /* There's nothing scientific about this but it does
  * catch it when we messing up badly speed wise, talking about
  * couple of second speed decrease
