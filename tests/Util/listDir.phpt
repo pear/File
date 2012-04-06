@@ -10,6 +10,7 @@ $dirs = File_Util::listDir($dir, FILE_LIST_ALL &~ FILE_LIST_DOTS);
 foreach ($dirs as $k => $v) {
   unset($dirs[$k]->date); // date is modified time, can't be tested for reliably
 }
+sort($dirs);
 print_r($dirs);
 ?>
 --EXPECT--
@@ -24,7 +25,7 @@ Array
     [1] => stdClass Object
         (
             [name] => parser.php
-            [size] => 577
+            [size] => 555
         )
 
     [2] => stdClass Object
