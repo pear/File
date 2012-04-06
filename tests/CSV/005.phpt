@@ -23,25 +23,6 @@ while ($res = File_CSV::read($file, $conf)) {
     $data[] = $res;
 }
 
-function _dbgBuff($data)
-{
-    foreach ($data as $key => $row) {
-        if (strpos($row, "\r") !== false) {
-            $row = str_replace("\r", "_r_", $row);
-        }
-        if (strpos($row, "\n") !== false) {
-            $str = str_replace("\n", "_n_", $row);
-        }
-        if (strpos($row, "\t") !== false) {
-            $row = str_replace("\t", "_t_", $row);
-        }
-        $data[$key] = $row;
-    }
-    return $data;
-}
-
-$data = array_map('_dbgBuff', $data);
-
 print "Data:\n";
 print_r($data);
 ?>
@@ -70,7 +51,8 @@ Array
             [0] => Field 2-1
             [1] => Field 2-2
             [2] => Field 2-3
-            [3] => I'm multiline_r_Field
+            [3] => I'm multiline
+Field
         )
 
     [2] => Array
