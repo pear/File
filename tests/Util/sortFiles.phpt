@@ -18,7 +18,7 @@ Array
     [0] => stdClass Object
         (
             [name] => parser.php
-            [size] => 577
+            [size] => 555
         )
 
     [1] => stdClass Object
