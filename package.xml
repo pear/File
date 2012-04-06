@@ -231,7 +231,7 @@ detection of headers will never be added since CSV has no standard for defining 
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2005-08-00</date>
+   <date>2005-08-01</date>
    <license uri="http://www.php.net/license">PHP</license>
    <notes>* Fixed bug in File::close() on Windows (mike)
 * Fixed bug #4835 - File::readLine() causes memory exhaustion (mike)
