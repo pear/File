@@ -1,0 +1,56 @@
+{
+    "authors": [
+        {
+            "email": "richard@php.net",
+            "name": "Richard Heyes",
+            "role": "Lead"
+        },
+        {
+            "email": "tal@php.net",
+            "name": "Tal Peer",
+            "role": "Lead"
+        },
+        {
+            "email": "mike@php.net",
+            "name": "Michael Wallner",
+            "role": "Lead"
+        },
+        {
+            "email": "helgi@php.net",
+            "name": "Helgi \u00deormar \u00deorbj\u00f6rnsson",
+            "role": "Lead"
+        },
+        {
+            "email": "cox@idecnet.com",
+            "name": "Tomas V.V. Cox",
+            "role": "Developer"
+        },
+        {
+            "email": "cipri@php.net",
+            "name": "Cipriano Groenendal",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "File": "./"
+        }
+    },
+    "description": "More info available on: http://pear.php.net/package/File",
+    "include-path": [
+        "./"
+    ],
+    "license": "PHP",
+    "name": "pear/file",
+    "support": {
+        "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=File",
+        "source": "https://github.com/pear/File"
+    },
+    "type": "library",
+    "require": {
+        "pear/pear_exception": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    }
+}
